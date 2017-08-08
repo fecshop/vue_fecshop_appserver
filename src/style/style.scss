@@ -1,0 +1,19 @@
+// $static:"/admin/static";
+$static:"/static";
+// base
+@import "base/color";
+@import "base/base";
+@import "base/mixin";
+@import "base/reset";
+@import "base/font";
+// style
+@import "scss/index";
+// @import "scss/login";
+// @import "scss/edit";
+// @import "scss/table";
+// @import "scss/search";
+// @import "scss/box";
+// @import "scss/chart";
+// @import "scss/loading";
+// @import "scss/xcalendar";
+// @import "scss/eleme";

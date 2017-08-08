@@ -1,0 +1,27 @@
+// base by fungleo
+html {font-size: 13px;}
+body {color: $c55;line-height: 1;}
+body,button, input, select, textarea {font-family:tahoma,Helvetica, Arial,"\5FAE\8F6F\96C5\9ED1";*font-family:"\5FAE\8F6F\96C5\9ED1";}
+
+.gehang {width: 10px;height: 10px;overflow: hidden;text-indent: -9999px;clear: both;display: block;}
+.block {display: block;}
+.none {display:none}
+.clear {clear: both;}
+.mb20 {margin-bottom: 20px;}
+.fl {float: left;}
+.fr {float: right;}
+.tl {text-align: left;}
+.tr {text-align: right;}
+.tc {text-align: center;}
+
+.cf{
+	zoom:1;
+	&:before,&:after {content:"";display:table;}
+	&:after {clear:both;}
+}
+
+
+// chrome scrollbar
+::-webkit-scrollbar {width: 8px;height: 10px;}
+::-webkit-scrollbar-thumb {min-height: 20px;background: rgba($c00,0.5);}
+::-webkit-scrollbar-track-piece{background: rgba($c00,0.2);}
