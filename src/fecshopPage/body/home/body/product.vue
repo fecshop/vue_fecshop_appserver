@@ -8,13 +8,13 @@
             <div class="row" v-for="(item, index) in productList">
               
               <div class="col-50 product_list">
-                <a v-bind:href="item.one.url"  external>
+                <router-link :to="item.one.url" >
                     <img width="100%"   class="lazy" v-bind:src="item.one.image"  />
-                </a> 
+                </router-link> 
                 <p class="product_name" style="">
-                  <a v-bind:href="item.one.url" external>
+                  <router-link :to="item.one.url" >
                     {{item.one.name}}           
-                  </a>
+                  </router-link> 
                 </p>
                 <p style="color: #333;">
                   <p class="proPrice">
@@ -34,13 +34,13 @@
               
               
               <div class="col-50 product_list">
-                <a v-bind:href="item.two.url"  external>
+                <router-link :to="item.one.url" >
                     <img width="100%"   class="lazy" v-bind:src="item.two.image"  />
-                </a> 
+                </router-link> 
                 <p class="product_name" style="">
-                  <a v-bind:href="item.two.url" external>
+                  <router-link :to="item.one.url" >
                     {{item.two.name}}           
-                  </a>
+                  </router-link>
                 </p>
                 <p style="color: #333;">
                   <p class="proPrice">
@@ -56,8 +56,7 @@
                     </del>
                   </p>
                 </p>
-              </div> 
-             	    
+              </div>    
             </div>	
           </div>
         </div>
@@ -66,9 +65,8 @@
   </div>
 </template>
 
-
 <script>
-
+var root = process.env.API_ROOT; 
 export default {
     ready () {
         //this.getImg() ;
@@ -76,8 +74,8 @@ export default {
     },
     data () {
         return {
-            productList:[], 
-            getProductUrl: 'http://fecshop.appserver.fancyecommerce.com/cms/home/product'    //存数据接口               
+            productList:[],     
+            getProductUrl: root + '/cms/home/product'    //存数据接口               
         }
     },
     created: function(){
@@ -86,25 +84,32 @@ export default {
     methods: { 
         getProduct: function(){
             var self = this; 
-            $.ajax({
-                url:self.getProductUrl,
-                async:false,
-                timeout: 8000,
-                dataType: 'json', 
-                type:'get',
-                data:{ 
-                },
-                success:function(data, textStatus){
-                    self.productList = data;  
-                },
-                error:function(){
-                    console.log('get get image error');
-                }
-            });
+            //$.ajax({
+            //    url:self.getProductUrl,
+            //    async:false,
+            //    timeout: 8000,
+            //    dataType: 'json', 
+            //    type:'get',
+            //    data:{ 
+            //    },
+            //    success:function(data, textStatus){
+            //        self.productList = data;  
+            //    },
+            //    error:function(){
+            //        console.log('get get image error');
+            //    }
+            //});
+            
+            self.$http.get(self.getProductUrl)
+                .then((response) => {
+                    self.productList = response.data 
+                    //console.log(JSON.stringify(response.data))
+                })
+                .catch(function(response) {
+                    console.log(response)
+                });
         }
     }
-  
-  
 }
 
 </script>

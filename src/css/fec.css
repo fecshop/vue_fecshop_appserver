@@ -27,7 +27,7 @@ background-color:transparent
 .category_menu ul  li {
     padding-left: 0;
 }
-.category_menu ul li ul li{padding:0.3em 0 0 1em;}
+.category_menu ul li ul li{padding:0.4em 0 0 1em;}
 .category_menu ul li ul{font-size:0.7rem;}
 
 .category_menu ul li ul .icon-right{float:left;font-size:0.4rem;margin-top:1em;}

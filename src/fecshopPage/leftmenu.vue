@@ -34,28 +34,23 @@
                                     <li class="item-content">
                                         <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/wedding-dresses-2016" external>Wedding Dresses 2016</a></div>
                                     </li>
-                                    
-                                                                                <span class="icon icon-right"></span>
+                                    <span class="icon icon-right"></span>
                                     <li class="item-content">
                                         <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/maternity-wedding-dresses" external>Maternity Wedding Dresses</a></div>
                                     </li>
-                                    
-                                                                                <span class="icon icon-right"></span>
+                                    <span class="icon icon-right"></span>
                                     <li class="item-content">
                                         <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/muslim-wedding-dresses" external>Muslim Wedding Dresses</a></div>
                                     </li>
-                                    
-                                                                                <span class="icon icon-right"></span>
+                                    <span class="icon icon-right"></span>
                                     <li class="item-content">
                                         <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/a-line-wedding-dresses" external>A-Line Wedding Dresses</a></div>
                                     </li>
-                                    
-                                                                                <span class="icon icon-right"></span>
+                                    <span class="icon icon-right"></span>
                                     <li class="item-content">
                                         <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/ball-gown-wedding-dresses" external>Ball Gown Wedding Dresses</a></div>
                                     </li>
-                                    
-                                                                                <span class="icon icon-right"></span>
+                                    <span class="icon icon-right"></span>
                                     <li class="item-content">
                                         <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/junior-bridesmaid-dresses" external>Junior Bridesmaid Dresses</a></div>
                                     </li>
@@ -230,7 +225,7 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li> 
                 </ul>
             </div>
         </div>
