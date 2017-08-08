@@ -84,30 +84,30 @@ export default {
     methods: { 
         getProduct: function(){
             var self = this; 
-            //$.ajax({
-            //    url:self.getProductUrl,
-            //    async:false,
-            //    timeout: 8000,
-            //    dataType: 'json', 
-            //    type:'get',
-            //    data:{ 
-            //    },
-            //    success:function(data, textStatus){
-            //        self.productList = data;  
-            //    },
-            //    error:function(){
-            //        console.log('get get image error');
-            //    }
-            //});
+            $.ajax({
+                url:self.getProductUrl,
+                async:false,
+                timeout: 8000,
+                dataType: 'json', 
+                type:'get',
+                data:{ 
+                },
+                success:function(data, textStatus){
+                    self.productList = data;  
+                },
+                error:function(){
+                    console.log('get get image error');
+                }
+            });
             
-            self.$http.get(self.getProductUrl)
-                .then((response) => {
-                    self.productList = response.data 
-                    //console.log(JSON.stringify(response.data))
-                })
-                .catch(function(response) {
-                    console.log(response)
-                });
+            //self.$http.get(self.getProductUrl)
+            //    .then((response) => {
+            //        self.productList = response.data 
+            //        //console.log(JSON.stringify(response.data))
+            //    })
+            //    .catch(function(response) {
+            //        console.log(response)
+            //    });
         }
     }
 }

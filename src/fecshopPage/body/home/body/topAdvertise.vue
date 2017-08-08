@@ -48,17 +48,36 @@ export default {
     methods: { 
         getImg: function(){
             var self = this; 
-            self.$http.get(self.getImgUrl)
-                .then((response) => {
-                    self.bigImgList = response.data.bigImgList; 
-                    self.smallImgList = response.data.smallImgList; 
+            $.ajax({
+                url:self.getImgUrl,
+                async:false,
+                timeout: 8000,
+                dataType: 'json', 
+                type:'get',
+                data:{ 
+                },
+                success:function(data, textStatus){
+                    self.bigImgList = data.bigImgList; 
+                    self.smallImgList = data.smallImgList; 
+                },
+                error:function(){
+                    console.log('get get image error');
+                }
+            });
+            
+            //self.$http.get(self.getImgUrl)
+            //    .then((response) => {
+            //        self.bigImgList = response.data.bigImgList; 
+            //        self.smallImgList = response.data.smallImgList; 
                     //console.log(JSON.stringify(response.data))
-                })
-                .catch(function(response) {
-                    console.log(response)
-                });
+            //    })
+            //    .catch(function(response) {
+            //        console.log(response)
+            //    });
         }
     }
+  
+  
 }
 
 </script>
