@@ -8,18 +8,20 @@ import userIndex from '../page/user/index.vue'
 import userInfo from '../page/user/info.vue'
 import userLove from '../page/user/love.vue'
 import appHeader from '../fecshopPage/header.vue'
-import appHomeBody from '../fecshopPage/body/home/body.vue'
+
 import leftMenu from '../fecshopPage/leftmenu.vue'
 import leftAccount from '../fecshopPage/leftaccount.vue'
 import appFooter from '../fecshopPage/footer.vue'
+
+import appHomeBody from '../fecshopPage/body/home/body.vue'
+import appCategoryBody from '../fecshopPage/body/category/body.vue'
+import appProductBody from '../fecshopPage/body/product/body.vue'
+
 // 配置路由
 export default [
+  
   {
     path: '/',
-    component: index
-  },
-  {
-    path: '/terry',
     components: {
       header: appHeader,
       body: appHomeBody,
@@ -29,9 +31,26 @@ export default [
     }
   },
   {
-    path: '/content',
-    component: content
+    path: '/catalog/category/:category_id',
+    components: {
+      header: appHeader,
+      body: appCategoryBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
   },
+  {
+    path: '/catalog/product/:product_id',
+    components: {
+      header: appHeader,
+      body: appProductBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  
   {
     path: '/user',
     component: Frame,

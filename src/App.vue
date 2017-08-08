@@ -7,6 +7,7 @@
     <div class="panel-overlay"></div>
     <router-view name="leftmenu"></router-view>
     <div class="panel-overlay"></div>
+    <router-view name="leftaccount"></router-view>
   </div>
 </template>
 
