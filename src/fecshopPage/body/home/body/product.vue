@@ -84,16 +84,20 @@ export default {
     methods: { 
         getProduct: function(){
             var self = this; 
+            //fecshop_uuid = localStorage.getItem("fecshop_uuid");
             $.ajax({
                 url:self.getProductUrl,
                 async:false,
                 timeout: 8000,
                 dataType: 'json', 
                 type:'get',
+                //beforeSend: function(xhr){xhr.setRequestHeader('fecshop_uuid', fecshop_uuid);},
                 data:{ 
                 },
-                success:function(data, textStatus){
-                    self.productList = data;  
+                success:function(data, textStatus,request){
+                    self.productList = data;
+                    self.saveReponseHeader(request); 
+                    
                 },
                 error:function(){
                     console.log('get get image error');

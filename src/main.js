@@ -33,6 +33,17 @@ Vue.prototype.$api = api
 const router = new VueRouter({
   routes
 })
+
+Vue.prototype.saveReponseHeader = function (request){
+    var fecshop_uuid = request.getResponseHeader('fecshop_uuid');
+    localStorage.setItem("fecshop_uuid",fecshop_uuid);
+    console.log('save header ######' + fecshop_uuid);
+}
+Vue.prototype.getHeader = function (){
+  console.log('get header ####');
+  return {};
+}
+
 // 跑起来吧
 /* eslint-disable no-new */
 new Vue({

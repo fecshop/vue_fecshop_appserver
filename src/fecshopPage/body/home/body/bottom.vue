@@ -5,10 +5,7 @@
         <div class="c_left">Language:</div>
         <div class="c_right">
           <select class="lang" rel="">
-            <option selected = "selected" value="//fecshop.apphtml5.fancyecommerce.com">English</option>
-            <option  value="//fecshop.apphtml5.fancyecommerce.com/fr">Fran?ais</option>
-            <option  value="//fecshop.apphtml5.es.fancyecommerce.com">Espa?ol</option>
-            <option  value="//fecshop.apphtml5.fancyecommerce.com/cn">中文</option>
+            <option v-for="lang in langList"  :selected = " lang.selected ? 'selected' : '' " :value="lang.code">{{lang.languageName}}</option>
           </select>
         </div>
         <div class="clear"></div>
@@ -19,10 +16,8 @@
         </div>
         <div class="c_right">
           <select class="currency">
-            <option selected = "selected" value="USD"><label>$</label>USD</option>
-            <option  value="EUR"><label>€</label>EUR</option>
-            <option  value="GBP"><label>￡</label>GBP</option>
-            <option  value="CNY"><label>￥</label>CNY</option>
+            
+            <option v-for="currency in currencyList" :selected = " currency.selected ? 'selected' : '' "  :value="currency.code"><label>{{currency.symbol}}</label>{{currency.code}}</option>
           </select>
         </div>
         <div class="clear"></div>
@@ -42,8 +37,64 @@
     </div>			
   </div>
 </template>
+
 <script>
+var root = process.env.API_ROOT; 
 export default {
-  data: {}
+    ready () {
+        //this.getImg() ;
+        //$.init();
+    },
+    data () {
+        return {
+            langList:[],  
+            currencyList:[],             
+            getLangListUrl: root + '/general/base/lang',    //存数据接口               
+            getCurrencyListUrl: root + '/general/base/currency' 
+        }
+    },
+    created: function(){
+        this.getLangList() ;
+        this.getCurrencyList() ;
+    },
+    methods: { 
+        getLangList: function(){
+            var self = this; 
+            $.ajax({
+                url:self.getLangListUrl,
+                async:false,
+                timeout: 8000,
+                dataType: 'json', 
+                type:'get',
+                data:{ 
+                },
+                success:function(data, textStatus){
+                    self.langList = data;  
+                },
+                error:function(){
+                    console.log('get language list error');
+                }
+            });
+        },
+        getCurrencyList: function(){
+            var self = this; 
+            $.ajax({
+                url:self.getCurrencyListUrl,
+                async:false,
+                timeout: 8000,
+                dataType: 'json', 
+                type:'get',
+                data:{ 
+                },
+                success:function(data, textStatus){
+                    self.currencyList = data;  
+                },
+                error:function(){
+                    console.log('get currency list error');
+                }
+            });
+        }
+    }
 }
+
 </script>
