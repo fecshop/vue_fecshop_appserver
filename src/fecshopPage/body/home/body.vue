@@ -11,7 +11,12 @@ import product from './body/product.vue'
 import topAdvertise from './body/topAdvertise.vue'
 import bottom from './body/bottom.vue'
 export default {
-  data: {},
+  data () {
+    return {
+    
+    }
+  },
+
   components: {
     'v-top-advertise': topAdvertise,
     'v-product': product,

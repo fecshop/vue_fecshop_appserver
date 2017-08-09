@@ -13,6 +13,7 @@
 
 <script>
 $(document).ready(function(){  
+    //$.config.router = false; 
     $.init();
 });
 export default {

@@ -4,8 +4,8 @@
       <div class="change-bar">
         <div class="c_left">Language:</div>
         <div class="c_right">
-          <select class="lang" rel="">
-            <option v-for="lang in langList"  :selected = " lang.selected ? 'selected' : '' " :value="lang.code">{{lang.languageName}}</option>
+          <select v-model="currentLang" @change="changeLang" class="lang" rel="">
+            <option v-for="lang in langList"   :value="lang.code">{{lang.languageName}}</option>
           </select>
         </div>
         <div class="clear"></div>
@@ -15,9 +15,9 @@
           Currency:
         </div>
         <div class="c_right">
-          <select class="currency">
+          <select v-model="currentCurrency" @change="changeCurrency" class="currency">
             
-            <option v-for="currency in currencyList" :selected = " currency.selected ? 'selected' : '' "  :value="currency.code"><label>{{currency.symbol}}</label>{{currency.code}}</option>
+            <option v-for="currency in currencyList"   :value="currency.code"><label>{{currency.symbol}}</label>{{currency.code}}</option>
           </select>
         </div>
         <div class="clear"></div>
@@ -47,8 +47,10 @@ export default {
     },
     data () {
         return {
-            langList:[],  
-            currencyList:[],             
+            //currentCurrency:'', 
+            currencyList:[],  
+            //currentLang:'',
+            langList:[], 
             getLangListUrl: root + '/general/base/lang',    //存数据接口               
             getCurrencyListUrl: root + '/general/base/currency' 
         }
@@ -66,10 +68,13 @@ export default {
                 timeout: 8000,
                 dataType: 'json', 
                 type:'get',
+                headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus){
-                    self.langList = data;  
+                success:function(data, textStatus,request){
+                    self.langList = data.langList;
+                    self.currentLang = data.currentLang;
+                    self.saveReponseHeader(request); 
                 },
                 error:function(){
                     console.log('get language list error');
@@ -84,15 +89,29 @@ export default {
                 timeout: 8000,
                 dataType: 'json', 
                 type:'get',
+                headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus){
-                    self.currencyList = data;  
+                success:function(data, textStatus,request){
+                    self.currencyList = data.currencyList; 
+                    self.currentCurrency = data.currentCurrency;
+                    self.saveReponseHeader(request);
+                    //console.log('%%%%%%%%%' + self.currentCurrency);
                 },
                 error:function(){
                     console.log('get currency list error');
                 }
             });
+        },
+        changeCurrency(){
+            window.localStorage.setItem("fecshop-currency",this.currentCurrency);
+            console.log(this.currentCurrency);
+            location.reload() ;
+        },
+        changeLang(){
+            window.localStorage.setItem("fecshop-lang",this.currentLang);
+            console.log(this.currentLang);
+            location.reload() ;
         }
     }
 }

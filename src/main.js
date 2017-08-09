@@ -34,14 +34,77 @@ const router = new VueRouter({
   routes
 })
 
-Vue.prototype.saveReponseHeader = function (request){
-    var fecshop_uuid = request.getResponseHeader('fecshop_uuid');
-    localStorage.setItem("fecshop_uuid",fecshop_uuid);
-    console.log('save header ######' + fecshop_uuid);
+
+// default 设置 , 如果 localStorage 没有设置语言和货币，则通过配置设置。
+// 这样做的是为了搞多语言，可以多个子域名解析过来，不同的域名设置不同的默认货币和语言。
+// 下面的语言必须在服务端进行了相应的设置。 @appserver/config/fecshop_local_services/Store.php 的  serverLangs 设置语言
+// 下面的货币必须在服务端进行了相应的设置。 @common/config/fecshop_local_services/Page.php 的 currencys 设置货币
+var current_domain = window.location.host;
+console.log('current_domain ######' + current_domain);
+var default_config = [
+    {
+        'domain': '120.24.37.249:8080',
+        'lang_code' : 'fr',
+        'currency_code' : 'EUR',
+    }
+];
+var fecshop_lang = window.localStorage.getItem("fecshop-lang");
+var fecshop_currency = window.localStorage.getItem("fecshop-currency");
+if(!fecshop_lang || !fecshop_currency){
+    console.log('### 111111111')
+    for(var k in default_config){
+        var one = default_config[k];
+        console.log('### 2222')
+        console.log('### 2222' + one.domain)
+        console.log('### 3333' + current_domain)
+        if(one.domain == current_domain){
+            console.log('### domain config get')
+            if(!fecshop_lang){
+                console.log('### domain config set lang')
+                window.localStorage.setItem("fecshop-lang",one.lang_code);
+            }
+            if(!fecshop_currency){
+                console.log('### domain config set currency')
+                window.localStorage.setItem("fecshop-currency",one.currency_code);
+            }
+        }
+    }
 }
-Vue.prototype.getHeader = function (){
-  console.log('get header ####');
-  return {};
+
+
+
+Vue.prototype.saveReponseHeader = function (request){
+    // fecshop-uuid
+    var fecshop_uuid = request.getResponseHeader('fecshop-uuid');
+    if(fecshop_uuid){
+        var local_fecshop_uuid = window.localStorage.getItem("fecshop-uuid");
+        if(local_fecshop_uuid != fecshop_uuid){
+            window.localStorage.setItem("fecshop-uuid",fecshop_uuid);
+            console.log('save header [fecshop-uuid] ######' + fecshop_uuid);
+        }
+    }
+    
+}
+Vue.prototype.getRequestHeader = function (){
+    var headers = {};
+    var fecshop_uuid = window.localStorage.getItem("fecshop-uuid");
+    if(fecshop_uuid){
+        console.log('fecshop uuid ######' + fecshop_uuid);
+        headers['fecshop-uuid'] = fecshop_uuid;
+    }
+    
+    var fecshop_lang = window.localStorage.getItem("fecshop-lang");
+    if(fecshop_lang){
+        console.log('fecshop lang ######' + fecshop_lang);
+        headers['fecshop-lang'] = fecshop_lang;
+    }
+    var fecshop_currency = window.localStorage.getItem("fecshop-currency");
+    if(fecshop_currency){
+        console.log('fecshop currency ######' + fecshop_currency);
+        headers['fecshop-currency'] = fecshop_currency;
+    }
+    return headers;
+    //console.log('get header ####');
 }
 
 // 跑起来吧

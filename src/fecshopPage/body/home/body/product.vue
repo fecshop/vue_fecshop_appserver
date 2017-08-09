@@ -7,7 +7,7 @@
           <div class="list-container">
             <div class="row" v-for="(item, index) in productList">
               
-              <div class="col-50 product_list">
+              <div v-if="item.one" class="col-50 product_list">
                 <router-link :to="item.one.url" >
                     <img width="100%"   class="lazy" v-bind:src="item.one.image"  />
                 </router-link> 
@@ -18,22 +18,22 @@
                 </p>
                 <p style="color: #333;">
                   <p class="proPrice">
-                    <span class="bizhong">USD</span>
-                    <span v-bind:orgp="item.one.special_price"   class="my_shop_price f14">
-                      <span class="icon">$</span>
-                      {{item.one.special_price}}
+                    <span v-if="item.one.special_price" class="bizhong">{{item.one.special_price ? item.one.special_price.code : ''}}</span>
+                    <span v-if="item.one.special_price" v-bind:orgp="item.one.special_price"   class="my_shop_price f14">
+                      <span class="icon">{{item.one.special_price ? item.one.special_price.symbol : ''}}</span>
+                      {{item.one.special_price ? item.one.special_price.value : ''}}
                     </span>
-                    <span class="bizhong">USD</span>
+                    <span class="bizhong">{{item.one.price ? item.one.price.code : ''}}</span>
                     <del v-bind:orgp="item.one.price" class="my_shop_price">
-                      <span class="icon">$</span>
-                      {{item.one.price}}
+                      <span class="icon">{{item.one.price ? item.one.price.symbol : ''}}</span>
+                      {{item.one.price ? item.one.price.value : ''}}
                     </del>
                   </p>
                 </p>
               </div>  
               
               
-              <div class="col-50 product_list">
+              <div v-if="item.two.name" class="col-50 product_list">
                 <router-link :to="item.one.url" >
                     <img width="100%"   class="lazy" v-bind:src="item.two.image"  />
                 </router-link> 
@@ -44,15 +44,15 @@
                 </p>
                 <p style="color: #333;">
                   <p class="proPrice">
-                    <span class="bizhong">USD</span>
-                    <span v-bind:orgp="item.two.special_price"   class="my_shop_price f14">
-                      <span class="icon">$</span>
-                      {{item.two.special_price}}
+                    <span v-if="item.two.special_price" class="bizhong">{{item.two.special_price ? item.two.special_price.code : ''}}</span>
+                    <span v-if="item.two.special_price" v-bind:orgp="item.two.special_price"   class="my_shop_price f14">
+                      <span class="icon">{{item.two.special_price ? item.two.special_price.symbol : ''}}</span>
+                      {{item.two.special_price ? item.two.special_price.value : ''}}
                     </span>
-                    <span class="bizhong">USD</span>
+                    <span class="bizhong">{{item.two.price ? item.two.price.code : ''}}</span>
                     <del v-bind:orgp="item.two.price" class="my_shop_price">
-                      <span class="icon">$</span>
-                      {{item.one.price}}
+                      <span class="icon">{{item.two.price ? item.two.price.symbol : ''}}</span>
+                      {{item.two.price ? item.two.price.value : ''}}
                     </del>
                   </p>
                 </p>
@@ -84,14 +84,18 @@ export default {
     methods: { 
         getProduct: function(){
             var self = this; 
-            //fecshop_uuid = localStorage.getItem("fecshop_uuid");
             $.ajax({
-                url:self.getProductUrl,
-                async:false,
+                url: self.getProductUrl,
+                async: false,
                 timeout: 8000,
                 dataType: 'json', 
-                type:'get',
-                //beforeSend: function(xhr){xhr.setRequestHeader('fecshop_uuid', fecshop_uuid);},
+                type: 'get',
+                headers: self.getRequestHeader(),
+                //beforeSend: function(xhr){
+                //    if(fecshop_uuid){
+                //        xhr.setRequestHeader('fecshop_uuid', fecshop_uuid);
+                //    }
+                //},
                 data:{ 
                 },
                 success:function(data, textStatus,request){

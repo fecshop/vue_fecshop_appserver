@@ -31,7 +31,7 @@ export default {
         //this.getImg() ;
         $.init();
     },
-    data () {
+    data: function() {
         return {
             bigImgList:[
                 //{"imgUrl":"//img.apphtml5.fancyecommerce.com/custom/home_img_1.jpg"},
@@ -54,11 +54,13 @@ export default {
                 timeout: 8000,
                 dataType: 'json', 
                 type:'get',
+                headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus){
+                success:function(data, textStatus,request){
                     self.bigImgList = data.bigImgList; 
                     self.smallImgList = data.smallImgList; 
+                    self.saveReponseHeader(request); 
                 },
                 error:function(){
                     console.log('get get image error');
