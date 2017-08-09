@@ -1,4 +1,9 @@
 # vue_fecshop_appserver
+
+开发演示地址：http://120.24.37.249:8080/#/
+
+目前还在开发中...
+
 做fecshop的前后端彻底分离部分的前端界面部分
 
 1. 首先您需要安装npm，详细参看：[安装npm和nodejs](http://www.fancyecommerce.com/2017/07/12/%E5%AE%89%E8%A3%85npm%E5%92%8Cnodejs/)
