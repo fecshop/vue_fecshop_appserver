@@ -12,47 +12,84 @@
           <ul>
             <li class="item-content">
               <div class="item-inner">
-                <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com" external>Home</a></div>
+                <div class="item-title">
+                  <router-link  to="/" class="nav_t">
+                    Home
+                  </router-link>
+                </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
-                <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/customer/account/index" external>Account</a></div>
+                <div class="item-title">
+                  <router-link  to="/customer/account/index" class="nav_t">
+                    Account
+                  </router-link>
+                
+                </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
-                <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/checkout/cart" external>Shopping Cart</a></div>
+                <div class="item-title">
+                  <router-link  to="/checkout/cart" class="nav_t">
+                    Shopping Cart
+                  </router-link>
+                </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
-                <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/customer/order" external>My Order</a></div>
+                <div class="item-title">
+                  <router-link  to="/customer/order" class="nav_t">
+                    My Order
+                  </router-link>
+                </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
-                <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/customer/productfavorite" external>My Favorite</a></div>
+                <div class="item-title">
+                  <router-link  to="/customer/productfavorite" class="nav_t">
+                    My Favorite
+                  </router-link>
+                </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
-                <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/about-us" external>About Us</a></div>
+                <div class="item-title">
+                  <router-link  to="/about-us" class="nav_t">
+                    About Us
+                  </router-link>
+                </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
-                <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/customer/contacts" external>Contact us</a></div>
+                <div class="item-title">
+                  <router-link  to="/customer/contacts" class="nav_t">
+                    Contact us
+                  </router-link>
+                </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
-                <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/privacy-policy" external>privacy policy</a></div>
+                <div class="item-title">
+                  <router-link  to="/privacy-policy" class="nav_t">
+                    Privacy Policy
+                  </router-link>
+                </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
-                <div class="item-title"><a href="http://fecshop.apphtml5.fancyecommerce.com/return-policy" external>Return Policy</a></div>
+                <div class="item-title">
+                  <router-link  to="/return-policy" class="nav_t">
+                    Return Policy
+                  </router-link>
+                </div>
               </div>
             </li>
           </ul>
