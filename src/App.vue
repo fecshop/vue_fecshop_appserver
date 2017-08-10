@@ -23,10 +23,8 @@ export default {
 }
 </script>
 
-<style lang="css" src="./css/sm.min.css"></style>
-<style lang="css" src="./css/sm-extend.min.css"></style>
-<style lang="css" src="./css/fec.css"></style>
-<style lang="scss">
-  @import "./style/style";
-</style>
+<style lang="css" src="./assets/css/sm.min.css"></style>
+<style lang="css" src="./assets/css/sm-extend.min.css"></style>
+<style lang="css" src="./assets/css/fec.css"></style>
+
 

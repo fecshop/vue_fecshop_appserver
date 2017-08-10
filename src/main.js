@@ -8,21 +8,19 @@ Vue.use(VueRouter)
 import VueResource from 'vue-resource'; 
 Vue.use(VueResource)
 
-import Zepto from './js/zepto.min.js'
+import Zepto from './assets/js/zepto.min.js'
 // 光引用不成，还得使用
 Vue.use(Zepto)
-import Sui from './js/sm.min.js'
+import Sui from './assets/js/sm.min.js'
 // 光引用不成，还得使用
 Vue.use(Sui)
-import SuiExtend from './js/sm-extend.min.js'
+import SuiExtend from './assets/js/sm-extend.min.js'
 // 光引用不成，还得使用
 Vue.use(SuiExtend)
 
-
-
-
 // 入口文件为 src/App.vue 文件 所以要引用
 import App from './App.vue'
+import store from './config/store'
 // 引用路由配置文件
 import routes from './config/routes'
 // 引用API文件
@@ -41,19 +39,13 @@ const router = new VueRouter({
 // 下面的货币必须在服务端进行了相应的设置。 @common/config/fecshop_local_services/Page.php 的 currencys 设置货币
 var current_domain = window.location.host;
 console.log('current_domain ######' + current_domain);
-var default_config = [
-    {
-        'domain': '120.24.37.249:8080',
-        'lang_code' : 'fr',
-        'currency_code' : 'EUR',
-    }
-];
+var store_config = store.storeConfig;
 var fecshop_lang = window.localStorage.getItem("fecshop-lang");
 var fecshop_currency = window.localStorage.getItem("fecshop-currency");
 if(!fecshop_lang || !fecshop_currency){
     console.log('### 111111111')
-    for(var k in default_config){
-        var one = default_config[k];
+    for(var k in store_config){
+        var one = store_config[k];
         console.log('### 2222')
         console.log('### 2222' + one.domain)
         console.log('### 3333' + current_domain)

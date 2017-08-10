@@ -1,25 +1,18 @@
 // 引入子路由
 import Frame from '../frame/subroute.vue'
-// 引用模板
-import index from '../page/index.vue'
-import content from '../page/content.vue'
-// 引入子页面
-import userIndex from '../page/user/index.vue'
-import userInfo from '../page/user/info.vue'
-import userLove from '../page/user/love.vue'
-import appHeader from '../fecshopPage/header.vue'
 
-import leftMenu from '../fecshopPage/leftmenu.vue'
-import leftAccount from '../fecshopPage/leftaccount.vue'
-import appFooter from '../fecshopPage/footer.vue'
+import appHeader from '../views/header.vue'
 
-import appHomeBody from '../fecshopPage/body/home/body.vue'
-import appCategoryBody from '../fecshopPage/body/category/body.vue'
-import appProductBody from '../fecshopPage/body/product/body.vue'
+import leftMenu from '../views/leftmenu.vue'
+import leftAccount from '../views/leftaccount.vue'
+import appFooter from '../views/footer.vue'
+
+import appHomeBody from '../views/body/home/body.vue'
+import appCategoryBody from '../views/body/category/body.vue'
+import appProductBody from '../views/body/product/body.vue'
 
 // 配置路由
 export default [
-  
   {
     path: '/',
     components: {
@@ -51,13 +44,4 @@ export default [
     }
   },
   
-  {
-    path: '/user',
-    component: Frame,
-    children: [
-      {path: '/', component: userIndex},
-      {path: 'info', component: userInfo},
-      {path: 'love', component: userLove}
-    ]
-  }
 ]
