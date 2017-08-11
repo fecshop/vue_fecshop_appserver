@@ -1,11 +1,11 @@
 // 引入子路由
 import Frame from '../frame/subroute.vue'
 
-import appHeader from '../views/header.vue'
+import appHeader from '../views/Header.vue'
 
-import leftMenu from '../views/leftmenu.vue'
-import leftAccount from '../views/leftaccount.vue'
-import appFooter from '../views/footer.vue'
+import leftMenu from '../views/Leftmenu.vue'
+import leftAccount from '../views/Leftaccount.vue'
+import appFooter from '../views/Footer.vue'
 
 import appHomeBody from '../views/body/home/Index.vue' //
 import appPaymentSuccessBody from '../views/body/payment/Success.vue' 

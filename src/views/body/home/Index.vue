@@ -7,9 +7,9 @@
     </div>
 </template>
 <script>
-import product from './body/product.vue'
-import topAdvertise from './body/topAdvertise.vue'
-import bottom from './body/bottom.vue'
+import product from './body/Product.vue'
+import topAdvertise from './body/TopAdvertise.vue'
+import bottom from './body/Bottom.vue'
 export default {
   data () {
     return {
