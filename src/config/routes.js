@@ -7,7 +7,9 @@ import leftMenu from '../views/Leftmenu.vue'
 import leftAccount from '../views/Leftaccount.vue'
 import appFooter from '../views/Footer.vue'
 
-import appHomeBody from '../views/body/home/Index.vue' //
+//import appContentBody from '../views/body/home/Index.vue'
+
+import appHomeBody from '../views/body/home/Index.vue' 
 import appPaymentSuccessBody from '../views/body/payment/Success.vue' 
 import appCmsPageBody from '../views/body/cms/Page.vue' 
 
@@ -47,6 +49,7 @@ export default [
     components: {
       header: appHeader,
       body: appHomeBody,
+      //bodycontent:appContentBody,
       footer: appFooter,
       leftmenu: leftMenu,
       leftaccount: leftAccount

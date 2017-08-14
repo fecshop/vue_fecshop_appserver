@@ -1,9 +1,9 @@
 <template>
   <div class="page-group">
-    <div class="page">
-		<router-view name="header"></router-view>				
-		<router-view name="body"></router-view>		
-	</div>
+    <div class="page main-page" ref="scrollContainer">
+        <router-view name="header"></router-view>
+        <router-view name="body"></router-view>
+    </div>
     <div class="panel-overlay"></div>
     <router-view name="leftmenu"></router-view>
     <div class="panel-overlay"></div>

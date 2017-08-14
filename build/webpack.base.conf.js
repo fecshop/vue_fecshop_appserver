@@ -67,6 +67,10 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /vue-scroller.src.*?js$/,
+        loader: 'babel'
+      },
+      {
         test: /\.json$/,
         loader: 'json'
       },

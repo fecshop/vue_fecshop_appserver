@@ -3,7 +3,7 @@
       <v-top-advertise></v-top-advertise>
       <div style="clear:both;"></div>
       <v-product></v-product>	
-      <v-bottom></v-bottom>	
+      <v-bottom></v-bottom>
     </div>
 </template>
 <script>
