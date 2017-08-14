@@ -1,5 +1,5 @@
 <template>
-    <div class="content category_list" ref="scrollContainer"  v-bind:style="styleObject" >
+    <div class="content category_list" ref="scrollContainer" >
         <div >
             <div class="content-block">
                 <div class="category_page">
@@ -151,28 +151,20 @@ export default {
         styleObject:{},
         isNoDisPlay:0,
         loading: false ,
-        maxCount:0,
         productList:[],
         count: 0,
         //styleObject: {},
-        scrollContainerSize:0,
         getCategoryUrl: root + '/catalog/category/index' ,
         getCategoryProductUrl: root + '/catalog/category/product' 
     }
   },
   created: function(){
     this.fetchCategory();
-    var height = $(window).height() - 77 ;
-    height = height + 'px';
-    this.styleObject = { 
-            height: height,
-            overflow: 'auto'
-        };
-    
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    '$route': 'getCategoryInfo'
+    '$route': 'loadNewCategory',
+    
   },
   methods:{
     openfilter: function(){
@@ -180,6 +172,14 @@ export default {
     },
     opensort: function(){
       $.popup('.popup-sort');
+    },
+    loadNewCategory: function(){
+        this.productList = [];
+        this.count = 0;
+        this.getCategoryInfo();
+        this.fetchProduct();
+        this.loading = false;
+        this.isNoDisPlay = 0;
     },
     getCategoryInfo: function(){
         
@@ -221,9 +221,12 @@ export default {
                         self.isNoDisPlay = 1;
                     }
                     self.saveReponseHeader(request); 
-                } 
+                }else{
+                    self.isNoDisPlay = 1;
+                }
             },
             error:function(){
+                self.isNoDisPlay = 1;
                 console.log('get get Category info error');
             }
         });

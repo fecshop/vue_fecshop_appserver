@@ -2,11 +2,11 @@
     <ul>
         <template v-for="(node,index) in menuList" v-if="node.name" >
             <span v-if="menuLevel > 1" class="icon icon-right"></span>
-            <li class="item-content" v-on:click="closePanel">
+            <li class="item-content" >
                 <div class="item-title">
-                    <router-link  :to="node.url" class="nav_t">
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect(node.url)"   class="nav_t">
                         {{node.name}}
-                    </router-link>
+                    </a>
                 </div>
                 <menu-item v-if="node.child" v-bind:menuLevel="node.level" v-bind:menuList=node.child></menu-item> 
             </li>
@@ -30,10 +30,11 @@ export default {
       }
     },
     methods: { 
-        closePanel: function(){
+        closePanelAndRedirect: function(url){
             //console.log('closePanel begin');
             $.closePanel("#panel-left-menu");
             //console.log('closePanel end');
+            this.$router.push(url);
         }
     }
     
