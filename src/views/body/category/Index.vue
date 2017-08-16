@@ -1,6 +1,6 @@
 <template>
-    <div class="content category_list" ref="scrollContainer" >
-        <div >
+    <div >
+        <div class="content category_list" ref="scrollContainer" style="top:2.2rem" >
             <div class="content-block">
                 <div class="category_page">
                     <div class="category_img">
@@ -117,7 +117,84 @@
                 <div class="close_popup">
                     <a href="javascript:void(0)" class="close-popup">×</a>
                 </div>
-                333333333333
+                
+                
+                <div v-if="refine_by_info.length > 0" class="filter_refine_by">
+                    <div class="filter_attr_title">Refine By</div>
+                    <div class="filter_refine_by_content">
+                        <div v-for="(refine_item, refine_index) in refine_by_info" >
+                            <a external :href="refine_item.url">
+                                <i class="closeBtn c_tagbg"></i>
+                                <span>{{refine_item.name}}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            
+                <div v-if="filter_category && categoryInfo.name" class="category_left_filter_category">
+                    <div class="filter_attr_title">
+                        {{categoryInfo.name}}
+                    </div>
+                    <div class="filter_category_content">
+                        <ul v-if="filter_category">
+                            <li v-for="(cate_item, cate_index) in filter_category" v-bind:class="{ current: cate_item.current }"   >
+                                <router-link :to="'/' + cate_item.url" >
+                                    {{cate_item.name}}        
+                                </router-link> 
+                                <ul v-if="cate_item.child">
+                                    <li v-for="(cate_child_item, cate_child_index) in cate_item.child" v-bind:class="{ current: cate_child_item.current }"   >
+                                        <router-link :to="'/' + cate_child_item.url" >
+                                            {{cate_child_item.name}}        
+                                        </router-link> 
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                
+                
+                <div class="category_left_filter" v-if="filter_info">
+                    <div  class="filter_attr"  v-for="(filter_items, filter_index) in filter_info" >
+                        <div class="filter_attr_title">
+                            {{filter_index}}
+                        </div>
+                        <div class="filter_attr_info">
+                            <template v-for="(filter_item, filter_item_index) in filter_items">
+                                <a external  href="" >
+                                    {{filter_item._id}}({{filter_item.count}})
+                                </a>
+                                <br/>
+                            </template>
+                        </div>
+                    </div>    
+                </div>
+                    
+                    
+                    
+                    
+                    
+                <div class="category_left_filter" v-if="filter_price">
+                    <div class="filter_attr" v-for="(price_items, price_index) in filter_price">
+                        <div class="filter_attr_title">
+                            {{price_index}}
+                        </div>
+                        <div class="filter_attr_info">
+                            <template v-for="(price_item, price_item_index) in price_items">
+                                <a href="javascript:void(0)" @click="changeFilterPrice(price_item.val,$event)" v-bind:class="{ checked: price_item.selected}">
+                                    {{price_item.label}}
+                                </a>
+                                <br/>
+                            </template>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
             </div>
         </div>
 
@@ -127,7 +204,27 @@
                     <a href="javascript:void(0)" class="close-popup">×</a>
                 </div>
                 <div>
-                    44444
+                    <div class="toolbar">
+                        <div class="tb_le">
+                            <div v-if="query_sort" class="category_left_filter">
+                                <div class="filter_attr">
+                                    <div class="filter_attr_title">
+                                        <b>Sort By:</b>
+                                    </div>
+                                    <div class="filter_attr_info">
+                                        <template v-for="(sort_item, sort_index) in query_sort">
+                                            <a  href="javascript:void(0)" @click="changeSort(sort_item.value,$event)" v-bind:class="{ checked: sort_item.selected}"  >
+                                              
+                                                {{sort_item.label}}
+                                            </a>
+                                        <br>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -155,7 +252,15 @@ export default {
         count: 0,
         //styleObject: {},
         getCategoryUrl: root + '/catalog/category/index' ,
-        getCategoryProductUrl: root + '/catalog/category/product' 
+        getCategoryProductUrl: root + '/catalog/category/product' ,
+        refine_by_info:[],
+        filter_category:[],
+        filter_info:[],
+        filter_price:[],
+        query_sort:[],
+        sortColumn:'',
+        filterAttrs:{},
+        filterPrice:''
     }
   },
   created: function(){
@@ -174,20 +279,60 @@ export default {
       $.popup('.popup-sort');
     },
     loadNewCategory: function(){
+        $.closeModal(".popup");
         this.productList = [];
         this.count = 0;
-        this.getCategoryInfo();
-        this.fetchProduct();
         this.loading = false;
         this.isNoDisPlay = 0;
+        this.filter_category = [];
+        this.filter_info = [];
+        this.filter_price = [];
+        this.query_sort = [];
+        this.sortColumn = '';
+        this.filterAttrs = {};
+        this.filterPrice = '';
+        
+        this.fetchCategory();
+        
+    },
+    
+    changeFilterPrice: function(priceColumn,e){
+        $.closeModal(".popup-filter");
+        this.productList = [];
+        this.count = 0;
+        this.loading = false;
+        this.isNoDisPlay = 0;
+        this.filterPrice = priceColumn;
+        this.fetchCategory();
+        console.log("priceColumn: " +priceColumn);
+    },
+    changeSort: function(sortColumn,e){
+        //var currentElement = $(e.srcElement);
+        //if (currentElement.hasClass("checked")) {
+        //    currentElement.removeClass("checked");
+        //} else {
+        //    currentElement.addClass("checked");
+        //}
+        
+        $.closeModal(".popup-sort");
+        this.productList = [];
+        this.count = 0;
+        this.loading = false;
+        this.isNoDisPlay = 0;
+        this.sortColumn = sortColumn;
+        //this.filterAttrs= {color:"red"};
+        this.fetchCategory();
+        console.log("sortColumn: " +sortColumn);
     },
     getCategoryInfo: function(){
         
     },
     fetchProduct() {
+        console.log("fetch product");
         this.loading = true;
         var self = this; 
         var category_id = this.$route.params.category_id;
+        var filterAttrs = JSON.stringify(self.filterAttrs);
         $.ajax({
             url: self.getCategoryProductUrl,
             async: false,
@@ -202,11 +347,14 @@ export default {
             //},
             data:{ 
                 category_id:category_id,
-                p: self.count + 1
+                p: self.count + 1,
+                sortColumn: self.sortColumn,
+                filterAttrs: filterAttrs,
+                price: self.filterPrice
             },
             success:function(data, textStatus,request){
-                //console.log('22222');
                 if(data.code == 200){
+                    console.log('fetch product success');
                     var products = data.content.products;
                     if(products.length > 0){
                         for(var x in products){
@@ -235,6 +383,7 @@ export default {
     fetchCategory() {
         var self = this; 
         var category_id = this.$route.params.category_id;
+        var filterAttrs = JSON.stringify(self.filterAttrs);
         $.ajax({
             url: self.getCategoryUrl,
             async: false,
@@ -244,10 +393,43 @@ export default {
             headers: self.getRequestHeader(),
             data:{ 
                 category_id:category_id,
+                sortColumn: self.sortColumn,
+                filterAttrs: filterAttrs,
+                price: self.filterPrice
             },
             success:function(data, textStatus,request){
                 if(data.code == 200){
+                    console.log('fetch category success');
                     self.categoryInfo = data.content;
+                    if(data.content.refine_by_info.length > 0){
+                        self.refine_by_info = data.content.refine_by_info;
+                    }
+                    if(data.content.filter_category){
+                        self.filter_category = data.content.filter_category;
+                    }
+                    if(data.content.filter_info){
+                        self.filter_info = data.content.filter_info;
+                    }
+                    if(data.content.filter_price){
+                        self.filter_price = data.content.filter_price;
+                    }
+                    
+                    if(data.content.query_item){
+                        self.query_sort = data.content.query_item.frontSort;
+                    }
+                    var products = data.content.products;
+                    if(products.length > 0){
+                        for(var x in products){
+                            self.productList.push(products[x]);
+                        }
+                        self.count++;
+                        self.loading = false;
+                        if(self.count > 1){
+                            $.init();
+                        }
+                    }else{
+                        self.isNoDisPlay = 1;
+                    }
                     self.saveReponseHeader(request); 
                 } 
             },
@@ -255,7 +437,6 @@ export default {
                 console.log('get get Category info error');
             }
         });
-        
     }
   }
 }
