@@ -11,7 +11,7 @@
                 </form>
             </div>
             <div class="category_menu">
-                <menu-item v-bind:menuList="menuList"></menu-item> 
+                <menu-item v-bind:menuList.sync="menuList"></menu-item> 
             </div>
         </div>
         <div class="list-block">
@@ -33,7 +33,7 @@ export default {
     },
     data () {
         return {
-            menuList:[],     
+            menuList:{},     
             getMenuUrl: root + '/general/base/menu'    //存数据接口               
         }
     },
@@ -45,7 +45,7 @@ export default {
             var self = this; 
             $.ajax({
                 url: self.getMenuUrl,
-                async: false,
+                async: true,
                 timeout: 8000,
                 dataType: 'json', 
                 type: 'get',

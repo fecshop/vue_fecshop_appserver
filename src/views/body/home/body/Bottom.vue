@@ -16,7 +16,6 @@
         </div>
         <div class="c_right">
           <select v-model="currentCurrency" @change="changeCurrency" class="currency">
-            
             <option v-for="currency in currencyList"   :value="currency.code"><label>{{currency.symbol}}</label>{{currency.code}}</option>
           </select>
         </div>
@@ -42,76 +41,45 @@
 var root = process.env.API_ROOT; 
 export default {
     ready () {
-        //this.getImg() ;
-        //$.init();
+        $.init();
     },
     data () {
-        return {
-            //currentCurrency:'', 
-            currencyList:[],  
-            //currentLang:'',
-            langList:[], 
-            getLangListUrl: root + '/general/base/lang',    //存数据接口               
-            getCurrencyListUrl: root + '/general/base/currency' 
+        return { 
+            propsCurrency : 0,
+            propsLang: 0
         }
     },
-    created: function(){
-        this.getLangList() ;
-        this.getCurrencyList() ;
+    props: {
+        langList: {
+            type: Array
+        },
+        currencyList: {
+            type: Object
+        },
+        currentCurrency: {
+            type: String
+        },
+        currentLang: {
+            type: String
+        }
+        
     },
     methods: { 
-        getLangList: function(){
-            var self = this; 
-            $.ajax({
-                url:self.getLangListUrl,
-                async:false,
-                timeout: 8000,
-                dataType: 'json', 
-                type:'get',
-                headers: self.getRequestHeader(),
-                data:{ 
-                },
-                success:function(data, textStatus,request){
-                    self.langList = data.langList;
-                    self.currentLang = data.currentLang;
-                    self.saveReponseHeader(request); 
-                },
-                error:function(){
-                    console.log('get language list error');
-                }
-            });
-        },
-        getCurrencyList: function(){
-            var self = this; 
-            $.ajax({
-                url:self.getCurrencyListUrl,
-                async:false,
-                timeout: 8000,
-                dataType: 'json', 
-                type:'get',
-                headers: self.getRequestHeader(),
-                data:{ 
-                },
-                success:function(data, textStatus,request){
-                    self.currencyList = data.currencyList; 
-                    self.currentCurrency = data.currentCurrency;
-                    self.saveReponseHeader(request);
-                    //console.log('%%%%%%%%%' + self.currentCurrency);
-                },
-                error:function(){
-                    console.log('get currency list error');
-                }
-            });
-        },
         changeCurrency(){
-            window.localStorage.setItem("fecshop-currency",this.currentCurrency);
-            console.log(this.currentCurrency);
-            location.reload() ;
+            this.propsCurrency += 1;
+            if(this.propsCurrency > 1){
+                window.localStorage.setItem("fecshop-currency",this.currentCurrency);
+                console.log('##########:' +this.currentCurrency);
+                location.reload() ;
+            }
         },
         changeLang(){
-            window.localStorage.setItem("fecshop-lang",this.currentLang);
-            console.log(this.currentLang);
-            location.reload() ;
+            this.propsLang += 1;
+            if(this.propsLang > 1){
+                window.localStorage.setItem("fecshop-lang",this.currentLang);
+                console.log(this.currentLang);
+                location.reload() ;
+            }
         }
     }
 }

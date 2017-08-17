@@ -28,58 +28,18 @@
 var root = process.env.API_ROOT; 
 export default {
     ready () {
-        //this.getImg() ;
         $.init();
     },
-    data: function() {
-        return {
-            bigImgList:[
-                //{"imgUrl":"//img.apphtml5.fancyecommerce.com/custom/home_img_1.jpg"},
-                //{"imgUrl":"//img.apphtml5.fancyecommerce.com/custom/home_img_2.jpg"},
-                //{"imgUrl":"//img.apphtml5.fancyecommerce.com/custom/home_img_3.jpg"}
-            ], 
-            smallImgList:[],
-            getImgUrl: root + '/cms/home/advertise'    //存数据接口               
-        }
-    },
-    created: function(){
-        this.getImg() ;
-    },
-    methods: { 
-        getImg: function(){
-            var self = this; 
-            $.ajax({
-                url:self.getImgUrl,
-                async:false,
-                timeout: 8000,
-                dataType: 'json', 
-                type:'get',
-                headers: self.getRequestHeader(),
-                data:{ 
-                },
-                success:function(data, textStatus,request){
-                    self.bigImgList = data.bigImgList; 
-                    self.smallImgList = data.smallImgList; 
-                    self.saveReponseHeader(request); 
-                },
-                error:function(){
-                    console.log('get get image error');
-                }
-            });
-            
-            //self.$http.get(self.getImgUrl)
-            //    .then((response) => {
-            //        self.bigImgList = response.data.bigImgList; 
-            //        self.smallImgList = response.data.smallImgList; 
-                    //console.log(JSON.stringify(response.data))
-            //    })
-            //    .catch(function(response) {
-            //        console.log(response)
-            //    });
-        }
+    
+    props: {
+        bigImgList: {
+            type: Array
+        },
+        smallImgList: {
+            type: Array
+        },
     }
-  
-  
+    
 }
 
 </script>

@@ -86,52 +86,16 @@ export default {
         //this.getImg() ;
         $.init();
     },
+    props: {
+      productList: {
+        type: Array
+      }
+    },
     data () {
-        return {
-            productList:[],     
-            getProductUrl: root + '/cms/home/product'    //存数据接口               
-        }
-    },
-    created: function(){
-        this.getProduct() ;
-    },
-    methods: { 
-        getProduct: function(){
-            var self = this; 
-            $.ajax({
-                url: self.getProductUrl,
-                async: false,
-                timeout: 8000,
-                dataType: 'json', 
-                type: 'get',
-                headers: self.getRequestHeader(),
-                //beforeSend: function(xhr){
-                //    if(fecshop_uuid){
-                //        xhr.setRequestHeader('fecshop_uuid', fecshop_uuid);
-                //    }
-                //},
-                data:{ 
-                },
-                success:function(data, textStatus,request){
-                    self.productList = data;
-                    self.saveReponseHeader(request); 
-                    
-                },
-                error:function(){
-                    console.log('get get image error');
-                }
-            });
-            
-            //self.$http.get(self.getProductUrl)
-            //    .then((response) => {
-            //        self.productList = response.data 
-            //        //console.log(JSON.stringify(response.data))
-            //    })
-            //    .catch(function(response) {
-            //        console.log(response)
-            //    });
+        return {              
         }
     }
+    
 }
 
 </script>

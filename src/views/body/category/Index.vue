@@ -60,11 +60,11 @@
                                           
                                           
                                           <div v-if="item.two.name" class="col-50 product_list">
-                                            <router-link :to="item.one.url" >
+                                            <router-link :to="item.two.url" >
                                                 <img width="100%"   class="lazy" v-bind:src="item.two.image"  />
                                             </router-link> 
                                             <p class="product_name" style="">
-                                              <router-link :to="item.one.url" >
+                                              <router-link :to="item.two.url" >
                                                 {{item.two.name}}           
                                               </router-link>
                                             </p>
@@ -98,7 +98,7 @@
                               </div>
                               <!-- 加载提示符 -->
                               <mugen-scroll :handler="fetchProduct" :should-handle="!loading" scroll-container="scrollContainer">
-                                <div v-bind:class="{ isNoDisPlay: isNoDisPlay}" class="infinite-scroll-preloader">
+                                <div style="display:none"  class="infinite-scroll-preloader">
                                     <div class="preloader"></div>
                                 </div>
 
@@ -163,7 +163,7 @@
                             {{filter_items.label}}
                         </div>
                         <div class="filter_attr_info" v-if="filter_items.items">
-                            <template v-for="(filter_item, filter_item_index) in filter_items.items">
+                            <template  v-for="(filter_item, filter_item_index) in filter_items.items"  v-if="filter_item._id">
                                 <a  @click="changeFilterAttr(filter_index,filter_item._id,filter_item.selected,$event)" href="javascript:void(0)" v-bind:class="{ checked: filter_item.selected}" >
                                     {{filter_item._id}}({{filter_item.count}})
                                 </a>
@@ -275,13 +275,15 @@ export default {
   },
   methods:{
     openfilter: function(){
-      $.popup('.popup-filter');
+        console.log('open filter begin');
+        $.popup('.popup-filter');
+        console.log('open filter complete');
     },
     opensort: function(){
-      $.popup('.popup-sort');
+        $.popup('.popup-sort');
     },
     loadNewCategory: function(){
-        $.closeModal(".popup");
+        
         this.productList = [];
         this.count = 0;
         this.loading = false;
@@ -295,11 +297,9 @@ export default {
         this.filterAttrs = {};
         this.filterPrice = '';
         this.fetchCategory();
+        //$.closeModal(".popup");
     },
     clearFilterAttr: function(attr,val,$event){
-        
-        $.closeModal(".popup-filter");
-        
         this.productList = [];
         this.count = 0;
         this.loading = false;
@@ -314,6 +314,7 @@ export default {
             console.log("delete filter attr:"+ attr);
         }
         this.refine_by_info = [];
+        $.closeModal(".popup-filter");
         this.fetchCategory();
     },
     changeFilterAttr: function(attr,val,selected,$event){
@@ -332,7 +333,7 @@ export default {
         
     },
     changeFilterPrice: function(priceColumn,selected,e){
-        $.closeModal(".popup-filter");
+        
         this.productList = [];
         this.count = 0;
         this.loading = false;
@@ -344,6 +345,7 @@ export default {
         }
         this.refine_by_info = [];
         this.fetchCategory();
+        $.closeModal(".popup-filter");
         console.log("priceColumn: " +priceColumn);
     },
     changeSort: function(sortColumn,e){
@@ -354,7 +356,7 @@ export default {
         //    currentElement.addClass("checked");
         //}
         
-        $.closeModal(".popup-sort");
+        
         this.productList = [];
         this.count = 0;
         this.loading = false;
@@ -362,6 +364,7 @@ export default {
         this.sortColumn = sortColumn;
         //this.filterAttrs= {color:"red"};
         this.fetchCategory();
+        $.closeModal(".popup-sort");
         console.log("sortColumn: " +sortColumn);
     },
     getCategoryInfo: function(){
@@ -374,9 +377,10 @@ export default {
             var self = this; 
             var category_id = this.$route.params.category_id;
             var filterAttrs = JSON.stringify(self.filterAttrs);
+            $.showIndicator();
             $.ajax({
                 url: self.getCategoryProductUrl,
-                async: false,
+                async: true,
                 timeout: 8000,
                 dataType: 'json', 
                 type: 'get',
@@ -412,9 +416,11 @@ export default {
                     }else{
                         self.isNoDisPlay = 1;
                     }
+                    $.hideIndicator();
                 },
                 error:function(){
                     self.isNoDisPlay = 1;
+                    $.hideIndicator();
                     console.log('get get Category info error');
                 }
             });
@@ -424,9 +430,10 @@ export default {
         var self = this; 
         var category_id = this.$route.params.category_id;
         var filterAttrs = JSON.stringify(self.filterAttrs);
+        $.showIndicator();
         $.ajax({
             url: self.getCategoryUrl,
-            async: false,
+            async: true,
             timeout: 8000,
             dataType: 'json', 
             type: 'get',
@@ -471,9 +478,13 @@ export default {
                         self.isNoDisPlay = 1;
                     }
                     self.saveReponseHeader(request); 
+                }else{
+                    self.isNoDisPlay = 1;
                 } 
+                $.hideIndicator();
             },
             error:function(){
+                $.hideIndicator();
                 console.log('get get Category info error');
             }
         });
