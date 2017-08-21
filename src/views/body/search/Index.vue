@@ -10,6 +10,7 @@
                     </div> 
                     
                     <div class="sort_filter">
+                        <a href="javascript:void(0)" @click="opensort" class="category-open open-sort">Sort &nbsp;<span class="icon icon-caret"></span></a>
                         <a href="javascript:void(0)" @click="openfilter"   class="category-open open-filter">Filter &nbsp;<span class="icon icon-caret"></span></a>
                         <div class="clear"></div>
                     </div>
@@ -132,27 +133,6 @@
                     </div>
                 </div>
             
-                <div v-if="filter_category && categoryInfo.name" class="category_left_filter_category">
-                    <div class="filter_attr_title">
-                        {{categoryInfo.name}}
-                    </div>
-                    <div class="filter_category_content">
-                        <ul v-if="filter_category">
-                            <li v-for="(cate_item, cate_index) in filter_category" v-bind:class="{ current: cate_item.current }"   >
-                                <router-link :to="'/' + cate_item.url" >
-                                    {{cate_item.name}}        
-                                </router-link> 
-                                <ul v-if="cate_item.child">
-                                    <li v-for="(cate_child_item, cate_child_index) in cate_item.child" v-bind:class="{ current: cate_child_item.current }"   >
-                                        <router-link :to="'/' + cate_child_item.url" >
-                                            {{cate_child_item.name}}        
-                                        </router-link> 
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
                 
                 
                 
@@ -199,36 +179,7 @@
             </div>
         </div>
 
-        <div class="popup popup-sort">
-            <div class="content-block">
-                <div class="close_popup">
-                    <a href="javascript:void(0)" class="close-popup">×</a>
-                </div>
-                <div>
-                    <div class="toolbar">
-                        <div class="tb_le">
-                            <div v-if="query_sort" class="category_left_filter">
-                                <div class="filter_attr">
-                                    <div class="filter_attr_title">
-                                        <b>Sort By:</b>
-                                    </div>
-                                    <div class="filter_attr_info">
-                                        <template v-for="(sort_item, sort_index) in query_sort">
-                                            <a  href="javascript:void(0)" @click="changeSort(sort_item.value,$event)" v-bind:class="{ checked: sort_item.selected}"  >
-                                              
-                                                {{sort_item.label}}
-                                            </a>
-                                        <br>
-                                        </template>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </template>
 <script>
@@ -245,31 +196,27 @@ export default {
   },
   data () {
     return {
-        categoryInfo:{},
-        styleObject:{},
+        searchInfo:{},
         isNoDisPlay:0,
         loading: false ,
         productList:[],
         count: 0,
-        //styleObject: {},
-        getCategoryUrl: root + '/catalog/category/index' ,
-        getCategoryProductUrl: root + '/catalog/category/product' ,
+        searchUrl: root + '/catalogsearch/index/index' ,
+        searchProductUrl: root + '/catalogsearch/index/product' ,
         refine_by_info:[],
-        filter_category:[],
         filter_info:[],
         filter_price:[],
-        query_sort:[],
-        sortColumn:'',
+        //sortColumn:'',
         filterAttrs:{},
         filterPrice:''
     }
   },
   created: function(){
-    this.fetchCategory();
+    this.fetchSearch();
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    '$route': 'loadNewCategory',
+    '$route': 'loadNewSearch',
     
   },
   methods:{
@@ -281,21 +228,19 @@ export default {
     opensort: function(){
         $.popup('.popup-sort');
     },
-    loadNewCategory: function(){
+    loadNewSearch: function(){
         
         this.productList = [];
         this.count = 0;
         this.loading = false;
         this.isNoDisPlay = 0;
-        this.filter_category = [];
         this.filter_info = [];
         this.filter_price = [];
         this.refine_by_info = [];
-        this.query_sort = [];
-        this.sortColumn = '';
+        //this.sortColumn = '';
         this.filterAttrs = {};
         this.filterPrice = '';
-        this.fetchCategory();
+        this.fetchSearch();
         //$.closeModal(".popup");
     },
     clearFilterAttr: function(attr,val,$event){
@@ -314,7 +259,7 @@ export default {
         }
         this.refine_by_info = [];
         $.closeModal(".popup-filter");
-        this.fetchCategory();
+        this.fetchSearch();
     },
     changeFilterAttr: function(attr,val,selected,$event){
         $.closeModal(".popup-filter");
@@ -328,7 +273,7 @@ export default {
             delete this.filterAttrs[attr];
         }
         this.refine_by_info = [];
-        this.fetchCategory();
+        this.fetchSearch();
         
     },
     changeFilterPrice: function(priceColumn,selected,e){
@@ -343,30 +288,12 @@ export default {
             this.filterPrice = '';
         }
         this.refine_by_info = [];
-        this.fetchCategory();
+        this.fetchSearch();
         $.closeModal(".popup-filter");
         console.log("priceColumn: " +priceColumn);
     },
-    changeSort: function(sortColumn,e){
-        //var currentElement = $(e.srcElement);
-        //if (currentElement.hasClass("checked")) {
-        //    currentElement.removeClass("checked");
-        //} else {
-        //    currentElement.addClass("checked");
-        //}
-        
-        
-        this.productList = [];
-        this.count = 0;
-        this.loading = false;
-        this.isNoDisPlay = 0;
-        this.sortColumn = sortColumn;
-        //this.filterAttrs= {color:"red"};
-        this.fetchCategory();
-        $.closeModal(".popup-sort");
-        console.log("sortColumn: " +sortColumn);
-    },
-    getCategoryInfo: function(){
+    
+    getSearchInfo: function(){
         
     },
     fetchProduct() {
@@ -374,11 +301,11 @@ export default {
             console.log("fetch product");
             this.loading = true;
             var self = this; 
-            var category_id = this.$route.params.category_id;
+            var search_text = this.$route.params.searchtext;
             var filterAttrs = JSON.stringify(self.filterAttrs);
             $.showIndicator();
             $.ajax({
-                url: self.getCategoryProductUrl,
+                url: self.searchProductUrl,
                 async: true,
                 timeout: 8000,
                 dataType: 'json', 
@@ -390,9 +317,9 @@ export default {
                 //    }
                 //},
                 data:{ 
-                    category_id:category_id,
+                    q:search_text,
                     p: self.count + 1,
-                    sortColumn: self.sortColumn,
+                    //sortColumn: self.sortColumn,
                     filterAttrs: filterAttrs,
                     price: self.filterPrice
                 },
@@ -425,34 +352,32 @@ export default {
             });
         }
     },
-    fetchCategory() {
+    fetchSearch() {
         var self = this; 
-        var category_id = this.$route.params.category_id;
+        var search_text = this.$route.params.searchtext;
         var filterAttrs = JSON.stringify(self.filterAttrs);
         $.showIndicator();
         $.ajax({
-            url: self.getCategoryUrl,
+            url: self.searchUrl,
             async: true,
             timeout: 8000,
             dataType: 'json', 
             type: 'get',
             headers: self.getRequestHeader(),
             data:{ 
-                category_id:category_id,
-                sortColumn: self.sortColumn,
+                q:search_text,
+                //sortColumn: self.sortColumn,
                 filterAttrs: filterAttrs,
                 price: self.filterPrice
             },
             success:function(data, textStatus,request){
                 if(data.code == 200){
                     console.log('fetch category success');
-                    self.categoryInfo = data.content;
+                    self.searchInfo = data.content;
                     if(data.content.refine_by_info.length > 0){
                         self.refine_by_info = data.content.refine_by_info;
                     }
-                    if(data.content.filter_category){
-                        self.filter_category = data.content.filter_category;
-                    }
+                    
                     if(data.content.filter_info){
                         self.filter_info = data.content.filter_info;
                     }
@@ -460,12 +385,11 @@ export default {
                         self.filter_price = data.content.filter_price;
                     }
                     
-                    if(data.content.query_item){
-                        self.query_sort = data.content.query_item.frontSort;
-                    }
                     var products = data.content.products;
                     if(products.length > 0){
+                        
                         for(var x in products){
+                            console.log('get search product');
                             self.productList.push(products[x]);
                         }
                         self.count++;

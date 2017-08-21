@@ -3,12 +3,12 @@
     <div class="panel panel-left panel-reveal theme-dark" id='panel-left-menu'>
         <div class="content-block">
             <div class="searchbar row">
-                <form method="get" name="searchFrom" class="js_topSeachForm" action="http://fecshop.apphtml5.fancyecommerce.com/catalogsearch/index">
+                <form @submit.prevent="searchSubmit" class="js_topSeachForm" >
                     <div class="search-input">
                       <label class="icon icon-search" for="search"></label>
-                      <input name="q" type="search" id="search" placeholder="Products keyword" value="" />
+                      <input v-model="searchText" type="search" id="search" placeholder="Products keyword" value="" />
                     </div>
-                </form>
+                </div>
             </div>
             <div class="category_menu">
                 <menu-item v-bind:menuList.sync="menuList"></menu-item> 
@@ -33,7 +33,8 @@ export default {
     },
     data () {
         return {
-            menuList:{},     
+            menuList:{},  
+            searchText:'',
             getMenuUrl: root + '/general/base/menu'    //存数据接口               
         }
     },
@@ -41,6 +42,10 @@ export default {
         this.getMenu() ;
     },
     methods: { 
+        searchSubmit: function(){
+            $.closePanel("#panel-left-menu");
+            this.$router.push('/search/'+this.searchText);
+        },
         getMenu: function(){
             var self = this; 
             $.ajax({

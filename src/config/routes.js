@@ -15,6 +15,7 @@ import appCmsPageBody from '../views/body/cms/Page.vue'
 
 
 import appCategoryBody from '../views/body/category/Index.vue' //
+import appSearchBody from '../views/body/search/Index.vue' 
 import appProductBody from '../views/body/product/Index.vue' //
 import appProductReviewAddBody from '../views/body/product/review/Add.vue' 
 import appProductReviewListBody from '../views/body/product/review/List.vue'
@@ -60,6 +61,17 @@ export default [
     components: {
       header: appHeader,
       body: appCategoryBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  
+  {
+    path: '/search/:searchtext', // 分类
+    components: {
+      header: appHeader,
+      body: appSearchBody,
       footer: appFooter,
       leftmenu: leftMenu,
       leftaccount: leftAccount

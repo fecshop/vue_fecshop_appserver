@@ -3,9 +3,11 @@
   <div class="panel panel-left panel-reveal theme-dark" id='panel-left-account'>
 	<div class="content-block">
       <div class="searchbar row">
-        <div class="search-input">
-          <label class="icon icon-search" for="search"></label>
-          <input type="search" id='search' placeholder='输入关键字...'/>
+        <form @submit.prevent="searchSubmit" class="js_topSeachForm" >
+            <div class="search-input">
+              <label class="icon icon-search" for="search"></label>
+              <input v-model="searchText" type="search" id="search" placeholder="Products keyword" value="" />
+            </div>
         </div>
       </div>
 	  <div class="category_menu list-block">
@@ -105,7 +107,13 @@
 export default {
   data () {
     return {
-    
+        searchText:'',
+    }
+  },
+  methods: { 
+    searchSubmit: function(){
+        $.closePanel("#panel-left-account");
+        this.$router.push('/search/'+this.searchText);
     }
   },
   components: {
