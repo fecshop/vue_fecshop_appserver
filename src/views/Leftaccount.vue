@@ -8,7 +8,7 @@
               <label class="icon icon-search" for="search"></label>
               <input v-model="searchText" type="search" id="search" placeholder="Products keyword" value="" />
             </div>
-        </div>
+        </form>
       </div>
 	  <div class="category_menu list-block">
           <ul>

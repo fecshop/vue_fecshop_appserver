@@ -10,6 +10,7 @@
                     </div> 
                     
                     <div class="sort_filter">
+                        <a href="javascript:void(0)" @click="opensort" class="category-open open-sort">Sort &nbsp;<span class="icon icon-caret"></span></a>
                         <a href="javascript:void(0)" @click="openfilter"   class="category-open open-filter">Filter &nbsp;<span class="icon icon-caret"></span></a>
                         <div class="clear"></div>
                     </div>
