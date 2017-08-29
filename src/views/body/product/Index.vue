@@ -26,7 +26,7 @@
                         <div class="rbc_cold">
                             <span>
                                 <span class="average_rating">Average rating:</span>
-                                <span class="review_star review_star_{{product.reviw_rate_star_average}}" style="font-weight:bold;" itemprop="average"></span>  
+                                <span :class="'review_star review_star_'+product.reviw_rate_star_average" style="font-weight:bold;" itemprop="average"></span>  
                                 
                                 <a external rel="nofollow" href="<?= Yii::$service->url->getUrl('catalog/reviewproduct/lists',['spu'=>$spu,'_id'=>$_id]); ?>">
                                     (<span itemprop="count">{{product.review_count}} reviews</span>)
@@ -406,7 +406,7 @@ export default {
             $.ajax({
                 url: self.getProductUrl,
                 async: true,
-                timeout: 8000,
+                timeout: 120000,
                 dataType: 'json', 
                 type: 'get',
                 headers: self.getRequestHeader(),

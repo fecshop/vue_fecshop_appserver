@@ -46,7 +46,7 @@ export default {
             $.ajax({
                 url: self.getHomeContentUrl,
                 async: true,
-                timeout: 8000,
+                timeout: 120000,
                 dataType: 'json', 
                 type: 'get',
                 headers: self.getRequestHeader(),

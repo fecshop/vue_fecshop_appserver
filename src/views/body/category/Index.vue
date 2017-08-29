@@ -381,7 +381,7 @@ export default {
             $.ajax({
                 url: self.getCategoryProductUrl,
                 async: true,
-                timeout: 8000,
+                timeout: 120000,
                 dataType: 'json', 
                 type: 'get',
                 headers: self.getRequestHeader(),
@@ -434,7 +434,7 @@ export default {
         $.ajax({
             url: self.getCategoryUrl,
             async: true,
-            timeout: 8000,
+            timeout: 120000,
             dataType: 'json', 
             type: 'get',
             headers: self.getRequestHeader(),
