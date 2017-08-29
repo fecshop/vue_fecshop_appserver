@@ -44,11 +44,11 @@
                     <div class="price_info" v-if="product.price_info && product.price_info.special_price">
                         <div class="special_price special_active">
                             {{product.price_info.special_price.symbol}}
-                            {{product.price_info.special_price.value}}
+                            {{productSpecialPrice}}
                         </div>
                         <div  class="price special_active">
                             {{product.price_info.price.symbol}}
-                            {{product.price_info.price.value}}
+                            {{productPrice}}
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -140,12 +140,30 @@ export default {
             product_id: '',
             thumbnail_img:[],
             product: {},
-            custom_option:[],       // 产品的custom_option属性
-            custom_option_attr:{},  // 处理后的 custom_option 数组
-            custom_option_show_as_img:'', // 那个属性 当做图片显示
-            custom_option_selected_attr:{},       // 选中的属性，以及对应的值
-            custom_option_active_attr:{},         // active的属性，以及对应的值
+            
+            custom_option:[],                   // 产品的custom_option属性，传递过来的custom option，img和price都已经处理。
+            custom_option_attr:{},              // 处理后的 custom_option 数组，这个数组用于生成显示
+            custom_option_show_as_img:'',       // 那个属性 当做图片显示
+            custom_option_selected_attr:{},     // 选中的属性，以及对应的值
+            custom_option_active_attr:{},       // active的属性，以及对应的值（active代表有相应的库存）
+            custom_option_all_select:0,         // 当把所有的custom option选择完成后(譬如颜色尺码都选择完成)，这个值将会被设置成1。
+            custom_option_add_price:0,          // 当把所有的custom option选择完成后，这个custom option 附加或减少的价格值，这个值用来计算这个custom option对应的最终价格
+            custom_option_selected_sku:'',      // 当把所有的custom option选择完成后，这个将会设置当前选择的custom option sku。
             getProductUrl: root + '/catalog/product/index' 
+        }
+    },
+    computed: {
+        productSpecialPrice: function(){
+            if(this.product.price_info && this.product.price_info.special_price){
+                var specialPrice = this.product.price_info.special_price.value; 
+                return specialPrice + this.custom_option_add_price;
+            }
+        },
+        productPrice: function(){
+            if(this.product.price_info && this.product.price_info.price){
+                var price = this.product.price_info.price.value; 
+                return price + this.custom_option_add_price;
+            }
         }
     },
     created: function(){
@@ -156,12 +174,38 @@ export default {
         '$route': 'loadNewProduct',
     },
     mounted: function(){
-    
+        
     },
     methods:{
+        isActiveSelectCustomOption(selectAttr,selectVal){
+            var selected_attr = this.custom_option_selected_attr;
+            selected_attr[selectAttr] = selectVal;
+            if(this.custom_option){
+                for(var x in this.custom_option){
+                    if(x){
+                        var active = 1;
+                        var option = this.custom_option[x];
+                        for(var attr in selected_attr){
+                            var val = selected_attr[attr];
+                            if(option[attr] != val){
+                                active = 0;
+                                break;
+                            }
+                        }
+                        if(active == 1){
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        },
         selectCustomOption: function(selectAttr,selectVal){
             console.log('selectAttr:'+selectAttr);
             console.log('selectVal:'+selectVal);
+            if(!this.isActiveSelectCustomOption(selectAttr,selectVal)){
+                return;
+            }
             this.custom_option_selected_attr[selectAttr] = selectVal;
             console.log(this.custom_option_selected_attr);
             var active_attr = {};
@@ -303,11 +347,47 @@ export default {
                         }
                     }
                 }
+                var all_select = 1;
+                for(attr in co_arr){
+                    if(!this.custom_option_selected_attr[attr]){
+                        all_select = 0;
+                        break;
+                    }
+                }
+                this.custom_option_all_select = all_select;
+                console.log('^^^^^^^^^^^^^^:'+all_select);
+                this.custom_option_attr = co_arr;
+                this.reflushPricce();
+                console.log(this.custom_option_attr);
+                console.log('66666666');
             }
             
-            this.custom_option_attr = co_arr;
-            console.log(this.custom_option_attr);
-            console.log('66666666');
+        },
+        reflushPricce: function(){
+            var selected_attr = this.custom_option_selected_attr;
+            var custom_option = this.custom_option;
+            if(this.custom_option_all_select && selected_attr && custom_option){
+                
+                for(var x in custom_option){
+                    if(x){
+                        var option = custom_option[x];
+                        var same = 1;
+                        for(var attr in selected_attr){
+                            var val = selected_attr[attr];
+                            if(option[attr] != val){
+                                same = 0;
+                            }
+                        }
+                        if(same == 1){
+                            this.custom_option_add_price = option['price'];
+                            this.custom_option_selected_sku = option['sku'];
+                            console.log('^^^^^^^^priceee:'+this.custom_option_add_price);
+                            console.log('^^^^^^^^skuuuuu:'+this.custom_option_selected_sku);
+                            return;
+                        }
+                    }
+                }   
+            }
         },
         goToOtherProduct: function(url){
             if(url){
