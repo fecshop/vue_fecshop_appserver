@@ -1,6 +1,6 @@
 # vue_fecshop_appserver
 
-开发演示地址：http://120.24.37.249:8080/#/
+开发演示地址：http://demo.fancyecommerce.com/
 
 目前还在开发中...
 
