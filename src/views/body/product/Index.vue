@@ -123,24 +123,220 @@
                                 </template>
                             </div>
                         </div>
+                        
+                        <div class="product_qty pg">
+                            <div class="label">Qty:</div>
+                            <div class="rg">
+                                <select name="qty" class="qty">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                  </select>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div v-if="tier_price.length" class="tier_price_info">
+                            
+                            <div class="label">Wholesale Prices</div>
+                            <table>
+                                <template v-for="(t_item ,t_index) in tier_price">
+                                    <tr>
+                                        <td v-for="(t_item_one ,t_index_one) in t_item">{{t_item_one}}</td>
+                                    </tr>
+                                </template>
+                            </table>
+                        </div>
+                        <div class="addtocart">
+                            <a external href="javascript:void(0)" id="js_registBtn" class="button button-fill button-success redBtn addProductToCart">
+                                <em><span><i></i>Add To Cart</span></em>
+                            </a>
+                            
+                            <a external href="<?= Yii::$service->url->getUrl('catalog/favoriteproduct/add',['product_id'=>$_id]); ?>" id="js_registBtn" class="button button-fill button-success redBtn addProductToFavo">
+                                <em><span><i></i>Add to Favorites</span></em>
+                            </a>
+                            
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+            
+            <div class="clear"></div>
+            <div class="product_description_info">
+                <div class="buttons-tab">
+                    <a href="#tab1" class="tab-link active button">Description</a>
+                    <a href="#tab2" class="tab-link button">Reviews</a>
+                    <a href="#tab3" class="tab-link button">Shipping & Payment</a>
+                </div>
+                <div class="content-block">
+                    <div class="tabs">
+                      <div id="tab1" class="tab active">
+                        <div class="content-block">
+                            <div class="text-description" style="">
+                                <table>
+                                    <tr v-for="(t_item ,t_index) in groupAttrArr">
+                                        <td>{{t_index}}</td>
+                                        <td>{{t_item}}</td>
+                                    </tr>
+                                </table>
+                                <br/>
+                                <div v-html="product.description" >
+                                </div>
+                                
+                                <div v-if="image_detail.length" class="img-section">
+                                    <template v-for="(t_item ,t_index) in image_detail">
+                                        <br/>
+                                        <img class="lazy" :src="t_item" />
+                                    </template>   
+                                </div>
+                            </div>  
+                        </div>
+                      </div>
+                      <div id="tab2" class="tab">
+                        <div class="content-block">
+                            <div class="text-reviews" id="text-reviews" style="">
+                                <div class="product-Reviews">
+                                    <div id="pic_list_2" class="scroll_horizontal">
+                                        <div class="clear"></div>
+                                        <div class="box">
+                                            <div v-if="productReview && productReview.coll" class="product-Reviews_top">
+                                                <template  v-for="(item_one ,t_index) in productReview.coll">     
+                                                    <div class="card">
+                                                        <div class="fec-card-header">
+                                                            {{item_one.summary}}
+                                                        </div>
+                                                        <div class="fec-card-content">
+                                                            <div class="fec-card-content-inner">
+                                                                <div class="review-content">
+                                                                    {{item_one.review_content}}
+                                                                </div>
+                                                                <div class="moderation">
+                                                                    {{item_one.review_content}}
+                                                                
+                                                                    <div v-if="item_one.status == 10 ">
+                                                                        Your Review is awaiting moderation...
+                                                                    </div>
+                                                                    
+                                                                    <div v-if="item_one.status == 2 ">
+                                                                        Your Review is refused...
+                                                                    </div>
+                                                                </div>
+                                                                <div class="review_list_remark">
+                                                                    <p>By{{item_one.name}}</p>
+                                                                    <span>{{item_one.review_date}}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fec-card-footer">
+                                                            <a href="#" :class=" 'review_star review_star_'+ item_one.rate_star" onclick="javascript:return false;"></a>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                            <div class="clear"></div>
+                                            
+                                            <p class="buttons-row">
+                                                <a external href="<?= Yii::$service->url->getUrl('catalog/reviewproduct/add',['spu'=>$spu,'_id'=>$_id]); ?>" class="button button-round">
+                                                    Add Review
+                                                </a>
+                                                <a external href="<?= Yii::$service->url->getUrl('catalog/reviewproduct/lists',['spu'=>$spu,'_id'=>$_id]); ?>" class="button button-round">
+                                                    View  All Review({{productReview.review_count}}) 
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                      </div>
+                      <div id="tab3" class="tab">
+                        <div class="content-block">
+                            <div class="text-questions" style="">
+                                <div class="scroll_left">
+                                    <a href="">Payment Methods:</a>
+                                </div>
+                                <p>FECSHOP.com accepts PayPal, Credit Card, Western Union and Wire Transfer as secure payment methods:</p>
+
+                                <p>Global:</p>
+
+                                <p>1. PayPal</p>
+
+                                <p><img alt="" height="96" src="//img.appfront.fancyecommerce.com/images/paypal48.jpg" width="300"></p>
+
+                                <p>1) Login To Your Account or use Credit Card Express.'); ?><br>
+                                2) Enter your Card Details, the order will be shipped to your PayPal address. And click "Submit".'); ?><br>
+                                3) Your Payment will be processed and a receipt will be sent to your email inbox.</p>
+
+                                <p>2. Credit Card</p>
+
+                                <p><img alt="" height="40" src="//img.appfront.fancyecommerce.com/images/creditcard48.jpg" width="554"></p>
+
+                                <p>	1) Choose your shipping address OR create a new one.'); ?><br>
+                                    2) Enter your Card Details and click "Submit".'); ?><br>
+                                    3) Your Payment will be processed and a receipt will be sent to your email inbox.
+                                </p>
+                            </div>  
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>
-            
+            <div class="buy_also_buy_cer">
+                <div class="buy_also_buy" v-if="buy_also_buy" >
+                    <div class="scroll_left">
+                        <a href="">Customers Who Bought This Item Also Bought</a>
+                    </div>
+                    <div class="scrollBox">	
+                        <div class="viewport" style="overflow: hidden; position: relative;">
+                            <div id="owl-buy-also-buy" class="owl-carousel">	
+                                <v-product :productList="buy_also_buy"></v-product>	
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
 </template>
 <script>
+import showProduct from '../home/body/Product.vue'
 var root = process.env.API_ROOT;
 
 export default {
-    components:{},
+    components: {
+        'v-product': showProduct
+    },
     data () {
         return {
             product_id: '',
             thumbnail_img:[],
             product: {},
-            
+            productReview:[],
+            tier_price:[],
+            buy_also_buy:[],
+            image_detail:[],
             custom_option:[],                   // 产品的custom_option属性，传递过来的custom option，img和price都已经处理。
             custom_option_attr:{},              // 处理后的 custom_option 数组，这个数组用于生成显示
             custom_option_show_as_img:'',       // 那个属性 当做图片显示
@@ -419,6 +615,12 @@ export default {
                         console.log('fetch product success');
                         var product = data.content.product;
                         self.product = product;
+                        self.tier_price = product.tier_price;
+                        self.buy_also_buy = product.buy_also_buy;
+                        
+                        self.image_detail = product.image_detail;
+                        self.productReview = product.productReview;
+                        
                         self.custom_option = product.custom_option;
                         self.thumbnail_img = product.thumbnail_img;
                         self.custom_option_show_as_img = product.custom_option_showImg_attr;
