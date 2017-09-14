@@ -127,7 +127,7 @@
                         <div class="product_qty pg">
                             <div class="label">Qty:</div>
                             <div class="rg">
-                                <select name="qty" class="qty">
+                                <select v-model="product_select_qty" name="qty" class="qty">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -164,11 +164,11 @@
                             </table>
                         </div>
                         <div class="addtocart">
-                            <a external href="javascript:void(0)" id="js_registBtn" class="button button-fill button-success redBtn addProductToCart">
+                            <a @click="addProductToCart()" external href="javascript:void(0)" id="js_registBtn" class="button button-fill button-success redBtn addProductToCart">
                                 <em><span><i></i>Add To Cart</span></em>
                             </a>
                             
-                            <a external href="<?= Yii::$service->url->getUrl('catalog/favoriteproduct/add',['product_id'=>$_id]); ?>" id="js_registBtn" class="button button-fill button-success redBtn addProductToFavo">
+                            <a @click="addProductFavorite()"   external href="javascript:void(0)" id="js_registBtn" class="button button-fill button-success redBtn addProductToFavo">
                                 <em><span><i></i>Add to Favorites</span></em>
                             </a>
                             
@@ -330,6 +330,7 @@ export default {
     },
     data () {
         return {
+            product_select_qty:1,
             product_id: '',
             thumbnail_img:[],
             product: {},
@@ -345,7 +346,11 @@ export default {
             custom_option_all_select:0,         // 当把所有的custom option选择完成后(譬如颜色尺码都选择完成)，这个值将会被设置成1。
             custom_option_add_price:0,          // 当把所有的custom option选择完成后，这个custom option 附加或减少的价格值，这个值用来计算这个custom option对应的最终价格
             custom_option_selected_sku:'',      // 当把所有的custom option选择完成后，这个将会设置当前选择的custom option sku。
-            getProductUrl: root + '/catalog/product/index' 
+            getProductUrl: root + '/catalog/product/index' ,
+            addProductToCartUrl: root + '/checkout/cart/add',
+            addProductFavoriteUrl: root + '/catalog/product/favorite'
+            
+            
         }
     },
     computed: {
@@ -584,6 +589,109 @@ export default {
                     }
                 }   
             }
+        },
+        addProductFavorite: function(){
+            console.log('favorite product');
+            self = this;
+            var product_id = self.product._id;
+            $.showIndicator();
+            $.ajax({
+                async:true,
+                timeout: 120000,
+                dataType: 'json', 
+                type:'get',
+                data: { 
+                    product_id:product_id
+                },
+                headers: self.getRequestHeader(),
+                url:self.addProductFavoriteUrl,
+                success:function(data, textStatus,request){ 
+                    console.log('favorite product success');
+                    //var content = data.content;
+                    if(data.code == 200){
+                        $.toast("Favorite Success");
+                    }else if(data.code == 400){
+                        //$.toast("You must login your account before favorite product");
+                        // 用户登录成功后，从这里取出来，进行跳转
+                        window.localStorage.setItem('loginSuccessRedirect','/catalog/product/'+product_id);
+                        self.$router.push('/customer/account/login');
+                    }else{
+                        $.toast("Favorite Fail");
+                    }
+                    self.saveReponseHeader(request); 
+                    $.hideIndicator();
+                },
+                error:function (XMLHttpRequest, textStatus, errorThrown){
+                    console.log('Favorite Fail');
+                    $.hideIndicator();
+                }
+            });
+            
+        },
+        addProductToCart: function(){
+            self = this;
+            console.log('addProductToCart');
+            var selected_attr = self.custom_option_selected_attr;
+            var custom_option = self.custom_option;
+            if(custom_option){
+                if(!self.custom_option_all_select){
+                    console.log('you must chose your custom option');
+                    for(var attr in self.custom_option_attr){
+                        console.log(selected_attr[attr]);
+                        if(!selected_attr[attr]){
+                            alert('you must chosen '+attr);
+                            return;
+                        }
+                
+                    }
+                }
+            }
+            // selected_attr
+            var sku = self.product.sku;
+            var qty = self.product_select_qty;
+            console.log('sku:' + sku);
+            console.log('qty:' + qty);
+            console.log(selected_attr);
+            console.log(self.product._id);
+            var custom_option_json = JSON.stringify(custom_option);
+            var sendData = {};
+            sendData['custom_option'] 	= custom_option_json;
+            sendData['product_id'] 	= self.product._id;
+            sendData['qty'] 			= qty;
+            $.showIndicator();
+            $.ajax({
+                async:true,
+                timeout: 120000,
+                dataType: 'json', 
+                type:'get',
+                data: sendData,
+                headers: self.getRequestHeader(),
+                url:self.addProductToCartUrl,
+                success:function(data, textStatus,request){ 
+                    var content = data.content;
+                    if(data.code == 200){
+                        if(content.status == 'success'){
+                            console.log('add to cart success');
+                            //var items_count = content.items_count;
+                            self.$router.push('/checkout/cart');
+                        }else{
+                            console.log('add to cart fail');
+                            var content = content.content;
+                            alert(content);
+                        }
+                    }else{
+                        console.log('add to cart fail');
+                        var content = content.content;
+                        alert(content);
+                    }
+                    self.saveReponseHeader(request); 
+                    $.hideIndicator();
+                },
+                error:function (XMLHttpRequest, textStatus, errorThrown){
+                    console.log('add to cart error');
+                    $.hideIndicator();
+                }
+            });
         },
         goToOtherProduct: function(url){
             if(url){

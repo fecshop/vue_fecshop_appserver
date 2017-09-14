@@ -76,7 +76,21 @@ Vue.prototype.saveReponseHeader = function (request){
         }
     }
     
+    var access_token = request.getResponseHeader('access-token');
+    if(access_token){
+        var local_access_token = window.localStorage.getItem("access-token");
+        if(local_access_token != access_token){
+            window.localStorage.setItem("access-token",access_token);
+            console.log('save header [access-token] ######' + access_token);
+        }
+    }
+    
+    
+    
 }
+
+
+
 Vue.prototype.getRequestHeader = function (){
     var headers = {};
     var fecshop_uuid = window.localStorage.getItem("fecshop-uuid");
@@ -94,6 +108,11 @@ Vue.prototype.getRequestHeader = function (){
     if(fecshop_currency){
         console.log('fecshop currency ######' + fecshop_currency);
         headers['fecshop-currency'] = fecshop_currency;
+    }
+    var access_token = window.localStorage.getItem("access-token");
+    if(access_token){
+        console.log('fecshop access-token ######' + access_token);
+        headers['access-token'] = access_token;
     }
     return headers;
     //console.log('get header ####');
