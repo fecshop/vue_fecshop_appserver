@@ -3,7 +3,7 @@
 	<a class="icon icon-menu pull-left open-panel" data-panel="#panel-left-menu"></a>
 	<router-link to="/" >
       <h1 class='title header_logo'>
-		<img class="lazy" src="//img.appfront.fancyecommerce.com//custom/logo.png"  />
+		<img class="lazy" src="//img.appfront.fancyecommerce.com/custom/logo.png"  />
       </h1>
     </router-link>
 	<div class="pull-right">

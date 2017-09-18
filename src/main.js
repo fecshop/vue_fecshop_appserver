@@ -78,10 +78,13 @@ Vue.prototype.saveReponseHeader = function (request){
     
     var access_token = request.getResponseHeader('access-token');
     if(access_token){
+        console.log('save header [access-token1]' );
         var local_access_token = window.localStorage.getItem("access-token");
+        console.log('save header [access-token2]' );
         if(local_access_token != access_token){
+            console.log('save header [access-token3] ######' + access_token);
             window.localStorage.setItem("access-token",access_token);
-            console.log('save header [access-token] ######' + access_token);
+            
         }
     }
     
