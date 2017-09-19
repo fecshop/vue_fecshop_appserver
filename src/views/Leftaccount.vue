@@ -15,82 +15,86 @@
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">
-                  <router-link  to="/" class="nav_t">
-                    Home
-                  </router-link>
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/')"   class="nav_t">
+                        Home
+                    </a>
                 </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">
-                  <router-link  to="/customer/account/index" class="nav_t">
-                    Account
-                  </router-link>
-                
+                  
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/customer/account/index')"   class="nav_t">
+                        Account
+                    </a>
                 </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">
-                  <router-link  to="/checkout/cart" class="nav_t">
-                    Shopping Cart
-                  </router-link>
+                  
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/checkout/cart')"   class="nav_t">
+                        Shopping Cart
+                    </a>
                 </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">
-                  <router-link  to="/customer/order" class="nav_t">
-                    My Order
-                  </router-link>
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/customer/order')"   class="nav_t">
+                        My Order
+                    </a>
                 </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">
-                  <router-link  to="/customer/productfavorite" class="nav_t">
-                    My Favorite
-                  </router-link>
+                  
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/customer/productfavorite')"   class="nav_t">
+                        My Favorite
+                    </a>
                 </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">
-                  <router-link  to="/about-us" class="nav_t">
-                    About Us
-                  </router-link>
+                  
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/about-us')"   class="nav_t">
+                        About Us
+                    </a>
                 </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">
-                  <router-link  to="/customer/contacts" class="nav_t">
-                    Contact us
-                  </router-link>
+                 
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/customer/contacts')"   class="nav_t">
+                        Contact us
+                    </a>
                 </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">
-                  <router-link  to="/privacy-policy" class="nav_t">
-                    Privacy Policy
-                  </router-link>
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/privacy-policy')"   class="nav_t">
+                        Privacy Policy
+                    </a>
                 </div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">
-                  <router-link  to="/return-policy" class="nav_t">
-                    Return Policy
-                  </router-link>
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/return-policy')"   class="nav_t">
+                        Return Policy
+                    </a>
                 </div>
               </div>
             </li>
@@ -111,6 +115,10 @@ export default {
     }
   },
   methods: { 
+    closePanelAndRedirect: function(url){
+        $.closePanel("#panel-left-account");
+        this.$router.push(url);
+    },
     searchSubmit: function(){
         $.closePanel("#panel-left-account");
         this.$router.push('/search/'+this.searchText);
