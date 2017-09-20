@@ -42,7 +42,7 @@
                             <div class="item-inner">
                                 <div class="item-input">
                                     <input v-model="captcha" placeholder="captcha" type="text" name="editForm[captcha]" value="" size=10 class="login-captcha-input">
-                                    <img class="login-captcha-img"  title="click refresh" :src="captchaFile" align="absbottom" onclick="this.src='<?= Yii::$service->url->getUrl('site/helper/captcha'); ?>?'+Math.random();"></img>
+                                    <img class="login-captcha-img"  title="click refresh" :src="captchaFile" align="absbottom" ></img>
                                     <span @click="reflushCaptcha()" class="icon icon-refresh"></span>
                                 </div>
                             </div>
