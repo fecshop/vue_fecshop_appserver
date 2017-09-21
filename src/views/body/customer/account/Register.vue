@@ -163,6 +163,15 @@ export default {
             if(confirmationPassword != password){
                 msgArr.push('The password and confirmation password must be equal');
             }
+            if(password.length < self.minPassLength || password.length > self.maxPassLength){
+                msgArr.push('The password must be greater than '+self.minPassLength + ', less than ' + self.maxPassLength);
+            }
+            if(firstname.length < self.minNameLength || firstname.length > self.maxNameLength){
+                msgArr.push('The firstname must be greater than '+self.minNameLength + ', less than '+ self.maxNameLength);
+            }
+            if(lastname.length < self.minNameLength || lastname.length > self.maxNameLength){
+                msgArr.push('The lastname must be greater than '+self.minNameLength + ', less than ' + self.maxNameLength);
+            }
             if(msgArr.length > 0){
                 self.errormsg = msgArr.join(",");
                 return;
@@ -186,23 +195,21 @@ export default {
                     var code = data.code;
                     if(code == 200){
                         console.log('account login success');
+                        var redirect = data.redirect;
                         self.saveReponseHeader(request); 
                         $.hideIndicator();
-                        self.$router.push('/customer/account/index');
+                        self.$router.push(redirect);
                     }else if(code == 400){
                         console.log('account has login');
+                        self.errormsg = 'account has logined';
                         self.saveReponseHeader(request); 
                         $.hideIndicator();
-                        self.$router.push('/customer/account/index');
+                        //self.$router.push('/customer/account/index');
                     }else if(code == 401){
-                        msgArr.push('captcha is not right');
-                    }else if(code == 402){
-                        msgArr.push('email or password is not right');
+                        var content = data.content;
+                        self.errormsg = content;
                     }else{
-                        msgArr.push('login error');
-                    }
-                    if(msgArr.length > 0){
-                        self.errormsg = msgArr.join(",");
+                        self.errormsg = 'register account error';
                     }
                     self.saveReponseHeader(request); 
                     $.hideIndicator();
