@@ -130,7 +130,7 @@ export default [
     }
   },
   {
-    path: 'customer/editaccount',  // 用户信息编辑
+    path: '/customer/editaccount',  // 用户信息编辑
     components: {
       header: appHeader,
       body: appCustomerEditaccountBody,
@@ -171,7 +171,7 @@ export default [
   },
   
   {
-    path: 'customer/contacts',  // 联系我们页面
+    path: '/customer/contacts',  // 联系我们页面
     components: {
       header: appHeader,
       body: appCustomerContactsBody,
@@ -183,7 +183,7 @@ export default [
   
   
   {
-    path: 'customer/account/forgotpassword',  // 忘记密码
+    path: '/customer/account/forgotpassword',  // 忘记密码
     components: {
       header: appHeader,
       body: appCustomerAccountForgotpasswordBody,
@@ -194,7 +194,7 @@ export default [
   },
   
    {
-    path: 'customer/account/resetpassword',  // 重置密码
+    path: '/customer/account/resetpassword',  // 重置密码
     components: {
       header: appHeader,
       body: appCustomerAccountResetpasswordBody,
@@ -205,7 +205,7 @@ export default [
   },
   
   {
-    path: 'customer/account/resetpasswordsuccess',  // 重置密码
+    path: '/customer/account/resetpasswordsuccess',  // 重置密码
     components: {
       header: appHeader,
       body: appCustomerAccountResetpasswordSuccessBody,
@@ -250,7 +250,7 @@ export default [
   
   
   {
-    path: 'catalog/reviewproduct/lists',  // 产品评论列表
+    path: '/catalog/reviewproduct/lists',  // 产品评论列表
     components: {
       header: appHeader,
       body: appProductReviewListBody,
@@ -262,7 +262,7 @@ export default [
   
   
   {
-    path: 'payment/success',  // 下单成功页面
+    path: '/payment/success',  // 下单成功页面
     components: {
       header: appHeader,
       body: appPaymentSuccessBody,
@@ -273,7 +273,7 @@ export default [
   },
   
   {
-    path: 'cms/page/:page_id',  // 下单成功页面
+    path: '/cms/page/:page_id',  // 下单成功页面
     components: {
       header: appHeader,
       body: appCmsPageBody,
