@@ -31,6 +31,8 @@ import appCustomerAccountRegisterBody from '../views/body/customer/account/Regis
 import appCustomerOrderBody from '../views/body/customer/Order.vue'
 import appCustomerEditaccountBody from '../views/body/customer/Editaccount.vue'
 import appCustomerAddressBody from '../views/body/customer/Address.vue'
+import appCustomerAddressEditBody from '../views/body/customer/address/Edit.vue'
+
 import appCustomerProductreviewBody from '../views/body/customer/Productreview.vue'
 import appCustomerProductfavoriteBody from '../views/body/customer/Productfavorite.vue'
 import appCustomerContactsBody from '../views/body/customer/Contacts.vue'
@@ -144,6 +146,16 @@ export default [
     components: {
       header: appHeader,
       body: appCustomerAddressBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  {
+    path: '/customer/address/edit/:address_id',  // 用户地址
+    components: {
+      header: appHeader,
+      body: appCustomerAddressEditBody,
       footer: appFooter,
       leftmenu: leftMenu,
       leftaccount: leftAccount

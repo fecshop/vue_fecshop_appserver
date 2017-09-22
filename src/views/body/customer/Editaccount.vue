@@ -281,11 +281,11 @@ export default {
                 },
                 error:function(){
                     $.hideIndicator();
-                    console.log('get get Category info error');
+                    console.log('edit account init page error');
                 }
             });
             
-        },
+        }
     }
 }
 </script>
