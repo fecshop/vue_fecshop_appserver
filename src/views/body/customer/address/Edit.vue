@@ -25,7 +25,7 @@
 		</div>
         <div class="list-block customer-login  customer-register">
             <div class="addressedit" id="form-validate" >
-                <input name="address[address_id]" value="<?= $address_id; ?>" type="hidden">            
+                <input v-model="address._id" name="address[address_id]"  type="hidden">            
                 <ul>
                     <li>
                         <div class="item-content">
@@ -108,7 +108,6 @@
                                         <option  v-for="(stateName,stateCode) in address.stateArr" :value="stateCode">{{stateName}}</option>   
                                     </select>
                                     <input v-if="!address.stateIsSelect" v-model="addressState"  id="state" name="address[state]"  title="State" class="input-text" style="" type="text">
-                                    
                                     
                                 </div>
                             </div>
@@ -201,6 +200,8 @@ export default {
             addressCountry:'',
             addressState:'',
             isDefaultActive:'',
+            changeCountryUrl: root + '/customer/address/changecountry',
+            saveAddressUrl: root + '/customer/address/save',
             pageInitUrl: root + '/customer/address/edit' 
         }
     },
@@ -208,16 +209,15 @@ export default {
         this.pageInit();
     },
     methods: {
-        changeCountry: function(){
-            var country = self.addressCountry;
-            // 更改国家后，进行state的改变
-        },
+        
         pageInit: function(){
             var self = this;
             var address_id = this.$route.params.address_id;
             var dataParam = {};
             if(address_id && address_id != 'new'){
                 dataParam.address_id = address_id;
+            }else{
+                dataParam.address_id = '';
             }
             self.errormsg = '';
             self.correctmsg = '';
@@ -242,6 +242,7 @@ export default {
                         self.addressState = self.address.state;
                         self.isDefaultActive = (self.address.is_default == 1) ? 1 : 0;
                     }
+                    console.log('hideIndicator');
                     $.hideIndicator();
                 },
                 error:function(){
@@ -251,10 +252,123 @@ export default {
             });
             
         },
-        submit_address: function(){
+        isEmail: function(strEmail) {
+            if (strEmail.search(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/) != -1){
+                return true;
+            }else{
+                return false;
+            }
             
         },
-        changeAddressCountry: function(){
+        submit_address: function(){
+            var self = this;
+            var address_id = this.$route.params.address_id;
+            var first_name = self.address.first_name;
+            var last_name = self.address.last_name;
+            var email = self.address.email;
+            var telephone = self.address.telephone;
+            var addressCountry = self.addressCountry;
+            var addressState = self.addressState;
+            var city = self.address.city;
+            var street1 = self.address.street1;
+            var street2 = self.address.street2;
+            var zip = self.address.zip;
+            var isDefaultActive = self.isDefaultActive;
+            
+            if(!address_id){ 
+                self.correctmsg = 'address id is empty'; 
+                return; 
+            }else{
+                if('new' == address_id){
+                    address_id = '';
+                }
+            }
+            if(!first_name){ self.errormsg = 'first_name can not empty'; return;}
+            if(!last_name){ self.errormsg = 'last_name can not empty'; return;}
+            if(!email){ self.errormsg = 'email can not empty'; return;}
+            if(!self.isEmail(email)){
+                self.errormsg = 'email format is error';
+                return;
+            }
+
+            if(!telephone){ self.errormsg = 'telephone can not empty'; return;}
+            if(!addressCountry){ self.errormsg = 'addressCountry can not empty'; return;}
+            if(!addressState){ self.errormsg = 'addressState can not empty'; return;}
+            if(!city){ self.errormsg = 'city can not empty'; return;}
+            if(!street1){ self.errormsg = 'street1 can not empty'; return;}
+            if(!zip){ self.errormsg = 'zip can not empty'; return;}
+            
+            var dataParam = {
+                address_id:address_id,
+                first_name:first_name,
+                last_name:last_name,
+                email:email,
+                telephone:telephone,
+                addressCountry:addressCountry,
+                addressState:addressState,
+                city:city,
+                street1:street1,
+                street2:street2,
+                isDefaultActive:isDefaultActive,
+                zip:zip
+            };
+            
+            $.showIndicator();
+            $.ajax({
+                url: self.saveAddressUrl,
+                async: true,
+                timeout: 120000,
+                type: 'post',
+                headers: self.getRequestHeader(),
+                data:dataParam,
+                success:function(data, textStatus,request){
+                    if(data.code == 400 && data.status == "access token error"){
+                        $.hideIndicator();
+                        self.$router.push('/customer/account/login');
+                        return;
+                    }else if(data.code == 200){
+                        self.$router.push('/customer/address');
+                    }
+                    $.hideIndicator();
+                },
+                error:function(){
+                    $.hideIndicator();
+                    console.log('get address list page init error');
+                }
+            });
+        },
+        changeCountry: function(){
+            var self = this;
+			var ajaxurl = self.changeCountryUrl;
+			var country = self.addressCountry;
+            if(country){
+                $.showIndicator();
+                $.ajax({
+                    async:false,
+                    timeout: 8000,
+                    dataType: 'json', 
+                    type:'get',
+                    headers: self.getRequestHeader(),
+                    data: {
+                        'country':country,
+                    },
+                    url:ajaxurl,
+                    success:function(data, textStatus,request){ 
+                        if(data.code == 200){
+                            self.address.stateArr = data.stateArr;
+                            self.address.stateIsSelect = data.stateIsSelect;
+                            if(data.stateIsSelect == 0){
+                                self.addressState = '';
+                            }
+                        }
+                        self.saveReponseHeader(request); 
+                        $.hideIndicator();
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown){
+                        $.hideIndicator();    
+                    }
+                });
+            }
 			
 		}
     }

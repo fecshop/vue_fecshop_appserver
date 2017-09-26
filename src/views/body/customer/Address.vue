@@ -55,7 +55,7 @@
                             </tbody>
                         </table>
                         <div class="add_new_address">
-                            <router-link to="/customer/address/edit"  class="button  button-light">
+                            <router-link to="/customer/address/edit/new"  class="button  button-light">
                                 Add New Address
                             </router-link>
                         </div>
