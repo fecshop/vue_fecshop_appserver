@@ -1037,7 +1037,9 @@ ul#billing_address_list  li input , ul#billing_address_list  li select{
     padding: 0 0.5rem;
 }
 
-
+.review_description_centen .special_active.price{
+    text-decoration: line-through;
+}
 
 
 

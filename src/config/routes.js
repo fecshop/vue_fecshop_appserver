@@ -29,6 +29,7 @@ import appCustomerAccountLoginBody from '../views/body/customer/account/Login.vu
 import appCustomerAccountRegisterBody from '../views/body/customer/account/Register.vue'
 
 import appCustomerOrderBody from '../views/body/customer/Order.vue'
+import appCustomerOrderViewBody from '../views/body/customer/order/View.vue'
 import appCustomerEditaccountBody from '../views/body/customer/Editaccount.vue'
 import appCustomerAddressBody from '../views/body/customer/Address.vue'
 import appCustomerAddressEditBody from '../views/body/customer/address/Edit.vue'
@@ -126,6 +127,16 @@ export default [
     components: {
       header: appHeader,
       body: appCustomerOrderBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  {
+    path: '/customer/order/view/:order_id',  // 用户订单
+    components: {
+      header: appHeader,
+      body: appCustomerOrderViewBody,
       footer: appFooter,
       leftmenu: leftMenu,
       leftaccount: leftAccount
