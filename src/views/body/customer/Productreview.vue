@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="content" ref="scrollContainer">
         <div class="account-ds">
             <div class="bar bar-nav account-top-m">
                 <router-link to="/customer/account/index"  class="button button-link button-nav pull-left">
@@ -65,7 +65,12 @@
                                             </td>
                                         </tr>
                                     </table>
-                                
+                                    <!-- 加载提示符 -->
+                                    <mugen-scroll :handler="fetchProduct" :should-handle="!loading" scroll-container="scrollContainer">
+                                        <div style="display:none;"  class="infinite-scroll-preloader">
+                                            <div class="preloader"></div>
+                                        </div>
+                                    </mugen-scroll>
                                 </div>
                                 <div v-if="productList.length <= 0">
                                     You have submitted no reviews.
@@ -79,7 +84,7 @@
     </div>
 </template>
 <script>
-
+import MugenScroll from 'vue-mugen-scroll'
 var root = process.env.API_ROOT;
 
 export default {
@@ -91,8 +96,13 @@ export default {
             activeStatus:'',
             refuseStatus:'',
             productList:[],
+            count:0,
+            loading: false ,
             correctmsg:''
         }
+    },
+    components:{
+        'mugen-scroll': MugenScroll
     },
     created: function(){
         this.pageInit();
@@ -101,6 +111,7 @@ export default {
     methods: {
         pageInit: function(){
             var self = this;
+            this.loading = false;
             self.errormsg = '';
             self.correctmsg = '';
             $.showIndicator();
@@ -113,17 +124,19 @@ export default {
                 data:{ 
                 },
                 success:function(data, textStatus,request){
+                    console.log('page init success1');
                     if(data.code == 400 && data.status == "access token error"){
                         $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(data.code == 200){
-                        self.productList = data.productList;
+                        self.productList    = data.productList;
                         self.noActiveStatus = data.noActiveStatus;
-                        self.activeStatus = data.activeStatus;
-                        self.refuseStatus = data.refuseStatus;
-                        console.log('');
+                        self.activeStatus   = data.activeStatus;
+                        self.refuseStatus   = data.refuseStatus;
+                        console.log('page init success2');
                         self.saveReponseHeader(request); 
+                        self.count = 1;
                     }
                     $.hideIndicator();
                 },
@@ -132,7 +145,54 @@ export default {
                     console.log('get customer order info error');
                 }
             });
-        }  
+        } ,
+        fetchProduct: function(){
+            console.log('fetch product');
+            var self = this;
+            if(self.count >=1){
+                self.loading  = true;
+                self.errormsg = '';
+                self.correctmsg = '';
+                $.showIndicator();
+                $.ajax({
+                    url: self.pageInitUrl,
+                    async: true,
+                    timeout: 120000,
+                    type: 'get',
+                    headers: self.getRequestHeader(),
+                    data:{ 
+                        p: self.count+1
+                    },
+                    success:function(data, textStatus,request){
+                        console.log('fetch product success');
+                        if(data.code == 400 && data.status == "access token error"){
+                            $.hideIndicator();
+                            self.$router.push('/customer/account/login');
+                            return;
+                        }else if(data.code == 200){
+                            console.log('fetch product 200');
+                            var products = data.productList;
+                            if(products.length > 0){
+                                for(var x in products){
+                                    self.productList.push(products[x]);
+                                }
+                                self.loading = false;
+                                console.log('fetch product loading false');
+                                $.init();
+                                self.count++;
+                            }
+                            self.saveReponseHeader(request); 
+                        }
+                        $.hideIndicator();
+                    },
+                    error:function(){
+                        $.hideIndicator();
+                        console.log('get customer order info error');
+                    }
+                }); 
+            }
+        
+        }
     }
 }
 </script>
