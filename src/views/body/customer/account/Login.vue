@@ -54,8 +54,9 @@
                 <div class="clear"></div>
                 <div class="buttons-set">
                     <p><a @click="loginAccount()" href="javascript:void(0)"  id="js_registBtn" class="button button-fill">Sign In</a></p>
-                    <a  href="<?= Yii::$service->url->getUrl('customer/account/forgotpassword');  ?>" class="f-left">Forgot Your Password?</a>
-                    
+                    <router-link to="/customer/account/forgotpassword"  class="f-left">
+                        Forgot Your Password?
+                    </router-link>
                 </div>
                 <div class="clear"></div>
                 <div class="third_login">

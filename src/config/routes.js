@@ -23,6 +23,8 @@ import appProductReviewListBody from '../views/body/product/review/List.vue'
 
 import appCustomerAccountForgotpasswordBody from '../views/body/customer/account/Forgotpassword.vue'
 import appCustomerAccountResetpasswordBody from '../views/body/customer/account/Resetpassword.vue'
+import appCustomerAccountForgotpasswordsubmitBody from '../views/body/customer/account/Forgotpasswordsubmit.vue'
+
 import appCustomerAccountResetpasswordSuccessBody from '../views/body/customer/account/ResetpasswordSuccess.vue'
 import appCustomerAccountIndexBody from '../views/body/customer/account/Index.vue'
 import appCustomerAccountLoginBody from '../views/body/customer/account/Login.vue'
@@ -216,8 +218,22 @@ export default [
     }
   },
   
+  {
+    path: '/customer/account/forgotpasswordsubmit',  // 忘记密码
+    components: {
+      header: appHeader,
+      body: appCustomerAccountForgotpasswordsubmitBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  
+  
+
+  
    {
-    path: '/customer/account/resetpassword',  // 重置密码
+    path: '/customer/account/resetpassword/:resetToken',  // 重置密码
     components: {
       header: appHeader,
       body: appCustomerAccountResetpasswordBody,
