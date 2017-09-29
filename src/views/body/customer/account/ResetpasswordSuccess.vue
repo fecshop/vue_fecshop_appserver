@@ -23,15 +23,12 @@
             </div>
 		</div>	
         
-       
         <div class="customer-forgot-success">
-            
             Reset you account success, you can  
             <router-link to="/customer/account/login" >
                 click here
             </router-link>
             to login .
-
         </div>
     </div>
 </template>

@@ -231,8 +231,7 @@
                                                                     {{item_one.review_content}}
                                                                 </div>
                                                                 <div class="moderation">
-                                                                    {{item_one.review_content}}
-                                                                
+                                                                    
                                                                     <div v-if="item_one.status == 10 ">
                                                                         Your Review is awaiting moderation...
                                                                     </div>
@@ -256,12 +255,15 @@
                                             <div class="clear"></div>
                                             
                                             <p class="buttons-row">
-                                                <a external href="<?= Yii::$service->url->getUrl('catalog/reviewproduct/add',['spu'=>$spu,'_id'=>$_id]); ?>" class="button button-round">
+                                            
+                                                <router-link :to="'/product/review/add/' + product_id"  class="button button-round">
                                                     Add Review
-                                                </a>
-                                                <a external href="<?= Yii::$service->url->getUrl('catalog/reviewproduct/lists',['spu'=>$spu,'_id'=>$_id]); ?>" class="button button-round">
-                                                    View  All Review({{productReview.review_count}}) 
-                                                </a>
+                                                </router-link>
+                                                
+                                                <router-link :to="'/product/review/lists/' + product_id"  class="button button-round">
+                                                    View  All Review({{product.review_count}}) 
+                                                </router-link>
+                                                
                                             </p>
                                         </div>
                                     </div>

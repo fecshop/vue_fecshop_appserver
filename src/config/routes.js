@@ -277,7 +277,7 @@ export default [
   },
   
   {
-    path: '/catalog/reviewproduct/add',  // 产品增加评论
+    path: '/product/review/add/:product_id',  // 产品增加评论
     components: {
       header: appHeader,
       body: appProductReviewAddBody,
@@ -289,7 +289,7 @@ export default [
   
   
   {
-    path: '/catalog/reviewproduct/lists',  // 产品评论列表
+    path: '/product/review/lists/:product_id',  // 产品评论列表
     components: {
       header: appHeader,
       body: appProductReviewListBody,
