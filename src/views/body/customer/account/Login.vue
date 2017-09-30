@@ -183,7 +183,12 @@ export default {
                         console.log('account login success');
                         self.saveReponseHeader(request); 
                         $.hideIndicator();
-                        self.$router.push('/customer/account/index');
+                        var loginSuccessUrl = self.getLoginSuccessRedirectUrl();
+                        if(loginSuccessUrl){
+                            self.$router.push(loginSuccessUrl);
+                        }else{
+                            self.$router.push('/customer/account/index');
+                        }
                     }else if(code == 400){
                         console.log('account has login');
                         self.saveReponseHeader(request); 

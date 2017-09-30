@@ -121,6 +121,15 @@ Vue.prototype.getRequestHeader = function (){
     //console.log('get header ####');
 }
 
+Vue.prototype.setLoginSuccessRedirectUrl = function($url){
+    return window.localStorage.setItem("login-success-redirect",$url);
+}
+Vue.prototype.getLoginSuccessRedirectUrl = function(){
+    var url = window.localStorage.getItem("login-success-redirect");
+    window.localStorage.setItem("login-success-redirect",'');
+    return url;
+}
+
 // 跑起来吧
 /* eslint-disable no-new */
 new Vue({
