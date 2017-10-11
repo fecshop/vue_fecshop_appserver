@@ -655,7 +655,7 @@ export default {
             console.log('qty:' + qty);
             console.log(selected_attr);
             console.log(self.product._id);
-            var custom_option_json = JSON.stringify(custom_option);
+            var custom_option_json = JSON.stringify(selected_attr);
             var sendData = {};
             sendData['custom_option'] 	= custom_option_json;
             sendData['product_id'] 	= self.product._id;
@@ -665,7 +665,7 @@ export default {
                 async:true,
                 timeout: 120000,
                 dataType: 'json', 
-                type:'get',
+                type:'post',
                 data: sendData,
                 headers: self.getRequestHeader(),
                 url:self.addProductToCartUrl,
