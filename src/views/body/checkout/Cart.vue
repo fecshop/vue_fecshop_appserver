@@ -3,9 +3,11 @@
         <div class="col-main">
             <div class="account-ds">
                 <div class="bar bar-nav account-top-m">
-                    <router-link to=""  class=" back button button-link button-nav pull-left">
+                    
+                    <a @click="routerGo()"  href="javascript:void(0)" class="button button-link button-nav pull-left">
                         <span class="icon icon-left"></span>
-                    </router-link>
+                    </a>
+                    
                     <h1 class='title'>Cart</h1>
                 </div>
             </div>
@@ -113,7 +115,7 @@
                             <div class="proceed_to_checkout">
                                 <div class="row no-gutter">
                                     <div class="col-50">
-                                        <button onclick="location.href='<?= Yii::$service->url->getUrl('checkout/onepage');  ?>'" 
+                                        <button @click="goToPay()"
                                             type="button" 
                                             title="Proceed to Checkout" 
                                             class="button btn-proceed-checkout btn-checkout"
@@ -124,11 +126,10 @@
                                                 </span>
                                             </span>
                                         </button>
-                                
                                     </div>
                                     <div class="col-50">
-                                        <a   class="express_paypal" href="<?= Yii::$service->url->getUrl('payment/paypal/express/start');    ?>">
-                                            <img src="//img.fancyecommerce.com//images/pay.png"  />
+                                        <a @click="paypalExpressStart()"  class="express_paypal" href="javascript:void(0)">
+                                            <img src="//img.fancyecommerce.com/images/pay.png"  />
                                         </a>
                                         
                                     </div>
@@ -172,6 +173,8 @@ export default {
             addCouponUrl: root + '/checkout/cart/addcoupon' ,
             cancelCouponUrl: root + '/checkout/cart/cancelcoupon' ,
             updateInfoUrl: root + '/checkout/cart/updateinfo' ,
+            paypalExpressStartUrl: root + '/payment/paypal/express/start' ,
+            
             errormsg:'',
             cart_products:[],
             productQty:{},
@@ -189,6 +192,47 @@ export default {
     },
     
     methods: {
+        routerGo: function(){
+            this.$router.go(-1);
+        },
+        paypalExpressStart: function(){
+            var self = this;
+            self.errormsg = '';
+            
+            $.showIndicator();
+            var url = self.paypalExpressStartUrl;
+            $.ajax({
+                url: url,
+                async: true,
+                timeout: 120000,
+                type: 'post',
+                headers: self.getRequestHeader(),
+                data:{ 
+                    
+                },
+                success:function(data, textStatus,request){
+                    console.log(data);
+                    if(data.code == 400 && data.status == "access token error"){
+                        $.hideIndicator();
+                        self.$router.push('/customer/account/login');
+                        return;
+                    }else if(data.code == 200){
+                        self.saveReponseHeader(request);
+                        var redirectUrl = data.content;
+                        console.log(redirectUrl);
+                        window.location.href = redirectUrl
+                    }else{
+                        self.saveReponseHeader(request); 
+                        self.errormsg = data.content;
+                    }
+                    $.hideIndicator();
+                },
+                error:function(){
+                    $.hideIndicator();
+                    console.log('get address list page init error');
+                }
+            });
+        },
         updateInfo: function(up_type,item_id){
             var self = this;
             self.errormsg = '';
@@ -237,6 +281,9 @@ export default {
                 }
             });
         
+        },
+        goToPay: function(){
+            this.$router.push('/checkout/onepage');
         },
         pageInit: function(){
             var self = this;
@@ -330,7 +377,12 @@ export default {
 
                     }else{
                         self.saveReponseHeader(request); 
-                        self.errormsg = data.content;
+                        
+                        if(self.couponType == 1){
+                            self.errormsg = 'add coupon error,coupon code is wrong or has timeout';
+                        }else{
+                            self.errormsg = 'cancel coupon error';
+                        }
                     }
                     
                     $.hideIndicator();

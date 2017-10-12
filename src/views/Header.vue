@@ -8,7 +8,7 @@
     </router-link>
 	<div class="pull-right">
 	  <a  style="padding-right:0.4rem" class="icon icon-me open-panel"  data-panel="#panel-left-account"></a>
-      <router-link style="padding-right:0.4rem" to="checkout/cart"  class="icon icon-cart">
+      <router-link style="padding-right:0.4rem" to="/checkout/cart"  class="icon icon-cart">
       
       </router-link>
     </div>
