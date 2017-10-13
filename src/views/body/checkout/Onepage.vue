@@ -24,7 +24,7 @@
                     <p class="onestepcheckout-description">
                         Welcome to the checkout,Fill in the fields below to complete your purchase!
                     </p>
-                    <p class="onestepcheckout-login-link">
+                    <p v-if="isCustomerPassword && isGuest" class="onestepcheckout-login-link">
                         <router-link to="/customer/account/login" id="onestepcheckout-login-link" >
                             Already registered? Click here to login
                         </router-link>
@@ -33,7 +33,7 @@
                         <div class="onestepcheckout-column-left">
                             <div class="guest_address">
                                 
-                                <div id="billing_address" v-if="!cart_address_id">		
+                                <div id="billing_address" >		
                                     <ul>
                                         <li>
                                             <p class="onestepcheckout-numbers onestepcheckout-numbers-1">
@@ -42,7 +42,18 @@
                                         </li>
                                         <li>
                                             <div>
-                                                <ul id="billing_address_list" class="billing_address_list_new" style="">			
+                                                <select @change="changeAddressList()" v-model="cart_address_id" name="address_id" class="address_list" v-if="address_list">
+                                                    
+                                                    
+                                                    <option v-for="(address,address_id) in address_list" :value="address_id">
+                                                        {{address.address}}
+                                                    </option>
+                                                    
+                                                    <option value="">New Address</option>
+                                                </select>
+                                                
+                                                
+                                                <ul :style="'display:' + displayAddressDetails" id="billing_address_list" class="billing_address_list_new" >			
                                                     <li class="clearfix">
                                                         <div class="input-box input-firstname">
                                                             <label for="billing:firstname">
@@ -94,7 +105,7 @@
                                                         <div class="input-box input-country">
                                                             <label for="billing:country">
                                                                 Country <span class="required">*</span></label>
-                                                                <select v-model="country" title="Country" class="billing_country validate-select" id="billing:country" name="billing[country]">
+                                                                <select @change="changeCountry()" v-model="country" title="Country" class="billing_country validate-select" id="billing:country" name="billing[country]">
                                                                     <template v-for="(countryName,countryCode) in countryArr">
                                                                         <option :value="countryCode">{{countryName}}</option>
                                                                     </template>
@@ -136,7 +147,7 @@
                                                     <template v-if="isGuest">
                                                         <li class="clearfix">
                                                             <div class="input-box">
-                                                                <input value="1" name="create_account" id="id_create_account" type="checkbox">
+                                                                <input v-model="isCustomerPassword" @click="addCustomerPassword()" value="1" name="create_account" id="id_create_account" type="checkbox">
                                                                 <label style="display:inline" for="id_create_account">
                                                                     Create an account for later use
                                                                 </label>
@@ -145,7 +156,7 @@
                                                             
                                                             </div>
                                                         </li>
-                                                        <li style="display: none;" id="onestepcheckout-li-password">
+                                                        <li :style="'display:'+ customerPasswordDisplay" id="onestepcheckout-li-password">
                                                             <div class="input-box input-password">
                                                                 <label for="billing:customer_password">
                                                                     Password
@@ -165,17 +176,77 @@
                                         </li>
                                     </ul>
                                 </div>
-                            
+                                
                             </div>
                         </div>
 
                         <div class="onestepcheckout-column-middle">
                             <div class="shipping_method_html">
-                                ///shipping
+                                <div class="onestepcheckout-shipping-method">
+                                    <p class="onestepcheckout-numbers onestepcheckout-numbers-2">
+                                        Shipping Method
+                                    </p>
+                                    <div class="onestepcheckout-shipping-method-block">    
+                                        <dl class="shipment-methods">
+                                            
+                                            <div v-for="(shipping,index) in shippings" class="shippingmethods">
+                                                <div class="flatrate">
+                                                    {{shipping.label}}
+                                                </div>
+                                                <div>
+                                                    <input :checked=" shipping.checked ? 'checked' : '' " data-role="none"  type="radio" :id="'s_method_flatrate_flatrate'+shipping.shipping_i" :value="shipping.method" class="validate-one-required-by-name" name="shipping_method">
+                                                    <label :for="'s_method_flatrate_flatrate'+shipping.shipping_i">{{shipping.name}}
+                                                        <strong>                 
+                                                            <span class="price">
+                                                                {{shipping.symbol}}
+                                                                {{shipping.cost}}
+                                                            </span>
+                                                        </strong>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                        </dl>
+                                    </div>
+                                </div>
+
+
                             </div>
-                    
-                    
-                            ///payment
+                        
+                            
+                            
+                            
+                            <div class="onestepcheckout-payment-method">
+                                <p class="onestepcheckout-numbers onestepcheckout-numbers-3">
+                                    Payment Method
+                                </p>
+                                <div class="payment_info">
+                                    <div class="payment-methods">
+                                        <dl v-if="payments" id="checkout-payment-method-load">
+                                            <template v-for="(payment,payment_key) in payments">
+                                                <dt>
+                                                    <input :checked=" payment.checked ? 'checked' : '' " style="display:inline" :id=" 'p_method_'+payment_key" :value="payment_key" name="payment_method"
+                                                    :title="payment.label" class="radio validate-one-required-by-name"  type="radio">
+                                                    <label :for="'p_method_'+payment_key">
+                                                        {{payment.label}}
+                                                    </label>
+                                                </dt>
+                                                <dd :id="'container_payment_method_'+payment_key" class="payment-method" style="">
+                                                    <ul class="form-list" :id="'payment_form_'+payment_key" style="">
+                                                        <li>
+                                                            <img v-if="payment.imageUrl" style="margin:10px 0 8px 0" :src="payment.imageUrl">
+                                                        
+                                                        </li>
+                                                    </ul>
+                                                </dd>
+                                            </template>   
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
                                 
                             <div class="onestepcheckout-coupons">
                                 <div style="display: none;" id="coupon-notice"></div>
@@ -186,9 +257,9 @@
                                     Enter your coupon code if you have one.
                                 </label>
                                 
-                                <input style="color:#777;" class="input-text" id="id_couponcode" name="coupon_code" >
+                                <input v-model="coupon_code" style="color:#777;" class="input-text" id="id_couponcode" name="coupon_code" >
                                 <br>
-                                <button style="" type="button" class="submitbutton add_coupon_submit" id="onestepcheckout-coupon-add">
+                                <button @click="addCoupon()" style="" type="button" class="submitbutton add_coupon_submit" id="onestepcheckout-coupon-add">
                                     {{couponLabel}}
                                 </button>
                                 <div class="clear"></div>
@@ -198,7 +269,105 @@
 
                         <div class="onestepcheckout-column-right">
                             <div class="review_order_view">
-                                ///review order
+                                
+                                
+                                
+                                <p class="onestepcheckout-numbers onestepcheckout-numbers-4">
+                                    Review your order
+                                </p>
+                                <div class="onestepcheckout-summary">
+                                    <table class="onestepcheckout-summary">
+                                        <thead>
+                                            <tr>
+                                                <th class="image"></th>
+                                                <th class="name">Name</th>
+                                                <th class="qty">Qty</th>
+                                                <th class="total">Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="product in cart_info.products">
+                                                <td class='image'>
+                                                    
+                                                    <router-link :to="'/catalog/product/'+product.product_id" class="product-image" >
+                                                        <img :src="product.imgUrl" alt="2121" >
+                                                    </router-link>
+                                                    
+                                                </td>
+                                                
+                                                <td class="name">
+                                                    <h2 class="product-name">
+                                                        <router-link :to="'/catalog/product/'+product.product_id" :title="product.name" class="product-image" >
+                                                            {{product.name}}
+                                                        </router-link>
+                                                    </h2>
+                                                    <ul v-if="product.custom_option_info">
+                                                        <li v-for="(val,label) in product.custom_option_info">
+                                                            {{label}}:
+                                                            {{val}}
+                                                        </li>  
+                                                    </ul>
+                                                </td>
+                                                <td class="qty">
+                                                    {{product.qty}}
+                                                </td>
+                                                <td class="total">
+                                                    <span class="price">
+                                                        {{currency_info.symbol}}
+                                                        {{product.product_row_price}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            		
+                                        </tbody>
+                                    </table>
+                                    <table class="onestepcheckout-totals">
+                                        <tbody>
+                                            <tr>
+                                                <td >
+                                                    Subtotal
+                                                </td>
+                                                <td class="value">
+                                                    <span class="price">
+                                                        {{currency_info.symbol}}
+                                                        {{cart_info.product_total}}
+                                                        
+                                                    </span>       
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td >
+                                                    Shipping Cost
+                                                </td>
+                                                <td class="value">
+                                                    <span class="price">
+                                                        {{currency_info.symbol}}
+                                                        {{cart_info.shipping_cost}}
+                                                    </span> 
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td >
+                                                    Discount
+                                                </td>
+                                                <td class="value">
+                                                    <span class="price">-{{currency_info.symbol}} {{cart_info.coupon_cost}}
+                                                    </span> 
+                                                </td>
+                                            </tr>
+                                            <tr class="grand-total">
+                                                <td >
+                                                    Grand Total
+                                                </td>
+                                                <td class="value">
+                                                    <span class="price">{{currency_info.symbol}}{{cart_info.grand_total}}
+                                                    </span>   
+                                                </td>
+                                            </tr>						
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                             <div class="onestepcheckout-place-order">
                                 <a class="large orange onestepcheckout-button" href="javascript:void(0)" id="onestepcheckout-place-order">
@@ -227,11 +396,12 @@ export default {
     data () {
         return {
             pageInitUrl: root + '/checkout/onepage/index' ,
+            changeCountryUrl: root + '/checkout/onepage/changecountry' ,
             addCouponUrl: root + '/checkout/cart/addcoupon' ,
             cancelCouponUrl: root + '/checkout/cart/cancelcoupon' ,
-           
-            errormsg:'',
             
+            errormsg:'',
+            customerPasswordDisplay:'none',
             cart_address:{},
             cart_address_id:'',
             isGuest:1,
@@ -239,8 +409,13 @@ export default {
             country:'',
             stateArr:'',
             state:'',
-            
-            
+            currency_info:{},
+            shippings:'',
+            payments:'',
+            cart_info:{},
+            displayAddressDetails:'none',
+            address_list:'',
+            isCustomerPassword:false,
             pageInitComplete:false,
             currency:'',
             couponLabel:'Add Coupon',
@@ -254,6 +429,65 @@ export default {
     },
     
     methods: {
+        
+        changeAddressList: function(){
+            self = this;
+            if(!self.cart_address_id){
+                self.displayAddressDetails = 'block';
+            }else{
+                self.displayAddressDetails = 'none';
+            }
+        },
+        
+        addCustomerPassword: function(){
+            var self = this;
+            if(self.isCustomerPassword){
+                self.customerPasswordDisplay = 'block';
+            }else{
+                self.customerPasswordDisplay = 'none';
+            }
+            
+        
+        },
+        changeCountry: function(){
+            var self = this;
+            if(self.pageInitComplete){
+                
+                var country = self.country;
+                self.errormsg = '';
+                self.correctmsg = '';
+                $.showIndicator();
+                $.ajax({
+                    url: self.changeCountryUrl,
+                    async: true,
+                    timeout: 120000,
+                    type: 'get',
+                    headers: self.getRequestHeader(),
+                    data:{ 
+                        country:country
+                    },
+                    success:function(data, textStatus,request){
+                        if(data.code == 400 && data.status == "access token error"){
+                            $.hideIndicator();
+                            self.$router.push('/customer/account/login');
+                            return;
+                        }else if(data.code == 200){
+                            self.stateArr = data.stateArr;
+                            self.state = '';
+                            
+                            self.saveReponseHeader(request); 
+                        }
+                        //console.log('cart_products.length:'+ self.cart_products.length);
+                        
+                        $.hideIndicator();
+                    },
+                    error:function(){
+                        $.hideIndicator();
+                        console.log('get address list page init error');
+                    }
+                });
+            }
+        },
         routerGo: function(){
             this.$router.go(-1);
         },
@@ -262,6 +496,7 @@ export default {
             var self = this;
             self.errormsg = '';
             self.correctmsg = '';
+            self.pageInitComplete = false;
             $.showIndicator();
             $.ajax({
                 url: self.pageInitUrl,
@@ -282,16 +517,35 @@ export default {
                         self.isGuest = data.isGuest;
                         self.countryArr = data.countryArr;
                         self.country = data.country;
-                        if(data.stateArr){
-                            self.stateArr = data.stateArr;
+                        self.address_list = data.address_list;
+                        self.shippings = data.shippings;
+                        self.currency_info = data.currency_info;
+                        
+                        self.payments = data.payments;
+                        self.cart_info = data.cart_info;
+                        self.coupon_code = self.cart_info.coupon_code;
+                        if(self.coupon_code){
+                            self.couponType = 2;
+                            self.couponLabel = 'Cancel Coupon';
                         }
-                        self.state = data.state;
+                        
+                        
+                        //if(data.stateArr){
+                        //    self.stateArr = data.stateArr;
+                        //}
+                        //self.state = data.state;
+                        if(self.address_list && self.cart_address_id){
+                            self.displayAddressDetails = 'none';
+                        }else{
+                            self.displayAddressDetails = 'block';
+                        }
+                        
                         console.log('get editAccount info success');
                         self.saveReponseHeader(request); 
                     }
                     //console.log('cart_products.length:'+ self.cart_products.length);
-                    self.pageInitComplete = true;
                     $.hideIndicator();
+                    self.pageInitComplete = true;
                 },
                 error:function(){
                     $.hideIndicator();
@@ -300,6 +554,69 @@ export default {
             });
             
         },
+        
+        addCoupon: function(){
+            var self = this;
+            var coupon_code = self.coupon_code;
+            self.errormsg = '';
+            if(!coupon_code){
+                self.errormsg = 'coupon code can not empty';
+                return;
+            }
+            $.showIndicator();
+            var url = '';
+            if(self.couponType == 1){
+                url = self.addCouponUrl;
+            }else{
+                url = self.cancelCouponUrl;
+            }
+            $.ajax({
+                url: url,
+                async: true,
+                timeout: 120000,
+                type: 'post',
+                headers: self.getRequestHeader(),
+                data:{ 
+                    coupon_code:coupon_code
+                },
+                success:function(data, textStatus,request){
+                    if(data.code == 400){
+                        $.hideIndicator();
+                        self.$router.push('/customer/account/login');
+                        return;
+                    }else if(data.code == 200){
+                        self.saveReponseHeader(request);
+                        self.pageInit();
+                        
+                        if(self.couponType == 1){
+                            self.couponType = 2;
+                            self.couponLabel = 'Cancel Coupon';
+                        }else{
+                            self.couponType = 1;
+                            self.couponLabel = 'Add Coupon';
+                            self.self.coupon_code = '';
+                        }
+                        
+
+                    }else{
+                        self.saveReponseHeader(request); 
+                        
+                        if(self.couponType == 1){
+                            self.errormsg = 'add coupon error,coupon code is wrong or has timeout';
+                        }else{
+                            self.errormsg = 'cancel coupon error';
+                        }
+                    }
+                    
+                    $.hideIndicator();
+                },
+                error:function(){
+                    $.hideIndicator();
+                    console.log('get address list page init error');
+                }
+            });
+            
+        }
         
     }
     

@@ -357,7 +357,7 @@ export default {
                     coupon_code:coupon_code
                 },
                 success:function(data, textStatus,request){
-                    if(data.code == 400 && data.status == "access token error"){
+                    if(data.code == 400){
                         $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
