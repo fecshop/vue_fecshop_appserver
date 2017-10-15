@@ -147,7 +147,7 @@
                                                     <template v-if="isGuest">
                                                         <li class="clearfix">
                                                             <div class="input-box">
-                                                                <input v-model="isCustomerPassword" @click="addCustomerPassword()" value="1" name="create_account" id="id_create_account" type="checkbox">
+                                                                <input v-model="isCustomerPassword" @click="addCustomerPassword()" name="create_account" id="id_create_account" type="checkbox">
                                                                 <label style="display:inline" for="id_create_account">
                                                                     Create an account for later use
                                                                 </label>
@@ -161,13 +161,13 @@
                                                                 <label for="billing:customer_password">
                                                                     Password
                                                                 </label>
-                                                                <input name="billing[customer_password]" id="billing:customer_password" title="Password" value="" class="validate-password input-text customer_password" type="password">
+                                                                <input v-model="customer_password" name="billing[customer_password]" id="billing:customer_password" title="Password" value="" class="validate-password input-text customer_password" type="password">
                                                             </div>
                                                             <div class="input-box input-password">
                                                                 <label for="billing:confirm_password">
                                                                     Confirm Password
                                                                 </label>
-                                                                <input name="billing[confirm_password]" title="Confirm Password" id="billing:confirm_password" value="" class="validate-password input-text customer_confirm_password" type="password">
+                                                                <input v-model="confirm_password" name="billing[confirm_password]" title="Confirm Password" id="billing:confirm_password" value="" class="validate-password input-text customer_confirm_password" type="password">
                                                             </div>
                                                         </li>
                                                     </template>
@@ -194,7 +194,7 @@
                                                     {{shipping.label}}
                                                 </div>
                                                 <div>
-                                                    <input :checked=" shipping.checked ? 'checked' : '' " data-role="none"  type="radio" :id="'s_method_flatrate_flatrate'+shipping.shipping_i" :value="shipping.method" class="validate-one-required-by-name" name="shipping_method">
+                                                    <input v-model="shipping_method"  data-role="none"  type="radio" :id="'s_method_flatrate_flatrate'+shipping.shipping_i" :value="shipping.method" class="validate-one-required-by-name" name="shipping_method">
                                                     <label :for="'s_method_flatrate_flatrate'+shipping.shipping_i">{{shipping.name}}
                                                         <strong>                 
                                                             <span class="price">
@@ -225,7 +225,7 @@
                                         <dl v-if="payments" id="checkout-payment-method-load">
                                             <template v-for="(payment,payment_key) in payments">
                                                 <dt>
-                                                    <input :checked=" payment.checked ? 'checked' : '' " style="display:inline" :id=" 'p_method_'+payment_key" :value="payment_key" name="payment_method"
+                                                    <input v-model="payment_method"  style="display:inline" :id=" 'p_method_'+payment_key" :value="payment_key" name="payment_method"
                                                     :title="payment.label" class="radio validate-one-required-by-name"  type="radio">
                                                     <label :for="'p_method_'+payment_key">
                                                         {{payment.label}}
@@ -370,10 +370,10 @@
 
                             </div>
                             <div class="onestepcheckout-place-order">
-                                <a class="large orange onestepcheckout-button" href="javascript:void(0)" id="onestepcheckout-place-order">
+                                <a @click="submitOrder()" class="large orange onestepcheckout-button" href="javascript:void(0)" id="onestepcheckout-place-order">
                                     Place order now
                                 </a>
-                                <div class="onestepcheckout-place-order-loading">
+                                <div :style="'display:'+displaySubmitOrder" class="onestepcheckout-place-order-loading">
                                     <img src="//img.fancyecommerce.com/images/opc-ajax-loader.gif">&nbsp;&nbsp;
                                     Please wait, processing your order...
                                 </div>
@@ -398,10 +398,12 @@ export default {
             pageInitUrl: root + '/checkout/onepage/index' ,
             changeCountryUrl: root + '/checkout/onepage/changecountry' ,
             addCouponUrl: root + '/checkout/cart/addcoupon' ,
-            cancelCouponUrl: root + '/checkout/cart/cancelcoupon' ,
-            
+            cancelCouponUrl: root + '/checkout/cart/cancelcoupon' , 
+            submitOrderUrl: root + '/checkout/onepage/submitorder' ,
             errormsg:'',
             customerPasswordDisplay:'none',
+            customer_password:'',
+            confirm_password:'',
             cart_address:{},
             cart_address_id:'',
             isGuest:1,
@@ -415,13 +417,16 @@ export default {
             cart_info:{},
             displayAddressDetails:'none',
             address_list:'',
-            isCustomerPassword:false,
+            isCustomerPassword:0,
             pageInitComplete:false,
             currency:'',
             couponLabel:'Add Coupon',
             couponType:1, // 1 代表 add coupon 2 代表 cancel coupon
             coupon_code:'',
-            correctmsg:''
+            correctmsg:'',
+            displaySubmitOrder:'none',
+            payment_method:'',
+            shipping_method:''
         }
     },
     created: function(){
@@ -429,7 +434,122 @@ export default {
     },
     
     methods: {
+        submitOrder: function(){
+            self = this;
+            self.errormsg = '';
+            if(!self.cart_address_id){
+                if(!self.cart_address.first_name){
+                    self.errormsg = 'first_name can not empty';
+                    return;
+                }
+                if(!self.cart_address.last_name){
+                    self.errormsg = 'last_name can not empty';
+                    return;
+                }
+                if(!self.cart_address.email){
+                    self.errormsg = 'email can not empty';
+                    return;
+                }
+                if(!self.cart_address.telephone){
+                    self.errormsg = 'telephone can not empty';
+                    return;
+                }
+                if(!self.cart_address.street1){
+                    self.errormsg = 'street1 can not empty';
+                    return;
+                }
+                if(!self.country){
+                    self.errormsg = 'country can not empty';
+                    return;
+                }
+                if(!self.state){
+                    self.errormsg = 'state can not empty';
+                    return;
+                }
+                if(!self.cart_address.city){
+                    self.errormsg = 'city can not empty';
+                    return;
+                }
+                if(!self.cart_address.zip){
+                    self.errormsg = 'zip can not empty';
+                    return;
+                }
+
+
+
+                if(self.isCustomerPassword){
+                    if(!self.customer_password){
+                        self.errormsg = 'customer_password can not empty';
+                        return;
+                    }
+                    if(self.confirm_password != self.customer_password){
+                        self.errormsg = 'Password and confirmation password must be consistent';
+                        return;
+                    }
+                    if(self.customer_password.length < 6){
+                        self.errormsg = 'customer password must gte 6';
+                        return;
+                    }
+                }
+            }
+            
+            var ajaxData = {
+                address_id: self.cart_address_id,
+                billing:{
+                    first_name: self.cart_address.first_name,
+                    last_name: self.cart_address.last_name,
+                    email: self.cart_address.email,
+                    telephone: self.cart_address.telephone,
+                    street1: self.cart_address.street1,
+                    street2: self.cart_address.street2,
+                    country: self.cart_address.country,
+                    state: self.cart_address.state,
+                    city: self.cart_address.city,
+                    zip: self.cart_address.zip
+                },
+                customer_password: self.customer_password,
+                confirm_password: self.confirm_password,
+                create_account: self.isCustomerPassword,
+                shipping_method: self.shipping_method,
+                payment_method: self.payment_method
+            
+            };
+            
+            $.showIndicator();
+            self.displaySubmitOrder = 'block';
+            $.ajax({
+                url: self.submitOrderUrl,
+                async: true,
+                timeout: 120000,
+                type: 'post',
+                headers: self.getRequestHeader(),
+                data:ajaxData,
+                success:function(data, textStatus,request){
+                    if(data.code == 400){
+                        $.hideIndicator();
+                        self.$router.push('/customer/account/login');
+                        return;
+                    }else if(data.code == 200){
+                        self.stateArr = data.stateArr;
+                        self.state = '';
+                        
+                        self.saveReponseHeader(request); 
+                    }
+                    
+                    $.hideIndicator();
+                },
+                error:function(){
+                    $.hideIndicator();
+                    console.log('get address list page init error');
+                }
+            });
+            
+            
+            
+            
+            
         
+        },
         changeAddressList: function(){
             self = this;
             if(!self.cart_address_id){
@@ -512,6 +632,7 @@ export default {
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(data.code == 200){
+                        
                         self.cart_address = data.cart_address;
                         self.cart_address_id = data.cart_address_id;
                         self.isGuest = data.isGuest;
@@ -520,6 +641,8 @@ export default {
                         self.address_list = data.address_list;
                         self.shippings = data.shippings;
                         self.currency_info = data.currency_info;
+                        self.payment_method = data.current_payment_method;
+                        self.shipping_method = data.current_shipping_method;
                         
                         self.payments = data.payments;
                         self.cart_info = data.cart_info;
@@ -542,6 +665,9 @@ export default {
                         
                         console.log('get editAccount info success');
                         self.saveReponseHeader(request); 
+                    }else if(data.code == 401){
+                        self.$router.push('/checkout/cart');
+                        return;
                     }
                     //console.log('cart_products.length:'+ self.cart_products.length);
                     $.hideIndicator();
