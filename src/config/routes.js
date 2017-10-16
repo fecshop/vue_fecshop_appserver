@@ -13,7 +13,15 @@ import appHomeBody from '../views/body/home/Index.vue'
 import appPaymentSuccessBody from '../views/body/payment/Success.vue' 
 import appCmsPageBody from '../views/body/cms/Page.vue' 
 
+import appCheckmoneyStartBody from     '../views/body/payment/checkmoney/Start.vue'
 
+import appPaypalStandardStartBody from '../views/body/payment/paypal/standard/Start.vue'
+import appPaypalStandardReviewBody from '../views/body/payment/paypal/standard/Review.vue'
+
+import appAlipayStandardStartBody from '../views/body/payment/alipay/standard/Start.vue'
+
+
+  
 import appCategoryBody from '../views/body/category/Index.vue' //
 import appSearchBody from '../views/body/search/Index.vue' 
 import appProductBody from '../views/body/product/Index.vue' //
@@ -321,6 +329,54 @@ export default [
       leftaccount: leftAccount
     }
   },
+  
+  {
+    path: '/payment/checkmoney/start',  // 下单成功页面
+    components: {
+      header: appHeader,
+      body: appCheckmoneyStartBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  
+  {
+    path: '/payment/paypal/standard/start',  // 下单成功页面
+    components: {
+      header: appHeader,
+      body: appPaypalStandardStartBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  
+  {
+    path: '/payment/paypal/standard/review',  // 下单成功页面
+    components: {
+      header: appHeader,
+      body: appPaypalStandardReviewBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  
+  
+  
+  {
+    path: '/payment/alipay/standard/start',  // 下单成功页面
+    components: {
+      header: appHeader,
+      body: appAlipayStandardStartBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  
+  
   
   
 ]

@@ -532,8 +532,10 @@ export default {
                     }else if(data.code == 200){
                         self.stateArr = data.stateArr;
                         self.state = '';
-                        
+                        $.hideIndicator();
                         self.saveReponseHeader(request); 
+                        var redirect = data.redirect;
+                        self.$router.push(redirect);
                     }
                     
                     $.hideIndicator();
@@ -544,11 +546,6 @@ export default {
                 }
             });
             
-            
-            
-            
-            
-        
         },
         changeAddressList: function(){
             self = this;

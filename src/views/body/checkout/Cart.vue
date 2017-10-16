@@ -220,7 +220,7 @@ export default {
                         self.saveReponseHeader(request);
                         var redirectUrl = data.content;
                         console.log(redirectUrl);
-                        window.location.href = redirectUrl
+                        window.location.href = redirectUrl;
                     }else{
                         self.saveReponseHeader(request); 
                         self.errormsg = data.content;

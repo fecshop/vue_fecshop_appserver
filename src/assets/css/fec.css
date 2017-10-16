@@ -1026,7 +1026,7 @@ ul#billing_address_list  li input , ul#billing_address_list  li select{
  }
  
  
-.paypal_success{padding:1rem;}
+.paypal_success{padding:1rem;line-height:24px;}
 
 .paypal_success  h2{
     font-size:0.7rem;
@@ -1040,8 +1040,6 @@ ul#billing_address_list  li input , ul#billing_address_list  li select{
 .review_description_centen .special_active.price{
     text-decoration: line-through;
 }
-
-
 
 
 
