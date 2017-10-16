@@ -47,7 +47,7 @@ export default {
                         console.log(redirectUrl);
                         window.location.href = redirectUrl;
                     }
-                    $.hideIndicator();
+                    //$.hideIndicator();
                 },
                 error:function(){
                     $.hideIndicator();

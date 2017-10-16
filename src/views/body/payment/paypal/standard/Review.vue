@@ -1,8 +1,10 @@
 <template>
     <div class="content">
-        Token:{{token}}
-        <br>
-        PayerID:{{PayerID}}
+        <div style="margin:80px 0 0 30px;">
+            <div class="onestepcheckout-place-order-loading" style="display: block;"><img src="//img.fancyecommerce.com/images/opc-ajax-loader.gif">&nbsp;&nbsp;
+                Please wait, processing your order...
+            </div>
+        </div>
     </div>
 </template>
 
@@ -36,9 +38,9 @@ export default {
             self.PayerID = self.$route.query.PayerID;
             self.errormsg = '';
             self.correctmsg = '';
-            
+            $.showIndicator();
             if(self.token && self.PayerID){
-                $.showIndicator();
+                
                 $.ajax({
                     url: self.pageInitUrl,
                     async: true,
