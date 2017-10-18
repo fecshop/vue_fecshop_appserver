@@ -29,6 +29,12 @@
                             Already registered? Click here to login
                         </router-link>
                     </p>
+                    
+                    <div class="onestepcheckout-place-order-loading" :style="'display:'+ fetchAjaxWait">
+                        <img src="//img.fancyecommerce.com/images/opc-ajax-loader.gif">&nbsp;&nbsp;
+                        Please wait, fetch address info from paypal...
+                    </div>
+                            
                     <div class="onestepcheckout-threecolumns checkoutcontainer onestepcheckout-skin-generic onestepcheckout-enterprise">
                         <div class="onestepcheckout-column-left">
                             <div class="guest_address">
@@ -40,20 +46,11 @@
                                                 Shipping Address
                                             </p>
                                         </li>
-                                        <li>
+                                        <li :style="'display:' + displayAddressDetails">
                                             <div>
-                                                <select @change="changeAddressList()" v-model="cart_address_id" name="address_id" class="address_list" v-if="address_list">
-                                                    
-                                                    
-                                                    <option v-for="(address,address_id) in address_list" :value="address_id">
-                                                        {{address.address}}
-                                                    </option>
-                                                    
-                                                    <option value="">New Address</option>
-                                                </select>
                                                 
                                                 
-                                                <ul :style="'display:' + displayAddressDetails" id="billing_address_list" class="billing_address_list_new" >			
+                                                <ul  id="billing_address_list" class="billing_address_list_new" >			
                                                     <li class="clearfix">
                                                         <div class="input-box input-firstname">
                                                             <label for="billing:firstname">
@@ -144,33 +141,7 @@
                                                             <input v-model="cart_address.zip" class="validate-zip-international required-entry input-text" id="billing:zip" name="billing[zip]" title="Zip Code" type="text">
                                                         </div>
                                                     </li>
-                                                    <template v-if="isGuest">
-                                                        <li class="clearfix">
-                                                            <div class="input-box">
-                                                                <input v-model="isCustomerPassword" @click="addCustomerPassword()" name="create_account" id="id_create_account" type="checkbox">
-                                                                <label style="display:inline" for="id_create_account">
-                                                                    Create an account for later use
-                                                                </label>
-                                                            </div>
-                                                            <div class="label_create_account">
-                                                            
-                                                            </div>
-                                                        </li>
-                                                        <li :style="'display:'+ customerPasswordDisplay" id="onestepcheckout-li-password">
-                                                            <div class="input-box input-password">
-                                                                <label for="billing:customer_password">
-                                                                    Password
-                                                                </label>
-                                                                <input v-model="customer_password" name="billing[customer_password]" id="billing:customer_password" title="Password" value="" class="validate-password input-text customer_password" type="password">
-                                                            </div>
-                                                            <div class="input-box input-password">
-                                                                <label for="billing:confirm_password">
-                                                                    Confirm Password
-                                                                </label>
-                                                                <input v-model="confirm_password" name="billing[confirm_password]" title="Confirm Password" id="billing:confirm_password" value="" class="validate-password input-text customer_confirm_password" type="password">
-                                                            </div>
-                                                        </li>
-                                                    </template>
+                                                    
                                                 </ul>							
                                             </div>
                                         </li>
@@ -216,34 +187,7 @@
                             
                             
                             
-                            <div class="onestepcheckout-payment-method">
-                                <p class="onestepcheckout-numbers onestepcheckout-numbers-3">
-                                    Payment Method
-                                </p>
-                                <div class="payment_info">
-                                    <div class="payment-methods">
-                                        <dl v-if="payments" id="checkout-payment-method-load">
-                                            <template v-for="(payment,payment_key) in payments">
-                                                <dt>
-                                                    <input v-model="payment_method"  style="display:inline" :id=" 'p_method_'+payment_key" :value="payment_key" name="payment_method"
-                                                    :title="payment.label" class="radio validate-one-required-by-name"  type="radio">
-                                                    <label :for="'p_method_'+payment_key">
-                                                        {{payment.label}}
-                                                    </label>
-                                                </dt>
-                                                <dd :id="'container_payment_method_'+payment_key" class="payment-method" style="">
-                                                    <ul class="form-list" :id="'payment_form_'+payment_key" style="">
-                                                        <li>
-                                                            <img v-if="payment.imageUrl" style="margin:10px 0 8px 0" :src="payment.imageUrl">
-                                                        
-                                                        </li>
-                                                    </ul>
-                                                </dd>
-                                            </template>   
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             
                             
                             
@@ -395,11 +339,11 @@ var root = process.env.API_ROOT;
 export default {
     data () {
         return {
-            pageInitUrl: root + '/checkout/onepage/index' ,
+            pageInitUrl: root + '/payment/paypal/express/review' ,
             changeCountryUrl: root + '/checkout/onepage/changecountry' ,
             addCouponUrl: root + '/checkout/cart/addcoupon' ,
             cancelCouponUrl: root + '/checkout/cart/cancelcoupon' , 
-            submitOrderUrl: root + '/checkout/onepage/submitorder' ,
+            submitOrderUrl: root + '/payment/paypal/express/submitorder' ,
             errormsg:'',
             customerPasswordDisplay:'none',
             customer_password:'',
@@ -411,11 +355,11 @@ export default {
             country:'',
             stateArr:'',
             state:'',
+            displayAddressDetails:'none',
             currency_info:{},
             shippings:'',
-            payments:'',
+            //payments:'',
             cart_info:{},
-            displayAddressDetails:'none',
             address_list:'',
             isCustomerPassword:0,
             pageInitComplete:false,
@@ -426,7 +370,10 @@ export default {
             correctmsg:'',
             displaySubmitOrder:'none',
             payment_method:'',
-            shipping_method:''
+            shipping_method:'',
+            token:'',
+            fetchAjaxWait:'block',
+            PayerID:''
         }
     },
     created: function(){
@@ -437,64 +384,55 @@ export default {
         submitOrder: function(){
             self = this;
             self.errormsg = '';
-            if(!self.cart_address_id){
-                if(!self.cart_address.first_name){
-                    self.errormsg = 'first_name can not empty';
-                    return;
-                }
-                if(!self.cart_address.last_name){
-                    self.errormsg = 'last_name can not empty';
-                    return;
-                }
-                if(!self.cart_address.email){
-                    self.errormsg = 'email can not empty';
-                    return;
-                }
-                if(!self.cart_address.telephone){
-                    self.errormsg = 'telephone can not empty';
-                    return;
-                }
-                if(!self.cart_address.street1){
-                    self.errormsg = 'street1 can not empty';
-                    return;
-                }
-                if(!self.country){
-                    self.errormsg = 'country can not empty';
-                    return;
-                }
-                if(!self.state){
-                    self.errormsg = 'state can not empty';
-                    return;
-                }
-                if(!self.cart_address.city){
-                    self.errormsg = 'city can not empty';
-                    return;
-                }
-                if(!self.cart_address.zip){
-                    self.errormsg = 'zip can not empty';
-                    return;
-                }
-
-
-
-                if(self.isCustomerPassword){
-                    if(!self.customer_password){
-                        self.errormsg = 'customer_password can not empty';
-                        return;
-                    }
-                    if(self.confirm_password != self.customer_password){
-                        self.errormsg = 'Password and confirmation password must be consistent';
-                        return;
-                    }
-                    if(self.customer_password.length < 6){
-                        self.errormsg = 'customer password must gte 6';
-                        return;
-                    }
-                }
+            
+            if(!self.cart_address.first_name){
+                self.errormsg = 'first_name can not empty';
+                return;
+            }
+            if(!self.cart_address.last_name){
+                self.errormsg = 'last_name can not empty';
+                return;
+            }
+            if(!self.cart_address.email){
+                self.errormsg = 'email can not empty';
+                return;
+            }
+            if(!self.cart_address.telephone){
+                self.errormsg = 'telephone can not empty';
+                return;
+            }
+            if(!self.cart_address.street1){
+                self.errormsg = 'street1 can not empty';
+                return;
+            }
+            if(!self.country){
+                self.errormsg = 'country can not empty';
+                return;
+            }
+            if(!self.state){
+                self.errormsg = 'state can not empty';
+                return;
+            }
+            if(!self.cart_address.city){
+                self.errormsg = 'city can not empty';
+                return;
+            }
+            if(!self.cart_address.zip){
+                self.errormsg = 'zip can not empty';
+                return;
+            }
+            var token = self.$route.query.token;
+            var PayerID = self.$route.query.PayerID;
+            if(!token){
+                self.errormsg = 'token can not empty';
+                return;
+            }
+            if(!PayerID){
+                self.errormsg = 'PayerID can not empty';
+                return;
             }
             
             var ajaxData = {
-                address_id: self.cart_address_id,
                 billing:{
                     first_name: self.cart_address.first_name,
                     last_name: self.cart_address.last_name,
@@ -507,12 +445,9 @@ export default {
                     city: self.cart_address.city,
                     zip: self.cart_address.zip
                 },
-                customer_password: self.customer_password,
-                confirm_password: self.confirm_password,
-                create_account: self.isCustomerPassword,
-                shipping_method: self.shipping_method,
-                payment_method: self.payment_method
-            
+                token:token,
+                PayerID:PayerID,
+                shipping_method: self.shipping_method
             };
             
             $.showIndicator();
@@ -534,8 +469,8 @@ export default {
                         //self.state = '';
                         $.hideIndicator();
                         self.saveReponseHeader(request); 
-                        var redirect = data.redirect;
-                        self.$router.push(redirect);
+                        //var redirect = data.redirect;
+                        self.$router.push('/payment/success');
                     }
                     
                     $.hideIndicator();
@@ -547,14 +482,7 @@ export default {
             });
             
         },
-        changeAddressList: function(){
-            self = this;
-            if(!self.cart_address_id){
-                self.displayAddressDetails = 'block';
-            }else{
-                self.displayAddressDetails = 'none';
-            }
-        },
+        
         
         addCustomerPassword: function(){
             var self = this;
@@ -610,10 +538,16 @@ export default {
         },
         
         pageInit: function(){
+            
             var self = this;
+            console.log('current url:'+ self.$route.path);
             self.errormsg = '';
             self.correctmsg = '';
             self.pageInitComplete = false;
+            var path = self.$route.path;
+            self.token = self.$route.query.token;
+            self.PayerID = self.$route.query.PayerID;
+            var currentPathUrl = path+'?token='+self.token+'&PayerID='+self.PayerID;
             $.showIndicator();
             $.ajax({
                 url: self.pageInitUrl,
@@ -622,6 +556,8 @@ export default {
                 type: 'get',
                 headers: self.getRequestHeader(),
                 data:{ 
+                    'token':self.token,
+                    'PayerID':self.PayerID,
                 },
                 success:function(data, textStatus,request){
                     if(data.code == 400 && data.status == "access token error"){
@@ -641,7 +577,7 @@ export default {
                         self.payment_method = data.current_payment_method;
                         self.shipping_method = data.current_shipping_method;
                         
-                        self.payments = data.payments;
+                        //self.payments = data.payments;
                         self.cart_info = data.cart_info;
                         self.coupon_code = self.cart_info.coupon_code;
                         if(self.coupon_code){
@@ -649,16 +585,6 @@ export default {
                             self.couponLabel = 'Cancel Coupon';
                         }
                         
-                        
-                        //if(data.stateArr){
-                        //    self.stateArr = data.stateArr;
-                        //}
-                        //self.state = data.state;
-                        if(self.address_list && self.cart_address_id){
-                            self.displayAddressDetails = 'none';
-                        }else{
-                            self.displayAddressDetails = 'block';
-                        }
                         
                         console.log('get editAccount info success');
                         self.saveReponseHeader(request); 
@@ -669,6 +595,11 @@ export default {
                     //console.log('cart_products.length:'+ self.cart_products.length);
                     $.hideIndicator();
                     self.pageInitComplete = true;
+                    self.displayAddressDetails = 'block';
+                    self.fetchAjaxWait = 'none';
+                    
+                    //:style="'display:' + displayAddressDetails"
+                    //    pageInitComplete
                 },
                 error:function(){
                     $.hideIndicator();
@@ -705,6 +636,12 @@ export default {
                 success:function(data, textStatus,request){
                     if(data.code == 400){
                         $.hideIndicator();
+                        var path = self.$route.path;
+                        self.token = self.$route.query.token;
+                        self.PayerID = self.$route.query.PayerID;
+                        var currentPathUrl = path+'?token='+self.token+'&PayerID='+self.PayerID;
+                        
+                        self.setLoginSuccessRedirectUrl(currentPathUrl);
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(data.code == 200){
@@ -729,9 +666,10 @@ export default {
                         }else{
                             self.errormsg = 'cancel coupon error';
                         }
+                        $.hideIndicator();
                     }
                     
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();

@@ -15,10 +15,13 @@ import appCmsPageBody from '../views/body/cms/Page.vue'
 
 import appCheckmoneyStartBody from     '../views/body/payment/checkmoney/Start.vue'
 
+import appPaypalExpressReviewBody from '../views/body/payment/paypal/express/Review.vue'
+
 import appPaypalStandardStartBody from '../views/body/payment/paypal/standard/Start.vue'
 import appPaypalStandardReviewBody from '../views/body/payment/paypal/standard/Review.vue'
 
 import appAlipayStandardStartBody from '../views/body/payment/alipay/standard/Start.vue'
+import appAlipayStandardReviewBody from '../views/body/payment/alipay/standard/Review.vue'
 
 
   
@@ -364,9 +367,21 @@ export default [
   },
   
   
+  {
+    path: '/payment/paypal/express/review',  // 下单成功页面
+    components: {
+      header: appHeader,
+      body: appPaypalExpressReviewBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  
+  
   
   {
-    path: '/payment/alipay/standard/start',  // 下单成功页面
+    path: '/payment/alipay/standard/start',  // alipay 支付开始页面
     components: {
       header: appHeader,
       body: appAlipayStandardStartBody,
@@ -376,7 +391,16 @@ export default [
     }
   },
   
-  
+  {
+    path: '/payment/alipay/standard/review',  // alipay 支付支付成功后返回的页面
+    components: {
+      header: appHeader,
+      body: appAlipayStandardReviewBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  }
   
   
 ]

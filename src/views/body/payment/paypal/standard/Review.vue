@@ -9,7 +9,6 @@
 </template>
 
 
-this.$route.query.uid
 
 <script>
 

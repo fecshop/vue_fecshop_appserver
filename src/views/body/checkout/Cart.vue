@@ -165,6 +165,7 @@
 <script>
 
 var root = process.env.API_ROOT;
+var website_root = process.env.WEBSITE_ROOT;
 
 export default {
     data () {
@@ -208,7 +209,8 @@ export default {
                 type: 'post',
                 headers: self.getRequestHeader(),
                 data:{ 
-                    
+                    'return_url': website_root + '/#/payment/paypal/express/review',
+                    'cancel_url': website_root + '/#/checkout/cart',
                 },
                 success:function(data, textStatus,request){
                     console.log(data);
