@@ -397,10 +397,10 @@ export default {
                     filterAttrs: filterAttrs,
                     price: self.filterPrice
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
-                        console.log('fetch product success');
-                        var products = data.content.products;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        console.log('fetch category product success');
+                        var products = reponseData.data.products;
                         if(products.length > 0){
                             for(var x in products){
                                 self.productList.push(products[x]);
@@ -408,7 +408,6 @@ export default {
                             self.loading = false;
                             $.init();
                             self.count++;
-                            
                         }else{
                             self.isNoDisPlay = 1;
                         }
@@ -421,6 +420,7 @@ export default {
                 error:function(){
                     self.isNoDisPlay = 1;
                     $.hideIndicator();
+                    $.toast("system error");
                     console.log('get get Category info error');
                 }
             });
@@ -444,27 +444,27 @@ export default {
                 filterAttrs: filterAttrs,
                 price: self.filterPrice
             },
-            success:function(data, textStatus,request){
-                if(data.code == 200){
+            success:function(reponseData, textStatus,request){
+                if(reponseData.code == 200){
                     console.log('fetch category success');
-                    self.categoryInfo = data.content;
-                    if(data.content.refine_by_info.length > 0){
-                        self.refine_by_info = data.content.refine_by_info;
+                    self.categoryInfo = reponseData.data;
+                    if(reponseData.data.refine_by_info.length > 0){
+                        self.refine_by_info = reponseData.data.refine_by_info;
                     }
-                    if(data.content.filter_category){
-                        self.filter_category = data.content.filter_category;
+                    if(reponseData.data.filter_category){
+                        self.filter_category = reponseData.data.filter_category;
                     }
-                    if(data.content.filter_info){
-                        self.filter_info = data.content.filter_info;
+                    if(reponseData.data.filter_info){
+                        self.filter_info = reponseData.data.filter_info;
                     }
-                    if(data.content.filter_price){
-                        self.filter_price = data.content.filter_price;
+                    if(reponseData.data.filter_price){
+                        self.filter_price = reponseData.data.filter_price;
                     }
                     
-                    if(data.content.query_item){
-                        self.query_sort = data.content.query_item.frontSort;
+                    if(reponseData.data.query_item){
+                        self.query_sort = reponseData.data.query_item.frontSort;
                     }
-                    var products = data.content.products;
+                    var products = reponseData.data.products;
                     if(products.length > 0){
                         for(var x in products){
                             self.productList.push(products[x]);
@@ -485,6 +485,7 @@ export default {
             },
             error:function(){
                 $.hideIndicator();
+                $.toast("system error");
                 console.log('get get Category info error');
             }
         });

@@ -44,24 +44,15 @@ export default {
                 data:{ 
                     'return_url': website_root + '/#/payment/alipay/standard/review'
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
                         self.saveReponseHeader(request);
-                        window.location.href = data.content;
-                        //setTimeout(function () { document.forms['alipaysubmit'].submit();}, 500);
-                        //onsubmit="setTimeout(function () { window.location.reload(); }, 10)"
-
-                        //var redirectUrl = data.content;
-                        //console.log(redirectUrl);
-                        
-                        //window.location.href = redirectUrl;
-                        //;
-                        //setTimeout(function () { document.forms['alipaysubmit'].submit();}, 500);
-
+                        window.location.href = reponseData.data.redirectUrl;
                     }
                     //$.hideIndicator();
                 },
                 error:function(){
+                    $.toast('system error');
                     $.hideIndicator();
                     console.log('');
                 }

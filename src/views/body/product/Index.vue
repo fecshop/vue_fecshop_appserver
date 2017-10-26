@@ -612,10 +612,10 @@ export default {
                     //var content = data.content;
                     if(data.code == 200){
                         $.toast("Favorite Success");
-                    }else if(data.code == 400){
-                        //$.toast("You must login your account before favorite product");
+                    }else if(data.code == 1100003){
+                        // $.toast("You must login your account before favorite product");
                         // 用户登录成功后，从这里取出来，进行跳转
-                        window.localStorage.setItem('loginSuccessRedirect','/catalog/product/'+product_id);
+                        self.setLoginSuccessRedirectUrl('/catalog/product/'+product_id);
                         self.$router.push('/customer/account/login');
                     }else{
                         $.toast("Favorite Fail");
@@ -625,6 +625,7 @@ export default {
                 },
                 error:function (XMLHttpRequest, textStatus, errorThrown){
                     console.log('Favorite Fail');
+                    $.toast("system error");
                     $.hideIndicator();
                 }
             });
@@ -669,27 +670,25 @@ export default {
                 data: sendData,
                 headers: self.getRequestHeader(),
                 url:self.addProductToCartUrl,
-                success:function(data, textStatus,request){ 
-                    var content = data.content;
-                    if(data.code == 200){
-                        if(content.status == 'success'){
-                            console.log('add to cart success');
-                            //var items_count = content.items_count;
-                            self.$router.push('/checkout/cart');
-                        }else{
-                            console.log('add to cart fail');
-                            var content = content.content;
-                            alert(content);
-                        }
+                success:function(reponseData, textStatus,request){ 
+                    var data = reponseData.data;
+                    if(reponseData.code == 200){
+                        console.log('add to cart success');
+                        self.$router.push('/checkout/cart');
+                    }else if(reponseData.code == 1400001){
+                        $.toast("Add product to cart fail");
+                        console.log('Add product to cart fail');
+                    }else if(reponseData.code == 1400002){
+                        $.toast("Add product to cart fail");
+                        console.log(reponseData.message);
                     }else{
-                        console.log('add to cart fail');
-                        var content = content.content;
-                        alert(content);
+                        $.toast("Add product to cart fail");
                     }
                     self.saveReponseHeader(request); 
                     $.hideIndicator();
                 },
                 error:function (XMLHttpRequest, textStatus, errorThrown){
+                    $.toast("system error");
                     console.log('add to cart error');
                     $.hideIndicator();
                 }
@@ -720,10 +719,10 @@ export default {
                 data:{ 
                     product_id:product_id
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
                         console.log('fetch product success');
-                        var product = data.content.product;
+                        var product = reponseData.data.product;
                         self.product = product;
                         self.tier_price = product.tier_price;
                         self.buy_also_buy = product.buy_also_buy;
@@ -740,11 +739,15 @@ export default {
                         // 上面ajax获取值渲染产品图片的html代码，然后需要sui渲染一次
                         // 必须等待vue渲染完成，sui才能渲染，因此加了1.2秒的延迟。
                         setTimeout("$.init();",1200);
+                    }else if (reponseData.code == 1300001){
+                        $.toast("Product is off the shelf");
+                    }else{
+                        $.toast("Get product info error");
                     }
-                    
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get get Product info error');
                 }

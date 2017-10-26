@@ -64,16 +64,17 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
-                        self.increment_id = data.increment_id;
-                        self.order = data.order;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.increment_id = reponseData.data.increment_id;
+                        self.order = reponseData.data.order;
                     }else{
                         self.$router.push("/");
                     }
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast('system error');
                     $.hideIndicator();
                     console.log('');
                 }

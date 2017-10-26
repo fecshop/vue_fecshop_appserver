@@ -115,8 +115,8 @@
                                                                 State<span class="required">*</span>
                                                             </label>
                                                             <div class="state_html">
-                                                                <input v-if="!stateArr" v-model="state" id="state" name="billing[state]"  title="State" class="address_state input-text" style="" type="text">
-                                                                <select v-if="stateArr" v-model="state" id="address:state" class="address_state validate-select" title="State" name="billing[state]">
+                                                                <input @change="changeState()" v-if="!stateArr" v-model="state" id="state" name="billing[state]"  title="State" class="address_state input-text" style="" type="text">
+                                                                <select @change="changeState()" v-if="stateArr" v-model="state" id="address:state" class="address_state validate-select" title="State" name="billing[state]">
                                                                     <option value="">Please select region, state or province</option>
                                                                     <template v-for="(stateName,stateCode) in stateArr">
                                                                          <option :value="stateCode">{{stateName}}</option>
@@ -165,7 +165,7 @@
                                                     {{shipping.label}}
                                                 </div>
                                                 <div>
-                                                    <input v-model="shipping_method"  data-role="none"  type="radio" :id="'s_method_flatrate_flatrate'+shipping.shipping_i" :value="shipping.method" class="validate-one-required-by-name" name="shipping_method">
+                                                    <input @change="changeShipping()" v-model="shipping_method"  data-role="none"  type="radio" :id="'s_method_flatrate_flatrate'+shipping.shipping_i" :value="shipping.method" class="validate-one-required-by-name" name="shipping_method">
                                                     <label :for="'s_method_flatrate_flatrate'+shipping.shipping_i">{{shipping.name}}
                                                         <strong>                 
                                                             <span class="price">
@@ -344,6 +344,7 @@ export default {
             addCouponUrl: root + '/checkout/cart/addcoupon' ,
             cancelCouponUrl: root + '/checkout/cart/cancelcoupon' , 
             submitOrderUrl: root + '/payment/paypal/express/submitorder' ,
+            getShippingAndCartInfoUrl: root + '/checkout/onepage/getshippingandcartinfo' ,
             errormsg:'',
             customerPasswordDisplay:'none',
             customer_password:'',
@@ -459,23 +460,26 @@ export default {
                 type: 'post',
                 headers: self.getRequestHeader(),
                 data:ajaxData,
-                success:function(data, textStatus,request){
-                    if(data.code == 400){
-                        $.hideIndicator();
-                        self.$router.push('/customer/account/login');
-                        return;
-                    }else if(data.code == 200){
-                        //self.stateArr = data.stateArr;
-                        //self.state = '';
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
                         $.hideIndicator();
                         self.saveReponseHeader(request); 
-                        //var redirect = data.redirect;
                         self.$router.push('/payment/success');
+                    }else if(reponseData.code == 1500003){
+                        self.errormsg = 'token is invaild';
+                    }else if(reponseData.code == 1500017){
+                        self.errormsg = 'order has bean paid';
+                    }else if(reponseData.code == 1500013){
+                        self.errormsg = 'payment by paypal express fail';
+                    }else if(reponseData.code == 1500002){
+                        self.errormsg = 'order generate fail';
+                    }else if(reponseData.code == 1500004){
+                        self.errormsg = 'generate order require param is invaild';
                     }
-                    
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast('system error');
                     $.hideIndicator();
                     console.log('get address list page init error');
                 }
@@ -511,27 +515,77 @@ export default {
                     data:{ 
                         country:country
                     },
-                    success:function(data, textStatus,request){
-                        if(data.code == 400 && data.status == "access token error"){
-                            $.hideIndicator();
-                            self.$router.push('/customer/account/login');
-                            return;
-                        }else if(data.code == 200){
-                            self.stateArr = data.stateArr;
+                    success:function(reponseData, textStatus,request){
+                        if(reponseData.code == 200){
+                            self.stateArr = reponseData.data.stateArr;
                             self.state = '';
-                            
                             self.saveReponseHeader(request); 
+                            self.getShippingAndCartInfo();
                         }
-                        //console.log('cart_products.length:'+ self.cart_products.length);
-                        
+                        $.hideIndicator();
                         $.hideIndicator();
                     },
                     error:function(){
+                        $.toast('system error');
                         $.hideIndicator();
                         console.log('get address list page init error');
                     }
                 });
             }
+        },
+        
+        changeState: function(){
+            self = this;
+            self.getShippingAndCartInfo();
+        },
+        changeShipping: function(){
+            self = this;
+            self.getShippingAndCartInfo();
+        },
+        getShippingAndCartInfo: function(){
+            console.log("getShippingAndCartInfo");
+            var self = this;
+            var address_id = self.cart_address_id;
+            var country = self.country;
+            var state = self.state;
+            var shipping_method = self.shipping_method;
+            
+            self.errormsg = '';
+            self.correctmsg = '';
+            $.showIndicator();
+            $.ajax({
+                url: self.getShippingAndCartInfoUrl,
+                async: true,
+                timeout: 120000,
+                type: 'get',
+                headers: self.getRequestHeader(),
+                data:{ 
+                    country:country,
+                    address_id:address_id,
+                    state:state,
+                    shipping_method:shipping_method,
+                },
+                success:function(reponseData, textStatus,request){
+                    // 1500008
+                    if(reponseData.code == 200){
+                        self.shippings = reponseData.data.shippings;
+                        self.cart_info = reponseData.data.cart_info;
+                        
+                    }else if(reponseData.code == 1500008){
+                        //$.toast('cart product is empty');
+                    }
+                    //console.log('cart_products.length:'+ self.cart_products.length);
+                    self.saveReponseHeader(request); 
+                    $.hideIndicator();
+                    self.pageInitComplete = true;
+                },
+                error:function(){
+                    $.hideIndicator();
+                    $.toast('system error');
+                    console.log('get address list page init error');
+                }
+            });
+        
         },
         routerGo: function(){
             this.$router.go(-1);
@@ -548,65 +602,57 @@ export default {
             self.token = self.$route.query.token;
             self.PayerID = self.$route.query.PayerID;
             var currentPathUrl = path+'?token='+self.token+'&PayerID='+self.PayerID;
-            $.showIndicator();
-            $.ajax({
-                url: self.pageInitUrl,
-                async: true,
-                timeout: 120000,
-                type: 'get',
-                headers: self.getRequestHeader(),
-                data:{ 
-                    'token':self.token,
-                    'PayerID':self.PayerID,
-                },
-                success:function(data, textStatus,request){
-                    if(data.code == 400 && data.status == "access token error"){
-                        $.hideIndicator();
-                        self.$router.push('/customer/account/login');
-                        return;
-                    }else if(data.code == 200){
-                        
-                        self.cart_address = data.cart_address;
-                        self.cart_address_id = data.cart_address_id;
-                        self.isGuest = data.isGuest;
-                        self.countryArr = data.countryArr;
-                        self.country = data.country;
-                        self.address_list = data.address_list;
-                        self.shippings = data.shippings;
-                        self.currency_info = data.currency_info;
-                        self.payment_method = data.current_payment_method;
-                        self.shipping_method = data.current_shipping_method;
-                        
-                        //self.payments = data.payments;
-                        self.cart_info = data.cart_info;
-                        self.coupon_code = self.cart_info.coupon_code;
-                        if(self.coupon_code){
-                            self.couponType = 2;
-                            self.couponLabel = 'Cancel Coupon';
+            if(self.token && self.PayerID){
+                $.showIndicator();
+                $.ajax({
+                    url: self.pageInitUrl,
+                    async: true,
+                    timeout: 120000,
+                    type: 'get',
+                    headers: self.getRequestHeader(),
+                    data:{ 
+                        'token':self.token,
+                        'PayerID':self.PayerID,
+                    },
+                    success:function(reponseData, textStatus,request){
+                        if(reponseData.code == 200){
+                            self.cart_address = reponseData.data.cart_address;
+                            
+                            self.isGuest = reponseData.data.isGuest;
+                            self.countryArr = reponseData.data.countryArr;
+                            self.country = reponseData.data.country;
+                            self.address_list = reponseData.data.address_list;
+                            self.shippings = reponseData.data.shippings;
+                            self.currency_info = reponseData.data.currency_info;
+                            self.payment_method = reponseData.data.current_payment_method;
+                            self.shipping_method = reponseData.data.current_shipping_method;
+                            //self.payments = reponseData.data.payments;
+                            self.cart_info = reponseData.data.cart_info;
+                            self.coupon_code = self.cart_info.coupon_code;
+                            if(self.coupon_code){
+                                self.couponType = 2;
+                                self.couponLabel = 'Cancel Coupon';
+                            }
+                            console.log('get editAccount info success');
+                            self.saveReponseHeader(request); 
+                            
+                        }else if(reponseData.code == 1500007){ 
+                            self.$router.push('/checkout/cart');
+                        }else if(reponseData.code == 1500016){
+                            self.errormsg = 'get address info from paypal express api fail';
                         }
-                        
-                        
-                        console.log('get editAccount info success');
-                        self.saveReponseHeader(request); 
-                    }else if(data.code == 401){
-                        self.$router.push('/checkout/cart');
-                        return;
+                        $.hideIndicator();
+                        self.pageInitComplete = true;
+                        self.displayAddressDetails = 'block';
+                        self.fetchAjaxWait = 'none';
+                    },
+                    error:function(){
+                        $.toast('system error');
+                        $.hideIndicator();
+                        console.log('get address list page init error');
                     }
-                    //console.log('cart_products.length:'+ self.cart_products.length);
-                    $.hideIndicator();
-                    self.pageInitComplete = true;
-                    self.displayAddressDetails = 'block';
-                    self.fetchAjaxWait = 'none';
-                    
-                    //:style="'display:' + displayAddressDetails"
-                    //    pageInitComplete
-                },
-                error:function(){
-                    $.hideIndicator();
-                    console.log('get address list page init error');
-                }
-            });
-            
+                });
+            }
         },
         
         addCoupon: function(){
@@ -633,18 +679,17 @@ export default {
                 data:{ 
                     coupon_code:coupon_code
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
                         $.hideIndicator();
                         var path = self.$route.path;
                         self.token = self.$route.query.token;
                         self.PayerID = self.$route.query.PayerID;
                         var currentPathUrl = path+'?token='+self.token+'&PayerID='+self.PayerID;
-                        
                         self.setLoginSuccessRedirectUrl(currentPathUrl);
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
+                    }else if(reponseData.code == 200){
                         self.saveReponseHeader(request);
                         self.pageInit();
                         
@@ -656,23 +701,19 @@ export default {
                             self.couponLabel = 'Add Coupon';
                             self.self.coupon_code = '';
                         }
-                        
-
                     }else{
                         self.saveReponseHeader(request); 
-                        
                         if(self.couponType == 1){
                             self.errormsg = 'add coupon error,coupon code is wrong or has timeout';
                         }else{
                             self.errormsg = 'cancel coupon error';
                         }
-                        $.hideIndicator();
                     }
-                    
-                    
+                    $.hideIndicator();
                 },
                 error:function(){
                     $.hideIndicator();
+                    $.toast('system error');
                     console.log('get address list page init error');
                 }
             });

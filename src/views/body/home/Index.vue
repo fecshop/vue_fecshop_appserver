@@ -58,20 +58,22 @@ export default {
                 data:{ 
                 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
-                        var content         = data.content;
-                        self.productList    = content.productList;
-                        self.advertiseImg   = content.advertiseImg;
-                        self.language       = content.language;
-                        self.currency       = content.currency;
+                success:function(reponseData, textStatus,request){
+                    console.log('get home cms index success');
+                    if(reponseData.code == 200){
+                        var serverData      = reponseData.data;
+                        var serverMessage   = reponseData.message;
+                        self.productList    = serverData.productList;
+                        self.advertiseImg   = serverData.advertiseImg;
+                        self.language       = serverData.language;
+                        self.currency       = serverData.currency;
                     }
-                    //self.productList = data;
                     self.saveReponseHeader(request); 
                     $.hideIndicator();
                 },
                 error:function(){
                     $.hideIndicator();
+                    $.toast("system error");
                     console.log('get home content error');
                 }
             });

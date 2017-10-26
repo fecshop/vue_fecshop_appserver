@@ -4,6 +4,13 @@
             <div class="onestepcheckout-place-order-loading" style="display: block;"><img src="//img.fancyecommerce.com/images/opc-ajax-loader.gif">&nbsp;&nbsp;
                 Please wait, processing your order...
             </div>
+            <div class="fecshop_message" v-if="errormsg">
+                <div class="error-msg">
+                    <div>
+                        {{errormsg}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -50,16 +57,24 @@ export default {
                         'token': self.token,
                         'PayerID': self.PayerID
                     },
-                    success:function(data, textStatus,request){
-                        if(data.code == 200){
+                    success:function(reponseData, textStatus,request){
+                        if(reponseData.code == 200){
                             self.saveReponseHeader(request);
                             self.$router.push('/payment/success');
+                        }else if(reponseData.code == 1500009){
+                            self.errormsg = 'token is invaild';
+                        }else if(reponseData.code == 1500010){
+                            self.errormsg = 'payment by paypal api fail';
+                        }else if(reponseData.code == 1500011){
+                            self.errormsg = 'after paypal payment , update order info fail';
                         }else{
-                            self.$router.push('/checkout/onepage');
+                            //self.$router.push('/checkout/onepage');
+                            self.errormsg = 'payment error , plase contact us send your error content';
                         }
                         $.hideIndicator();
                     },
                     error:function(){
+                        $.toast('system error');
                         $.hideIndicator();
                         console.log('');
                     }

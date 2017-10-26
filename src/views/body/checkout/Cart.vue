@@ -212,25 +212,28 @@ export default {
                     'return_url': website_root + '/#/payment/paypal/express/review',
                     'cancel_url': website_root + '/#/checkout/cart',
                 },
-                success:function(data, textStatus,request){
-                    console.log(data);
-                    if(data.code == 400 && data.status == "access token error"){
-                        $.hideIndicator();
-                        self.$router.push('/customer/account/login');
-                        return;
-                    }else if(data.code == 200){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
                         self.saveReponseHeader(request);
-                        var redirectUrl = data.content;
+                        var redirectUrl = reponseData.data.redirectUrl;
                         console.log(redirectUrl);
                         window.location.href = redirectUrl;
+                    }else if(reponseData.code == 1500001){
+                        $.toast('generate order fail');
+                    }else if(reponseData.code == 1500002){
+                        $.toast('generate order fail');
+                    }else if(reponseData.code == 1500003){
+                        $.toast('Get paypal express token fail');
                     }else{
-                        self.saveReponseHeader(request); 
-                        self.errormsg = data.content;
+                        $.toast('generate order fail');
                     }
+                    self.saveReponseHeader(request); 
+                    self.errormsg = reponseData.data.error;
                     $.hideIndicator();
                 },
                 error:function(){
                     $.hideIndicator();
+                    $.toast('system error');
                     console.log('get address list page init error');
                 }
             });
@@ -262,23 +265,20 @@ export default {
                     up_type:up_type,
                     item_id:item_id
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400 && data.status == "access token error"){
-                        $.hideIndicator();
-                        self.$router.push('/customer/account/login');
-                        return;
-                    }else if(data.code == 200){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
                         self.saveReponseHeader(request);
                         self.pageInit();
-                        
                     }else{
                         self.saveReponseHeader(request); 
-                        self.errormsg = data.content;
+                        self.errormsg = 'update cart product qty fail';
+                        $.toast('update qty fail');
                     }
                     $.hideIndicator();
                 },
                 error:function(){
                     $.hideIndicator();
+                    $.toast('system error');
                     console.log('get address list page init error');
                 }
             });
@@ -300,21 +300,17 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400 && data.status == "access token error"){
-                        $.hideIndicator();
-                        self.$router.push('/customer/account/login');
-                        return;
-                    }else if(data.code == 200){
-                        self.currency = data.currency;
-                        self.cart_products = data.cart_info.products;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.currency = reponseData.data.currency;
+                        self.cart_products = reponseData.data.cart_info.products;
                         var products = self.cart_products;
                         for(var x in products){
                             var productOne = products[x];
                             self.productQty[productOne.item_id] = productOne.qty;
                         }
                         
-                        self.cart_info = data.cart_info;
+                        self.cart_info = reponseData.data.cart_info;
                         self.coupon_code = self.cart_info.coupon_code;
                         if(self.coupon_code){
                             self.couponType = 2;
@@ -329,6 +325,7 @@ export default {
                 },
                 error:function(){
                     $.hideIndicator();
+                    $.toast('system error');
                     console.log('get address list page init error');
                 }
             });
@@ -358,15 +355,15 @@ export default {
                 data:{ 
                     coupon_code:coupon_code
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
                         $.hideIndicator();
+                        self.setLoginSuccessRedirectUrl('/checkout/cart');
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
+                    }else if(reponseData.code == 200){
                         self.saveReponseHeader(request);
                         self.pageInit();
-                        
                         if(self.couponType == 1){
                             self.couponType = 2;
                             self.couponLabel = 'Cancel Coupon';
@@ -375,22 +372,19 @@ export default {
                             self.couponLabel = 'Add Coupon';
                             self.self.coupon_code = '';
                         }
-                        
-
                     }else{
                         self.saveReponseHeader(request); 
-                        
                         if(self.couponType == 1){
                             self.errormsg = 'add coupon error,coupon code is wrong or has timeout';
                         }else{
                             self.errormsg = 'cancel coupon error';
                         }
                     }
-                    
                     $.hideIndicator();
                 },
                 error:function(){
                     $.hideIndicator();
+                    $.toast('system error');
                     console.log('get address list page init error');
                 }
             });

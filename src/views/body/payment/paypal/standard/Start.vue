@@ -40,16 +40,20 @@ export default {
                     'return_url': website_root + '/#/payment/paypal/standard/review',
                     'cancel_url': website_root + '/#/checkout/onepage',
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
                         self.saveReponseHeader(request);
-                        var redirectUrl = data.content;
+                        var redirectUrl = reponseData.data.redirectUrl;
                         console.log(redirectUrl);
                         window.location.href = redirectUrl;
+                    }else{
+                        self.saveReponseHeader(request);
+                        $.toast(reponseData.data.error);
                     }
                     //$.hideIndicator();
                 },
                 error:function(){
+                    $.toast('system error');
                     $.hideIndicator();
                     console.log('');
                 }
