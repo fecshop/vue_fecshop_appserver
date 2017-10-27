@@ -1,14 +1,82 @@
 <template>
-  <div>
-    product
-  </div>
+    <div class="content">
+        <div class="shopping-cart-img">
+            {{title}}
+        </div>
+        <div class="fecshop_message" v-if="errormsg">
+            <div class="error-msg">
+                <div>
+                    {{errormsg}}
+                </div>
+            </div>
+		</div>
+        <div class="mobile-container">
+            <div class="col-main">
+                <div v-html="content">
+                </div>
+            </div>
+        </div>
+
+    </div>
 </template>
 <script>
+var root = process.env.API_ROOT;
+
 export default {
-  data () {
-    return {
+    data () {
+        return {
+            pageInitUrl: root + '/cms/article/index' ,
+            errormsg: "",
+            title: "",
+            content: ""
+        }
+    },
+    created: function(){
+        this.pageInit();
+    },
+    watch: {
+        // 如果路由有变化，会再次执行该方法
+        '$route': 'pageInit',
+    },
+    methods:{
+    
+        pageInit() {
+            console.log("fetch cms page");
+            this.loading = true;
+            var self = this; 
+            var page_key = this.$route.params.page_key;
+            var filterAttrs = JSON.stringify(self.filterAttrs);
+            $.showIndicator();
+            $.ajax({
+                url: self.pageInitUrl,
+                async: true,
+                timeout: 120000,
+                dataType: 'json', 
+                type: 'get',
+                headers: self.getRequestHeader(),
+                data:{ 
+                    url_key:page_key
+                },
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.title = reponseData.data.title;
+                        self.content = reponseData.data.content;
+                        self.saveReponseHeader(request); 
+                    }
+                    $.hideIndicator();
+                },
+                error:function(){
+                    $.hideIndicator();
+                    $.toast("system error");
+                    console.log('get get Category info error');
+                }
+            });
+            
+        }
     
     }
-  }
 }
+$(document).ready(function(){
+    $.init();
+});
 </script>

@@ -279,9 +279,9 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
-                        self.captchaFile = "data:image/gif;base64," + data.image;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.captchaFile = "data:image/gif;base64," + reponseData.data.image;
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();

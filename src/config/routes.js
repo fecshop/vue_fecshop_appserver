@@ -323,7 +323,7 @@ export default [
   },
   
   {
-    path: '/cms/page/:page_id',  // 下单成功页面
+    path: '/cms/page/:page_key',  // 下单成功页面
     components: {
       header: appHeader,
       body: appCmsPageBody,

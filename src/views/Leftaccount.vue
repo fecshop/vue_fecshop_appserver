@@ -64,7 +64,7 @@
               <div class="item-inner">
                 <div class="item-title">
                   
-                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/about-us')"   class="nav_t">
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/cms/page/about-us')"   class="nav_t">
                         About Us
                     </a>
                 </div>
@@ -83,7 +83,7 @@
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">
-                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/privacy-policy')"   class="nav_t">
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/cms/page/privacy-policy')"   class="nav_t">
                         Privacy Policy
                     </a>
                 </div>
@@ -92,7 +92,7 @@
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title">
-                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/return-policy')"   class="nav_t">
+                    <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/cms/page/return-policy')"   class="nav_t">
                         Return Policy
                     </a>
                 </div>

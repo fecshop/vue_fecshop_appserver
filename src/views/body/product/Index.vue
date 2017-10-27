@@ -607,12 +607,12 @@ export default {
                 },
                 headers: self.getRequestHeader(),
                 url:self.addProductFavoriteUrl,
-                success:function(data, textStatus,request){ 
+                success:function(reponseData, textStatus,request){ 
                     console.log('favorite product success');
-                    //var content = data.content;
-                    if(data.code == 200){
+                    //var content = reponseData.content;
+                    if(reponseData.code == 200){
                         $.toast("Favorite Success");
-                    }else if(data.code == 1100003){
+                    }else if(reponseData.code == 1100003){
                         // $.toast("You must login your account before favorite product");
                         // 用户登录成功后，从这里取出来，进行跳转
                         self.setLoginSuccessRedirectUrl('/catalog/product/'+product_id);

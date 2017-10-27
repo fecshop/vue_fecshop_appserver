@@ -164,12 +164,12 @@ export default {
                 data:{ 
                     product_id:product_id,
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
-                        self.reviewList = data.reviewList;
-                        self.product = data.product;
-                        self.review_count = data.review_count;
-                        self.reviw_rate_star_average = data.reviw_rate_star_average;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.reviewList = reponseData.data.reviewList;
+                        self.product = reponseData.data.product;
+                        self.review_count = reponseData.data.review_count;
+                        self.reviw_rate_star_average = reponseData.data.reviw_rate_star_average;
                         self.count = 1;
                         console.log('get editAccount info success');
                         self.saveReponseHeader(request); 
@@ -177,6 +177,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get address list page init error');
                 }
@@ -201,13 +202,9 @@ export default {
                         product_id:product_id,
                         p: self.count+1
                     },
-                    success:function(data, textStatus,request){
-                        if(data.code == 200){
-                            //self.reviewList = data.reviewList;
-                            //self.product = data.product;
-                            //self.review_count = data.review_count;
-                            //self.reviw_rate_star_average = data.reviw_rate_star_average;
-                            var reviewList = data.reviewList;
+                    success:function(reponseData, textStatus,request){
+                        if(reponseData.code == 200){
+                            var reviewList = reponseData.data.reviewList;
                             if(reviewList.length > 0){
                                 for(var x in reviewList){
                                     self.reviewList.push(reviewList[x]);
@@ -222,6 +219,7 @@ export default {
                         $.hideIndicator();
                     },
                     error:function(){
+                        $.toast("system error");
                         $.hideIndicator();
                         console.log('get address list page init error');
                     }

@@ -220,22 +220,23 @@ export default {
                     selectStar:selectStar
                     
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
                         self.setLoginSuccessRedirectUrl('/product/review/add/'+product_id);
                         self.$router.push('/customer/account/login');
-                    }else if(data.code == 200){
+                    }else if(reponseData.code == 200){
                         self.$router.push('/product/review/lists/'+product_id);
                         
                         console.log('');
                         self.saveReponseHeader(request); 
                     }else{
-                        self.errormsg = data.content;
+                        self.errormsg = reponseData.message;
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('');
                 }
@@ -263,14 +264,14 @@ export default {
                 data:{ 
                     product_id:product_id,
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
                         self.setLoginSuccessRedirectUrl('/product/review/add/'+product_id);
                         self.$router.push('/customer/account/login');
-                    }else if(data.code == 200){
-                        self.product = data.product;
-                        self.customer_name = data.customer_name;
-                        self.reviewCaptchaActive = data.reviewCaptchaActive;
+                    }else if(reponseData.code == 200){
+                        self.product = reponseData.data.product;
+                        self.customer_name = reponseData.data.customer_name;
+                        self.reviewCaptchaActive = reponseData.data.reviewCaptchaActive;
                         if(self.reviewCaptchaActive){
                             self.reflushCaptcha();
                         }
@@ -280,6 +281,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('');
                 }
@@ -304,14 +306,15 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
-                        self.captchaFile = "data:image/gif;base64," + data.image;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.captchaFile = "data:image/gif;base64," + reponseData.data.image;
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get get Category info error');
                 }

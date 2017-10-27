@@ -178,8 +178,8 @@ export default {
                     telephone:telephone,
                     comment:comment,
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
                         self.correctmsg = 'submit contacts info success';
                     }else{
                         self.errormsg = 'submit contacts info fail';
@@ -190,6 +190,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get address list page init error');
                 }
@@ -208,12 +209,12 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
-                        self.contactsCaptchaActive  = data.contactsCaptchaActive;
-                        self.customer_name          = data.customer_name;
-                        self.email                  = data.customer_email;
-                        self.contacts_email         = data.contactsEmail;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.contactsCaptchaActive  = reponseData.data.contactsCaptchaActive;
+                        self.customer_name          = reponseData.data.customer_name;
+                        self.email                  = reponseData.data.customer_email;
+                        self.contacts_email         = reponseData.data.contactsEmail;
                         self.getContactsCaptcha();
                         console.log('get editAccount info success');
                         self.saveReponseHeader(request); 
@@ -221,6 +222,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get address list page init error');
                 }
@@ -241,14 +243,15 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
-                        self.captchaFile = "data:image/gif;base64," + data.image;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.captchaFile = "data:image/gif;base64," + reponseData.data.image;
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get get Category info error');
                 }
