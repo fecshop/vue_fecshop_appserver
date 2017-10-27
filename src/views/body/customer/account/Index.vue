@@ -55,17 +55,18 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
+                success:function(reponseData, textStatus,request){
                     self.saveReponseHeader(request); 
                     $.hideIndicator();
-                    console.log('logout status'+data.code);
-                    if(data.code == 200 || data.code == 400){
+                    console.log('logout status'+reponseData.code);
+                    if(reponseData.code == 200 || reponseData.code == 1100003){
                         console.log('logout success ,and begin redirect login page');
                         self.$router.push('/customer/account/login');
                         return;
                     }
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('logout account fail');
                 }
@@ -82,21 +83,21 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    console.log(data.code)
-                    if((data.code == 400) || (data.code == 401)){
+                success:function(reponseData, textStatus,request){
+                    console.log(reponseData.code)
+                    if(reponseData.code == 1100003){
                         $.hideIndicator();
                         self.saveReponseHeader(request); 
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
-                        self.menuList = data.menuList;
-                    
+                    }else if(reponseData.code == 200){
+                        self.menuList = reponseData.data.menuList;
                         self.saveReponseHeader(request); 
                     }   
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get get Category info error');
                 }

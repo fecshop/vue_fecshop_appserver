@@ -191,22 +191,21 @@ export default {
                     is_subscribed:is_subscribed,
                     captcha:captcha
                 },
-                success:function(data, textStatus,request){
-                    var code = data.code;
+                success:function(reponseData, textStatus,request){
+                    var code = reponseData.code;
                     if(code == 200){
                         console.log('account login success');
-                        var redirect = data.redirect;
                         self.saveReponseHeader(request); 
                         $.hideIndicator();
-                        self.$router.push(redirect);
-                    }else if(code == 400){
+                        self.$router.push('/customer/account/login');
+                    }else if(code == 1100006){
                         console.log('account has login');
                         self.errormsg = 'account has logined';
                         self.saveReponseHeader(request); 
                         $.hideIndicator();
                         //self.$router.push('/customer/account/index');
-                    }else if(code == 401){
-                        var content = data.content;
+                    }else if(code == 1100007){
+                        var content = reponseData.data.error;
                         self.errormsg = content;
                     }else{
                         self.errormsg = 'register account error';
@@ -216,6 +215,7 @@ export default {
                 },
                 error:function(){
                     $.hideIndicator();
+                    $.toast("system error");
                     console.log('login account error');
                 }
             });
@@ -231,19 +231,19 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400){
-                        self.isLogin = data.isLogin;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 400){
+                        self.isLogin = reponseData.data.isLogin;
                         $.hideIndicator();
                         self.$router.push('/customer/account/index');
                         return;
-                    }else if(data.code == 200){
+                    }else if(reponseData.code == 200){
                         //如果用户登录，则跳转到账户中心页面
-                        self.registerCaptchaActive = data.registerCaptchaActive;
-                        self.minNameLength = data.minNameLength;
-                        self.maxNameLength = data.maxNameLength;
-                        self.minPassLength = data.minPassLength;
-                        self.maxPassLength = data.maxPassLength;
+                        self.registerCaptchaActive = reponseData.data.registerCaptchaActive;
+                        self.minNameLength = reponseData.data.minNameLength;
+                        self.maxNameLength = reponseData.data.maxNameLength;
+                        self.minPassLength = reponseData.data.minPassLength;
+                        self.maxPassLength = reponseData.data.maxPassLength;
                         console.log('get register info success');
                         self.saveReponseHeader(request); 
                         console.log(self.registerCaptchaActive);
@@ -255,6 +255,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get get Category info error');
                 }

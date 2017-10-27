@@ -151,28 +151,30 @@ export default {
                     newPassword:newPassword,
                     confirmPassword:confirmPassword
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400){
-                        self.isLogin = data.isLogin;
-                        $.hideIndicator();
-                        self.$router.push('/customer/account/index');
-                        return;
-                    }else if(data.code == 200){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
                         //如果用户登录，则跳转到账户中心页面
                         self.$router.push('/customer/account/resetpasswordsuccess');
                         console.log('');
                         self.saveReponseHeader(request); 
-                    }else if(data.code == 401){
+                    }else if(reponseData.code == 1100009){
                         self.errormsg = 'reset password token is expired';
                         self.saveReponseHeader(request); 
+                    }else if(reponseData.code == 1100010){
+                        self.errormsg = 'reset password by token, request param is invalid';
+                        self.saveReponseHeader(request); 
+                    }else if(reponseData.code == 1100011){
+                        self.errormsg = 'reset password by token fail';
+                        self.saveReponseHeader(request);
                     }else{
-                        self.errormsg = data.content;
+                        self.errormsg = reponseData.data.content;
                         self.saveReponseHeader(request); 
                     }
                     self.loadSuccess = true;
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get get Category info error');
                 }
@@ -193,15 +195,10 @@ export default {
                 data:{ 
                     resetToken:resetToken
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400){
-                        self.isLogin = data.isLogin;
-                        $.hideIndicator();
-                        self.$router.push('/customer/account/index');
-                        return;
-                    }else if(data.code == 200){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
                         //如果用户登录，则跳转到账户中心页面
-                        self.resetPasswordActive = data.resetPasswordActive;
+                        self.resetPasswordActive = reponseData.data.resetPasswordActive;
                         console.log('');
                         self.saveReponseHeader(request); 
                     }else{
@@ -212,6 +209,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get get Category info error');
                 }

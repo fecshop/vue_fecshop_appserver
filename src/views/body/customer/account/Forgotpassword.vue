@@ -79,7 +79,6 @@ export default {
             captcha:'',
             errormsg:'',
             captchaFile:'',
-            
         }
     },
     created: function(){
@@ -101,25 +100,27 @@ export default {
                     email: self.email,
                     captcha: self.captcha
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400){
-                        self.isLogin = data.isLogin;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100006){
+                        //如果用户登录，则跳转到账户中心页面
                         $.hideIndicator();
                         self.$router.push('/customer/account/index');
-                        return;
-                    }else if(data.code == 200){
-                        //如果用户登录，则跳转到账户中心页面
-                        
+                    }else if(reponseData.code == 200){
                         self.saveReponseHeader(request); 
                         self.$router.push('/customer/account/forgotpasswordsubmit');
                         $.hideIndicator();
-                        return;
+                    }else if(reponseData.code == 1100008){
+                        self.errormsg = 'email address is not exist';
+                    }else if(reponseData.code == 1000007){
+                        self.errormsg = 'captcha is not correct';
                     }else{
-                        self.errormsg = data.content;
+                        self.errormsg = 'send code fail';
                     }
+                    self.saveReponseHeader(request); 
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get get Category info error');
                 }
@@ -136,15 +137,14 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400){
-                        self.isLogin = data.isLogin;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100006){
+                        //如果用户登录，则跳转到账户中心页面
                         $.hideIndicator();
                         self.$router.push('/customer/account/index');
-                        return;
-                    }else if(data.code == 200){
-                        //如果用户登录，则跳转到账户中心页面
-                        self.forgotCaptchaActive = data.forgotCaptchaActive;
+                        
+                    }else if(reponseData.code == 200){
+                        self.forgotCaptchaActive = reponseData.data.forgotCaptchaActive;
                         console.log('get forgot info success');
                         self.saveReponseHeader(request); 
                         if(self.forgotCaptchaActive){
@@ -155,6 +155,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get get Category info error');
                 }
@@ -175,15 +176,16 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
-                        self.captchaFile = "data:image/gif;base64," + data.image;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.captchaFile = "data:image/gif;base64," + reponseData.data.image;
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();
                 },
                 error:function(){
                     $.hideIndicator();
+                    $.toast("system error");
                     console.log('get get Category info error');
                 }
             });

@@ -116,17 +116,17 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400){
-                        self.isLogin = data.isLogin;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
+                        self.isLogin = reponseData.data.isLogin;
                         $.hideIndicator();
                         self.$router.push('/customer/account/index');
                         return;
-                    }else if(data.code == 200){
+                    }else if(reponseData.code == 200){
                         //如果用户登录，则跳转到账户中心页面
-                        self.loginCaptchaActive = data.loginCaptchaActive;
-                        self.googleLoginUrl = data.googleLoginUrl;
-                        self.facebookLoginUrl = data.facebookLoginUrl;
+                        self.loginCaptchaActive = reponseData.data.loginCaptchaActive;
+                        self.googleLoginUrl = reponseData.data.googleLoginUrl;
+                        self.facebookLoginUrl = reponseData.data.facebookLoginUrl;
                         self.saveReponseHeader(request); 
                         console.log(self.loginCaptchaActive);
                         if(self.loginCaptchaActive){
@@ -137,6 +137,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get get Category info error');
                 }
@@ -177,8 +178,8 @@ export default {
                     password:password,
                     captcha:captcha
                 },
-                success:function(data, textStatus,request){
-                    var code = data.code;
+                success:function(reponseData, textStatus,request){
+                    var code = reponseData.code;
                     if(code == 200){
                         console.log('account login success');
                         self.saveReponseHeader(request); 
@@ -189,14 +190,14 @@ export default {
                         }else{
                             self.$router.push('/customer/account/index');
                         }
-                    }else if(code == 400){
+                    }else if(code == 1100006){
                         console.log('account has login');
                         self.saveReponseHeader(request); 
                         $.hideIndicator();
                         self.$router.push('/customer/account/index');
-                    }else if(code == 401){
+                    }else if(code == 1000007){
                         msgArr.push('captcha is not right');
-                    }else if(code == 402){
+                    }else if(code == 1100002){
                         msgArr.push('email or password is not right');
                     }else{
                         msgArr.push('login error');
@@ -208,6 +209,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('login account error');
                 }
@@ -232,14 +234,15 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
-                        self.captchaFile = "data:image/gif;base64," + data.image;
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.captchaFile = "data:image/gif;base64," + reponseData.data.image;
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     $.hideIndicator();
                     console.log('get get Category info error');
                 }
