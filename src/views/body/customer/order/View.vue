@@ -234,13 +234,13 @@ export default {
                 data:{ 
                     order_id:order_id
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400 && data.status == "access token error"){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
                         $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
-                        self.order = data.order;
+                    }else if(reponseData.code == 200){
+                        self.order = reponseData.data.order;
                         if(self.order.products.length > 0){
                             self.orderProducts = self.order.products;
                         }
@@ -251,6 +251,7 @@ export default {
                 },
                 error:function(){
                     $.hideIndicator();
+                    $.toast('system error');
                     console.log('get customer order info error');
                 }
             });

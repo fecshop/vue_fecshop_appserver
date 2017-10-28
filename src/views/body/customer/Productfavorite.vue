@@ -30,7 +30,7 @@
                         <div style="width:100%;min-height:500px;">
                             <div style="width:100%;">
                                 
-                                <table v-if="productList.length > 0" class="product-Reviews"> 
+                                <table v-if="pageInitComplete && productList.length > 0" class="product-Reviews"> 
                                     
                                     <tr v-for="(itemProduct,index) in productList">
                                         <td>
@@ -89,7 +89,7 @@
                                         <div class="preloader"></div>
                                     </div>
                                 </mugen-scroll>
-                                <div v-if="productList.length <= 0" >
+                                <div v-if="pageInitComplete && productList.length <= 0" >
                                     You have no items in your favorite.
                                 </div>
                             </div>
@@ -114,6 +114,7 @@ export default {
             errormsg:'',
             productList:[],
             count:0,
+            pageInitComplete:false,
             loading: false ,
             correctmsg:''
         }
@@ -138,22 +139,21 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    console.log('111');
-                    if(data.code == 400 && data.status == "access token error"){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
                         $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
-                        
-                        self.productList = data.productList;
-                        console.log('222');
+                    }else if(reponseData.code == 200){
+                        self.productList = reponseData.data.productList;
                         self.saveReponseHeader(request); 
                         self.count = 1;
                     }
+                    self.pageInitComplete = true;
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast('system error');
                     $.hideIndicator();
                     console.log('');
                 }
@@ -176,15 +176,15 @@ export default {
                     data:{ 
                         p: self.count+1
                     },
-                    success:function(data, textStatus,request){
+                    success:function(reponseData, textStatus,request){
                         console.log('111');
-                        if(data.code == 400 && data.status == "access token error"){
+                        if(reponseData.code == 1100003){
                             $.hideIndicator();
                             self.$router.push('/customer/account/login');
                             return;
-                        }else if(data.code == 200){
+                        }else if(reponseData.code == 200){
                             console.log('fetch product 200');
-                            var products = data.productList;
+                            var products = reponseData.data.productList;
                             if(products.length > 0){
                                 for(var x in products){
                                     self.productList.push(products[x]);
@@ -199,6 +199,7 @@ export default {
                         $.hideIndicator();
                     },
                     error:function(){
+                        $.toast('system error');
                         $.hideIndicator();
                         console.log('');
                     }

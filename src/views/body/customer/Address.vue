@@ -98,19 +98,20 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400 && data.status == "access token error"){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
                         $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
-                        self.addressList = data.addressList;
+                    }else if(reponseData.code == 200){
+                        self.addressList = reponseData.data.addressList;
                         console.log('get editAccount info success');
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast('system error');
                     $.hideIndicator();
                     console.log('get address list page init error');
                 }
@@ -120,7 +121,6 @@ export default {
         deleteAddress: function(address_id){
             var r=confirm('do you readly want delete this address?'); 
 			if (r==true){ 
-
                 var self = this;
                 self.errormsg = '';
                 self.correctmsg = '';
@@ -134,19 +134,26 @@ export default {
                     data:{ 
                         address_id:address_id
                     },
-                    success:function(data, textStatus,request){
-                        if(data.code == 400 && data.status == "access token error"){
+                    success:function(reponseData, textStatus,request){
+                        if(reponseData.code == 1100003){
                             $.hideIndicator();
                             self.$router.push('/customer/account/login');
                             return;
-                        }else if(data.code == 200){
+                        }else if(reponseData.code == 200){
                             console.log('remove address success');
                             self.saveReponseHeader(request);
                             location.reload() ;                        
+                        }else if(reponseData.code == 1100012){
+                            $.toast('address id not exist');
+                            self.saveReponseHeader(request);
+                            location.reload() ; 
+                        }else{
+                        
                         }
                         $.hideIndicator();
                     },
                     error:function(){
+                        $.toast('system error');
                         $.hideIndicator();
                         console.log('remove address error');
                     }

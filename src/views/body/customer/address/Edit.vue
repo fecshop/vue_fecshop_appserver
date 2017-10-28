@@ -229,13 +229,13 @@ export default {
                 type: 'get',
                 headers: self.getRequestHeader(),
                 data:dataParam,
-                success:function(data, textStatus,request){
-                    if(data.code == 400 && data.status == "access token error"){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
                         $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
-                        self.address = data.address;
+                    }else if(reponseData.code == 200){
+                        self.address = reponseData.data.address;
                         console.log('get address edit info success');
                         self.saveReponseHeader(request); 
                         self.addressCountry = self.address.country;
@@ -246,6 +246,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast('system error');
                     $.hideIndicator();
                     console.log('get address list page init error');
                 }
@@ -321,17 +322,22 @@ export default {
                 type: 'post',
                 headers: self.getRequestHeader(),
                 data:dataParam,
-                success:function(data, textStatus,request){
-                    if(data.code == 400 && data.status == "access token error"){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003 ){
                         $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
+                    }else if(reponseData.code == 200){
                         self.$router.push('/customer/address');
+                    }else if(reponseData.code == 1100012){
+                        self.errormsg = 'customer address is not exist';
+                    }else if(reponseData.code == 1100013){
+                        self.errormsg = reponseData.data.error;
                     }
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast('system error');
                     $.hideIndicator();
                     console.log('get address list page init error');
                 }
@@ -353,11 +359,11 @@ export default {
                         'country':country,
                     },
                     url:ajaxurl,
-                    success:function(data, textStatus,request){ 
-                        if(data.code == 200){
-                            self.address.stateArr = data.stateArr;
-                            self.address.stateIsSelect = data.stateIsSelect;
-                            if(data.stateIsSelect == 0){
+                    success:function(reponseData, textStatus,request){ 
+                        if(reponseData.code == 200){
+                            self.address.stateArr = reponseData.data.stateArr;
+                            self.address.stateIsSelect = reponseData.data.stateIsSelect;
+                            if(reponseData.data.stateIsSelect == 0){
                                 self.addressState = '';
                             }
                         }
@@ -365,6 +371,7 @@ export default {
                         $.hideIndicator();
                     },
                     error:function (XMLHttpRequest, textStatus, errorThrown){
+                        $.toast('system error');
                         $.hideIndicator();    
                     }
                 });

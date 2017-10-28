@@ -66,6 +66,7 @@ export default {
     data () {
         return {
             pageInitUrl: root + '/customer/order/index' ,
+            reorderUrl: root + '/customer/order/reorder' ,
             errormsg:'',
             orderList:[],
             count:0,
@@ -93,13 +94,13 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400 && data.status == "access token error"){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
                         $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
-                        self.orderList = data.orderList;
+                    }else if(reponseData.code == 200){
+                        self.orderList = reponseData.data.orderList;
                         console.log('get customer order info success');
                         self.saveReponseHeader(request); 
                         self.count = 1;
@@ -107,6 +108,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast('system error');
                     $.hideIndicator();
                     console.log('get customer order info error');
                 }
@@ -128,14 +130,14 @@ export default {
                     data:{ 
                         p: self.count+1
                     },
-                    success:function(data, textStatus,request){
-                        if(data.code == 400 && data.status == "access token error"){
+                    success:function(reponseData, textStatus,request){
+                        if(reponseData.code == 1100003){
                             $.hideIndicator();
                             self.$router.push('/customer/account/login');
                             return;
-                        }else if(data.code == 200){
+                        }else if(reponseData.code == 200){
                             console.log('fetch product 200');
-                            var orders = data.orderList;
+                            var orders = reponseData.data.orderList;
                             if(orders.length > 0){
                                 for(var x in orders){
                                     self.orderList.push(orders[x]);
@@ -150,6 +152,7 @@ export default {
                         $.hideIndicator();
                     },
                     error:function(){
+                        $.toast('system error');
                         $.hideIndicator();
                         console.log('get customer order info error');
                     }
@@ -162,6 +165,40 @@ export default {
         },
         reorder :function(order_id){
             var self = this;
+            self.loading = true;
+            self.errormsg = '';
+            self.correctmsg = '';
+            $.showIndicator();
+            $.ajax({
+                url: self.reorderUrl,
+                async: true,
+                timeout: 120000,
+                type: 'get',
+                headers: self.getRequestHeader(),
+                data:{ 
+                    order_id:order_id
+                },
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
+                        self.saveReponseHeader(request);
+                        $.hideIndicator();
+                        self.$router.push('/customer/account/login');
+                    }else if(reponseData.code == 200){
+                        self.saveReponseHeader(request);
+                        self.$router.push('/checkout/cart');
+                    }else if(reponseData.code == 1100014){
+                        $.toast('order id is invalid');
+                    }else{
+                        $.toast('reorder fail');
+                    }
+                    $.hideIndicator();
+                },
+                error:function(){
+                    $.toast('system error');
+                    $.hideIndicator();
+                    console.log('get customer order info error');
+                }
+            });
         }
         
     }

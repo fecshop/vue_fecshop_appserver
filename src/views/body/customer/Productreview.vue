@@ -29,7 +29,7 @@
                     <div style="margin:4px 0 0">
                         <div style="width:100%;min-height:500px;">
                             <div style="width:100%;">
-                                <div v-if="productList.length > 0">
+                                <div v-if="pageInitComplete && productList.length > 0">
                                     <table class="product-Reviews"> 
                                         <tr v-for="(itemProduct,index) in productList">
                                             <td>
@@ -72,7 +72,7 @@
                                         </div>
                                     </mugen-scroll>
                                 </div>
-                                <div v-if="productList.length <= 0">
+                                <div v-if="pageInitComplete && productList.length <= 0">
                                     You have submitted no reviews.
                                 </div>
                             </div>
@@ -97,6 +97,7 @@ export default {
             refuseStatus:'',
             productList:[],
             count:0,
+            pageInitComplete:false,
             loading: false ,
             correctmsg:''
         }
@@ -123,24 +124,26 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
+                success:function(reponseData, textStatus,request){
                     console.log('page init success1');
-                    if(data.code == 400 && data.status == "access token error"){
+                    if(reponseData.code == 1100003){
                         $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
-                        self.productList    = data.productList;
-                        self.noActiveStatus = data.noActiveStatus;
-                        self.activeStatus   = data.activeStatus;
-                        self.refuseStatus   = data.refuseStatus;
+                    }else if(reponseData.code == 200){
+                        self.productList    = reponseData.data.productList;
+                        self.noActiveStatus = reponseData.data.noActiveStatus;
+                        self.activeStatus   = reponseData.data.activeStatus;
+                        self.refuseStatus   = reponseData.data.refuseStatus;
                         console.log('page init success2');
                         self.saveReponseHeader(request); 
                         self.count = 1;
                     }
+                    self.pageInitComplete = true;
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast('system error');
                     $.hideIndicator();
                     console.log('get customer order info error');
                 }
@@ -163,15 +166,14 @@ export default {
                     data:{ 
                         p: self.count+1
                     },
-                    success:function(data, textStatus,request){
-                        console.log('fetch product success');
-                        if(data.code == 400 && data.status == "access token error"){
+                    success:function(reponseData, textStatus,request){
+                        if(reponseData.code == 1100003){
                             $.hideIndicator();
                             self.$router.push('/customer/account/login');
                             return;
-                        }else if(data.code == 200){
+                        }else if(reponseData.code == 200){
                             console.log('fetch product 200');
-                            var products = data.productList;
+                            var products = reponseData.data.productList;
                             if(products.length > 0){
                                 for(var x in products){
                                     self.productList.push(products[x]);
@@ -186,6 +188,7 @@ export default {
                         $.hideIndicator();
                     },
                     error:function(){
+                        $.toast('system error');
                         $.hideIndicator();
                         console.log('get customer order info error');
                     }

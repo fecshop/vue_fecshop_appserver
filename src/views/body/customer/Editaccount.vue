@@ -227,21 +227,22 @@ export default {
                 type: 'post',
                 headers: self.getRequestHeader(),
                 data:updateData,
-                success:function(data, textStatus,request){
-                    if(data.code == 400 && data.status == "access token error"){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
                         $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
+                    }else if(reponseData.code == 200){
                         self.correctmsg = 'update account info success';
-                    }else if(data.code == 401){
-                        self.errormsg = data.content;
+                    }else if(reponseData.code == 401){
+                        self.errormsg = reponseData.data.error;
                     }
                     self.saveReponseHeader(request); 
                     $.hideIndicator();
                 },
                 error:function(){
                     $.hideIndicator();
+                    $.toast('system error');
                     console.log('login account error');
                 }
             });
@@ -259,20 +260,20 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 400 && data.status == "access token error"){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 1100003){
                         $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
-                    }else if(data.code == 200){
+                    }else if(reponseData.code == 200){
                         //如果用户登录，则跳转到账户中心页面
-                        self.email      = data.email;
-                        self.firstname  = data.firstname;
-                        self.lastname   = data.lastname;
-                        self.minNameLength = data.minNameLength;
-                        self.maxNameLength = data.maxNameLength;
-                        self.minPassLength = data.minPassLength;
-                        self.maxPassLength = data.maxPassLength;
+                        self.email      = reponseData.data.email;
+                        self.firstname  = reponseData.data.firstname;
+                        self.lastname   = reponseData.data.lastname;
+                        self.minNameLength = reponseData.data.minNameLength;
+                        self.maxNameLength = reponseData.data.maxNameLength;
+                        self.minPassLength = reponseData.data.minPassLength;
+                        self.maxPassLength = reponseData.data.maxPassLength;
                         console.log('get editAccount info success');
                         self.saveReponseHeader(request); 
                         
@@ -281,6 +282,7 @@ export default {
                 },
                 error:function(){
                     $.hideIndicator();
+                    $.toast('system error');
                     console.log('edit account init page error');
                 }
             });
