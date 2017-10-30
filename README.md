@@ -1,6 +1,6 @@
 # vue_fecshop_appserver
 
-演示地址：http://demo.fancyecommerce.com/
+DEMO：http://demo.fancyecommerce.com/
 
 开发状态：【已完成】
 
@@ -112,9 +112,9 @@ port: 8080,
 
 8.文档
 
-8.1、[fecshop appserver api 状态码](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server-return-code.html)
+8.1、文档: [fecshop appserver api 状态码](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server-return-code.html)
 
-8.2、[fecshop appserver的一些说明](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server.html)
+8.2、文档: [fecshop appserver的一些说明](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server.html)
 
 
 
