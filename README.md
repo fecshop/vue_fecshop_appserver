@@ -2,7 +2,7 @@
 
 开发演示地址：http://demo.fancyecommerce.com/
 
-目前还在开发中...
+目前开发已完成
 
 做fecshop的前后端彻底分离部分的前端界面部分
 
