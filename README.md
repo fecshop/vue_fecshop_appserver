@@ -45,7 +45,7 @@ npm run build
 
 6.文件包里面的文件说明：
 
-`build中`: 配置了webpack的基本配置、开发环境配置、生产环境配置
+`build`: 配置了webpack的基本配置、开发环境配置、生产环境配置
 
 `config`: 中配置了路径端口值等
 
@@ -108,13 +108,13 @@ port: 8080,
 
 7.4、另外，vue里面有一些图片地址，是直接写上的，这个开发者自己替换掉自己的图片地址即可。
 
-7.5 网站的多语言和多货币，是在服务端appserver中进行设置。
+7.5、网站的多语言和多货币，是在服务端appserver中进行设置。
 
 8.文档
 
-8.1、fecshop appserver api 状态码：http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server-return-code.html
+8.1、[fecshop appserver api 状态码](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server-return-code.html)
 
-8.2、fecshop appserver的一些说明：http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server.html
+8.2、[fecshop appserver的一些说明](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server.html)
 
 
 
