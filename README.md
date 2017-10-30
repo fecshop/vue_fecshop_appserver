@@ -45,25 +45,25 @@ npm run build
 
 6.文件包里面的文件说明：
 
-build中配置了webpack的基本配置、开发环境配置、生产环境配置
+`build中`: 配置了webpack的基本配置、开发环境配置、生产环境配置
 
-config中配置了路径端口值等
+`config`: 中配置了路径端口值等
 
-node_modules为依赖的模块
+`node_modules`: 为依赖的模块
 
-src放置组件和入口文件
+`src`: 放置组件和入口文件
 
-static放置静态资源文件
+`static`: 放置静态资源文件
 
-index.html文件入口
+`index.html`: 文件入口
 
 7.配置
 
 7.1、配置获取远程数据的地址：
 
-开发环境为:config/dev.env.js
+开发环境为:`config/dev.env.js`
 
-生产环境为:config/prod.env.js
+生产环境为:`config/prod.env.js`
 
 需要更改下面的配置
 
@@ -77,7 +77,7 @@ api获取数据。
 
 7.2、生产环境设置发布文件地址：
 
-config/index.js 文件中的assetsRoot为设置生产环境的文件发布地址
+`config/index.js` 文件中的`assetsRoot`为设置生产环境的文件发布地址
 
 ```
 module.exports = {
@@ -93,7 +93,7 @@ module.exports = {
 
 7.3、设置开发环境的地址和端口
 
-设置地址：build/dev-server.js
+设置地址：`build/dev-server.js`
 
 ```
  var uri = 'http://localhost:' + port
