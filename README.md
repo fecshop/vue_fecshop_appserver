@@ -65,12 +65,15 @@ index.html文件入口
 
 生产环境为:config/prod.env.js
 
-修改 `API_ROOT` 的值：
+需要更改下面的配置
 
 ```
-API_ROOT: '"https://cnodejs.org/api/v1"'
+API_ROOT: '"//fecshop.appserver.fancyecommerce.com"', // 数据获取api的地址
+WEBSITE_ROOT: '"//demo.fancyecommerce.com"'           // vue客户端访问的首页地址
 ```
 
+因此，您需要先安装fecshop，并将appserver端配置好，提供api支持，vue才可以通过
+api获取数据。
 
 7.2 生产环境设置发布文件地址：
 
@@ -83,6 +86,9 @@ module.exports = {
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
 ```
+
+这个，懂vue的都明白，也就是线上环境编译后文件的存放位置
+，因此，在线上环境，您需要将nginx配置的域名指向该文件路径。
 
 
 7.3 设置开发环境的地址和端口
@@ -99,6 +105,16 @@ module.exports = {
 port: 8080,
 ```
 
+
+7.4 另外，vue里面有一些图片地址，是直接写上的，这个开发者自己替换掉自己的图片地址即可。
+
+7.5 网站的多语言和多货币，是在服务端appserver中进行设置。
+
+8.文档
+
+8.1 fecshop appserver api 状态码：http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server-return-code.html
+
+8.2 fecshop appserver的一些说明：http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server.html
 
 
 
