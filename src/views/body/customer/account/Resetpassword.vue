@@ -115,7 +115,6 @@ export default {
         this.pageInit();
     },
     methods:{
-        
         submitResetPassword: function(){
             var self = this;
             var resetToken = this.$route.params.resetToken;

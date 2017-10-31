@@ -43,14 +43,9 @@ var store_config = store.storeConfig;
 var fecshop_lang = window.localStorage.getItem("fecshop-lang");
 var fecshop_currency = window.localStorage.getItem("fecshop-currency");
 if(!fecshop_lang || !fecshop_currency){
-    console.log('### 111111111')
     for(var k in store_config){
         var one = store_config[k];
-        console.log('### 2222')
-        console.log('### 2222' + one.domain)
-        console.log('### 3333' + current_domain)
         if(one.domain == current_domain){
-            console.log('### domain config get')
             if(!fecshop_lang){
                 console.log('### domain config set lang')
                 window.localStorage.setItem("fecshop-lang",one.lang_code);
@@ -65,9 +60,9 @@ if(!fecshop_lang || !fecshop_currency){
 
 
 
-Vue.prototype.saveReponseHeader = function (request){
+Vue.prototype.saveReponseHeader = function (response){
     // fecshop-uuid
-    var fecshop_uuid = request.getResponseHeader('fecshop-uuid');
+    var fecshop_uuid = response.getResponseHeader('fecshop-uuid');
     if(fecshop_uuid){
         var local_fecshop_uuid = window.localStorage.getItem("fecshop-uuid");
         if(local_fecshop_uuid != fecshop_uuid){
@@ -76,7 +71,7 @@ Vue.prototype.saveReponseHeader = function (request){
         }
     }
     
-    var access_token = request.getResponseHeader('access-token');
+    var access_token = response.getResponseHeader('access-token');
     if(access_token){
         console.log('save header [access-token1]' );
         var local_access_token = window.localStorage.getItem("access-token");

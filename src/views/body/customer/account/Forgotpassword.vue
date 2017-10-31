@@ -78,7 +78,7 @@ export default {
             forgotCaptchaActive:false,
             captcha:'',
             errormsg:'',
-            captchaFile:'',
+            captchaFile:''
         }
     },
     created: function(){
@@ -142,7 +142,6 @@ export default {
                         //如果用户登录，则跳转到账户中心页面
                         $.hideIndicator();
                         self.$router.push('/customer/account/index');
-                        
                     }else if(reponseData.code == 200){
                         self.forgotCaptchaActive = reponseData.data.forgotCaptchaActive;
                         console.log('get forgot info success');
@@ -160,7 +159,6 @@ export default {
                     console.log('get get Category info error');
                 }
             });
-            
         },
         reflushCaptcha: function(){
             this.getForgotCaptcha();

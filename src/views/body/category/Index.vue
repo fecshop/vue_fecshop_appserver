@@ -391,11 +391,11 @@ export default {
                 //    }
                 //},
                 data:{ 
-                    category_id:category_id,
+                    categoryId:category_id,
                     p: self.count + 1,
                     sortColumn: self.sortColumn,
                     filterAttrs: filterAttrs,
-                    price: self.filterPrice
+                    filterPrice: self.filterPrice
                 },
                 success:function(reponseData, textStatus,request){
                     if(reponseData.code == 200){
@@ -439,10 +439,10 @@ export default {
             type: 'get',
             headers: self.getRequestHeader(),
             data:{ 
-                category_id:category_id,
+                categoryId:category_id,
                 sortColumn: self.sortColumn,
                 filterAttrs: filterAttrs,
-                price: self.filterPrice
+                filterPrice: self.filterPrice
             },
             success:function(reponseData, textStatus,request){
                 if(reponseData.code == 200){
