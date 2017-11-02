@@ -34,9 +34,7 @@ export default {
     data () {
         return {
             pageInitUrl: root + '/payment/alipay/standard/review' ,
-            errormsg:'',
-            
-            
+            errormsg:''
         }
     },
     created: function(){
