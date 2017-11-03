@@ -322,10 +322,10 @@ export default {
                     filterAttrs: filterAttrs,
                     price: self.filterPrice
                 },
-                success:function(data, textStatus,request){
-                    if(data.code == 200){
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
                         console.log('fetch product success');
-                        var products = data.content.products;
+                        var products = reponseData.data.products;
                         if(products.length > 0){
                             for(var x in products){
                                 self.productList.push(products[x]);
@@ -344,6 +344,7 @@ export default {
                     $.hideIndicator();
                 },
                 error:function(){
+                    $.toast("system error");
                     self.isNoDisPlay = 1;
                     $.hideIndicator();
                     console.log('get get Category info error');
@@ -369,22 +370,22 @@ export default {
                 filterAttrs: filterAttrs,
                 price: self.filterPrice
             },
-            success:function(data, textStatus,request){
-                if(data.code == 200){
+            success:function(reponseData, textStatus,request){
+                if(reponseData.code == 200){
                     console.log('fetch category success');
-                    self.searchInfo = data.content;
-                    if(data.content.refine_by_info.length > 0){
-                        self.refine_by_info = data.content.refine_by_info;
+                    self.searchInfo = reponseData.data;
+                    if(reponseData.data.refine_by_info.length > 0){
+                        self.refine_by_info = reponseData.data.refine_by_info;
                     }
                     
-                    if(data.content.filter_info){
-                        self.filter_info = data.content.filter_info;
+                    if(reponseData.data.filter_info){
+                        self.filter_info = reponseData.data.filter_info;
                     }
-                    if(data.content.filter_price){
-                        self.filter_price = data.content.filter_price;
+                    if(reponseData.data.filter_price){
+                        self.filter_price = reponseData.data.filter_price;
                     }
                     
-                    var products = data.content.products;
+                    var products = reponseData.data.products;
                     if(products.length > 0){
                         
                         for(var x in products){
@@ -402,6 +403,7 @@ export default {
                     self.saveReponseHeader(request); 
                 }else{
                     self.isNoDisPlay = 1;
+                    $.toast("system error");
                 } 
                 $.hideIndicator();
             },

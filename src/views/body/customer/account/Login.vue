@@ -117,7 +117,7 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
-                    if(reponseData.code == 1100003){
+                    if(reponseData.code == 1100006){
                         self.isLogin = reponseData.data.isLogin;
                         $.hideIndicator();
                         self.$router.push('/customer/account/index');
