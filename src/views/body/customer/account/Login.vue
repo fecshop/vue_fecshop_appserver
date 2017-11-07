@@ -59,10 +59,10 @@
                     </router-link>
                 </div>
                 <div class="clear"></div>
-                <div class="third_login">
+                <div class="third_login" style="display:none;">
                     <div class="fago_login">
-                        <img onclick="facebooklogin()" src="//img.fancyecommerce.com/images/facebook.jpg" /><br/>
-                        <img onclick="googlelogin()"src="//img.fancyecommerce.com/images/google.jpg" /><br/>
+                        <img @click="facebookLogin()" src="//img.fancyecommerce.com/images/facebook.jpg" /><br/>
+                        <img @click="googleLogin()"src="//img.fancyecommerce.com/images/google.jpg" /><br/>
                     </div>
                     <div class="col2-set">
                         <div class="col-1 new-users">
@@ -83,6 +83,7 @@
 <script>
 
 var root = process.env.API_ROOT;
+var website_root = process.env.WEBSITE_ROOT;
 
 export default {
     data () {
@@ -115,6 +116,9 @@ export default {
                 type: 'get',
                 headers: self.getRequestHeader(),
                 data:{ 
+                    googleRedirectUrl:website_root+'/customer/google/loginv',
+                    facebookRedirectUrl:website_root+'/customer/facebook/loginv'
+                    
                 },
                 success:function(reponseData, textStatus,request){
                     if(reponseData.code == 1100006){
@@ -143,6 +147,52 @@ export default {
                 }
             });
             
+        },
+        googleLogin: function(){
+            var self = this;
+            var screenX     = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft;
+			var screenY     = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop;
+			var outerWidth  = typeof window.outerWidth != 'undefined' ? window.outerWidth : document.body.clientWidth;
+			var outerHeight = typeof window.outerHeight != 'undefined' ? window.outerHeight : (document.body.clientHeight - 22);
+			var width    = 800;
+			var height   = 450;
+			var left     = parseInt(screenX + ((outerWidth - width) / 2), 10);
+			var top      = parseInt(screenY + ((outerHeight - height) / 2.5), 10);
+			var features = (
+				'width=' + width +
+				',height=' + height +
+				',left=' + left +
+				',top=' + top
+			);
+            console.log('googleUrl'+self.googleLoginUrl);  
+            var newwindow = window.open(self.googleLoginUrl,'Login_by_facebook',features);
+            if (window.focus) {
+                newwindow.focus()
+            }
+            return false;
+        },
+        facebookLogin: function(){
+            var self = this;
+            var screenX     = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft;
+			var screenY     = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop;
+			var outerWidth  = typeof window.outerWidth != 'undefined' ? window.outerWidth : document.body.clientWidth;
+            var outerHeight = typeof window.outerHeight != 'undefined' ? window.outerHeight : (document.body.clientHeight - 22);
+            var width    = 800;
+			var height   = 450;
+			var left     = parseInt(screenX + ((outerWidth - width) / 2), 10);
+			var top      = parseInt(screenY + ((outerHeight - height) / 2.5), 10);
+			var features = (
+				'width=' + width +
+				',height=' + height +
+				',left=' + left +
+				',top=' + top
+			);
+            console.log('facebookUrl'+self.facebookLoginUrl);  
+            var newwindow=window.open(self.facebookLoginUrl,'Login_by_facebook',features);
+            if (window.focus) {
+                newwindow.focus()
+            }
+            return false;
         },
         loginAccount: function(){
             var self = this;

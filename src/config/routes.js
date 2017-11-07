@@ -31,6 +31,9 @@ import appProductBody from '../views/body/product/Index.vue' //
 import appProductReviewAddBody from '../views/body/product/review/Add.vue' 
 import appProductReviewListBody from '../views/body/product/review/List.vue'
 
+import appCustomerGoogleLoginVBody from '../views/body/customer/google/Loginv.vue'
+import appCustomerFacebookLoginVBody from '../views/body/customer/facebook/Loginv.vue'
+
 
 import appCustomerAccountForgotpasswordBody from '../views/body/customer/account/Forgotpassword.vue'
 import appCustomerAccountResetpasswordBody from '../views/body/customer/account/Resetpassword.vue'
@@ -217,6 +220,30 @@ export default [
     }
   },
   
+  
+  
+  
+  {
+    path: '/customer/google/loginv',  // 忘记密码
+    components: {
+      header: appHeader,
+      body: appCustomerGoogleLoginVBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  
+  {
+    path: '/customer/facebook/loginv',  // 忘记密码
+    components: {
+      header: appHeader,
+      body: appCustomerFacebookLoginVBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
   
   {
     path: '/customer/account/forgotpassword',  // 忘记密码
