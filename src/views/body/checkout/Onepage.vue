@@ -501,7 +501,7 @@ export default {
                     street1: self.cart_address.street1,
                     street2: self.cart_address.street2,
                     country: self.cart_address.country,
-                    state: self.cart_address.state,
+                    state: self.state,
                     city: self.cart_address.city,
                     zip: self.cart_address.zip
                 },

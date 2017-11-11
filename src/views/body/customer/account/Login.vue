@@ -59,7 +59,7 @@
                     </router-link>
                 </div>
                 <div class="clear"></div>
-                <div class="third_login" style="display:none;">
+                <div class="third_login" >
                     <div class="fago_login">
                         <img @click="facebookLogin()" src="//img.fancyecommerce.com/images/facebook.jpg" /><br/>
                         <img @click="googleLogin()"src="//img.fancyecommerce.com/images/google.jpg" /><br/>

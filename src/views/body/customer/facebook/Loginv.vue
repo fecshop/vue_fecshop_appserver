@@ -43,6 +43,11 @@ export default {
             var self = this;
             self.errormsg = '';
             self.correctmsg = '';
+            var requestParams = this.$route.query;
+            var ajaxData = {};
+            for(var x in requestParams){
+                ajaxData[x] = requestParams[x];
+            }
             $.showIndicator();
             $.ajax({
                 url: self.pageInitUrl,
@@ -50,8 +55,7 @@ export default {
                 timeout: 120000,
                 type: 'get',
                 headers: self.getRequestHeader(),
-                data:{ 
-                },
+                data:ajaxData,
                 success:function(reponseData, textStatus,request){
                     if(reponseData.code == 200){
                         
@@ -66,17 +70,11 @@ export default {
                     console.log('get address list page init error');
                 }
             });
-            
         },
         reloadPage: function(){
             window.close();
 			window.opener.location.reload();
         }
-        
-    
     }
-    
-    
-    
 }
 </script>
