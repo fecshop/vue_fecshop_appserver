@@ -41,11 +41,11 @@
               
               
               <div v-if="item.two.name" class="col-50 product_list">
-                <router-link :to="item.one.url" >
+                <router-link :to="item.two.url" >
                     <img width="100%"   class="lazy" v-bind:src="item.two.image"  />
                 </router-link> 
                 <p class="product_name" style="">
-                  <router-link :to="item.one.url" >
+                  <router-link :to="item.two.url" >
                     {{item.two.name}}           
                   </router-link>
                 </p>
