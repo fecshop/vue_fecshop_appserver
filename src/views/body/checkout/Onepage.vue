@@ -475,8 +475,9 @@ export default {
                     self.errormsg = 'zip can not empty';
                     return;
                 }
-
+                var create_account = 0;
                 if(self.isCustomerPassword){
+                    var create_account = 1;
                     if(!self.customer_password){
                         self.errormsg = 'customer_password can not empty';
                         return;
@@ -491,6 +492,7 @@ export default {
                     }
                 }
             }
+            
             var ajaxData = {
                 address_id: self.cart_address_id,
                 billing:{
@@ -507,7 +509,7 @@ export default {
                 },
                 customer_password: self.customer_password,
                 confirm_password: self.confirm_password,
-                create_account: self.isCustomerPassword,
+                create_account: create_account,
                 shipping_method: self.shipping_method,
                 payment_method: self.payment_method
             };
