@@ -1,5 +1,7 @@
 <template>
   <div>
+    <p>{{ $t("message.hello") }}</p>
+    <p>{{ $t("message.wowowo") }}</p>
     <div style="padding:10px;">      
       <!-- 添加 class infinite-scroll 和 data-distance  向下无限滚动可不加infinite-scroll-bottom类，这里加上是为了和下面的向上无限滚动区分-->
       <div class=" infinite-scroll infinite-scroll-bottom" data-distance="100">

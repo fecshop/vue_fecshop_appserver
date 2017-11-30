@@ -25,6 +25,15 @@ import store from './config/store'
 import routes from './config/routes'
 // 引用API文件
 import api from './config/api'
+// 引入多语言
+import VueI18n from 'vue-i18n'
+import messages from './config/i18n'
+Vue.use(VueI18n)
+
+//切换
+//  this.$i18n.locale  = 'zh'
+
+
 // 将API方法绑定到全局
 Vue.prototype.$api = api
 // 使用配置文件规则
@@ -57,7 +66,10 @@ if(!fecshop_lang || !fecshop_currency){
         }
     }
 }
-
+const i18n = new VueI18n({
+  locale: window.localStorage.getItem("fecshop-lang"),    // 语言标识
+  messages
+})
 
 
 Vue.prototype.saveReponseHeader = function (response){
@@ -130,5 +142,6 @@ Vue.prototype.getLoginSuccessRedirectUrl = function(){
 new Vue({
   el: '#app',
   router: router,
+  i18n: i18n,
   render: h => h(App)
 })

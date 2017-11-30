@@ -77,6 +77,7 @@ export default {
             this.propsLang += 1;
             if(this.propsLang > 1){
                 window.localStorage.setItem("fecshop-lang",this.currentLang);
+                this.$i18n.locale  = this.currentLang;
                 console.log(this.currentLang);
                 location.reload() ;
             }

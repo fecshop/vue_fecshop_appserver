@@ -118,9 +118,20 @@ port: 8080,
 8.2、文档: [fecshop appserver的一些说明](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server.html)
 
 
+9.多语言
 
+> 多语言分为几个部分，api提供的多语言数据 和 VUE本身的多语言
 
+9.1、api提供的多语言: 在fecshop appapi入口的翻译文件部分
+处理，详细参看：[Fecshop 多语言](http://www.fecshop.com/doc/fecshop-guide/instructions/cn-1.0/guide-fecshop_mutil_lang.html)
 
+9.2、VUE本身的多语言: 在文件路径  `/src/config/languages/` 下面就可以
+看到各个语言对应的js类型的配置文件，多语言使用的是vue-i18n，
+下面是这个组件的资料。
+
+[vue-i18n github地址](https://github.com/kazupon/vue-i18n)
+
+[vue-i18n 文档](http://kazupon.github.io/vue-i18n/en/started.html)
 
 
 

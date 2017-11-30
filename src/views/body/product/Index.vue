@@ -152,6 +152,15 @@
                             </div>
                             <div class="clear"></div>
                         </div>
+                        
+                        <div class="fecshop_message" v-if="errormsg">
+                            <div class="error-msg">
+                                <div>
+                                    {{errormsg}}
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div v-if="tier_price.length" class="tier_price_info">
                             
                             <div class="label">Wholesale Prices</div>
@@ -336,6 +345,7 @@ export default {
             product_id: '',
             thumbnail_img:[],
             product: {},
+            errormsg:'',
             productReview:[],
             tier_price:[],
             buy_also_buy:[],
@@ -633,6 +643,7 @@ export default {
         },
         addProductToCart: function(){
             self = this;
+            self.errormsg = '';
             console.log('addProductToCart');
             var selected_attr = self.custom_option_selected_attr;
             var custom_option = self.custom_option;
@@ -677,6 +688,8 @@ export default {
                         self.$router.push('/checkout/cart');
                     }else if(reponseData.code == 1400001){
                         $.toast("Add product to cart fail");
+                        ////////reponseData.data
+                        self.errormsg = reponseData.data;
                         console.log('Add product to cart fail');
                     }else if(reponseData.code == 1400002){
                         $.toast("Add product to cart fail");
