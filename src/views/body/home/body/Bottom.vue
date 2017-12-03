@@ -2,7 +2,9 @@
   <div>
     <div class="footer_bar">
       <div class="change-bar">
-        <div class="c_left">Language:</div>
+        <div class="c_left">
+            {{ $t("message.language") }}
+            :</div>
         <div class="c_right">
           <select v-model="currentLang" @change="changeLang" class="lang" rel="">
             <option v-for="lang in langList"   :value="lang.code">{{lang.languageName}}</option>
@@ -12,7 +14,7 @@
       </div>
       <div class="change-bar">
         <div class="c_left">
-          Currency:
+            {{ $t("message.currency") }}:
         </div>
         <div class="c_right">
           <select v-model="currentCurrency" @change="changeCurrency" class="currency">
@@ -28,9 +30,9 @@
       </div>
       <div class="container">
         <div id="copy">
-          Copyright Notice &copy;2016 
-          <a href="http://www.fecshop.com">FecShop</a>
-          .com All rights reserved.
+          {{ $t("message.copyright") }}&copy;2016:
+          <a href="http://www.fecshop.com">FecShop</a>.com
+          {{ $t("message.allright") }}:
         </div>
       </div>
     </div>			

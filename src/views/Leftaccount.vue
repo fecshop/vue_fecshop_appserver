@@ -16,7 +16,7 @@
               <div class="item-inner">
                 <div class="item-title">
                     <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/')"   class="nav_t">
-                        Home
+                        {{ $t("message.home") }}
                     </a>
                 </div>
               </div>
@@ -26,7 +26,7 @@
                 <div class="item-title">
                   
                     <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/customer/account/index')"   class="nav_t">
-                        Account
+                        {{ $t("message.account") }}
                     </a>
                 </div>
               </div>
@@ -36,7 +36,7 @@
                 <div class="item-title">
                   
                     <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/checkout/cart')"   class="nav_t">
-                        Shopping Cart
+                        {{ $t("message.shopping_cart") }}
                     </a>
                 </div>
               </div>
@@ -45,7 +45,7 @@
               <div class="item-inner">
                 <div class="item-title">
                     <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/customer/order')"   class="nav_t">
-                        My Order
+                        {{ $t("message.my_order") }}
                     </a>
                 </div>
               </div>
@@ -55,7 +55,7 @@
                 <div class="item-title">
                   
                     <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/customer/productfavorite')"   class="nav_t">
-                        My Favorite
+                        {{ $t("message.my_favorite") }}
                     </a>
                 </div>
               </div>
@@ -65,7 +65,7 @@
                 <div class="item-title">
                   
                     <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/cms/page/about-us')"   class="nav_t">
-                        About Us
+                        {{ $t("message.about_us") }}
                     </a>
                 </div>
               </div>
@@ -75,7 +75,7 @@
                 <div class="item-title">
                  
                     <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/customer/contacts')"   class="nav_t">
-                        Contact us
+                        {{ $t("message.contact_us") }}
                     </a>
                 </div>
               </div>
@@ -84,7 +84,7 @@
               <div class="item-inner">
                 <div class="item-title">
                     <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/cms/page/privacy-policy')"   class="nav_t">
-                        Privacy Policy
+                        {{ $t("message.privacy_policy") }}
                     </a>
                 </div>
               </div>
@@ -93,7 +93,7 @@
               <div class="item-inner">
                 <div class="item-title">
                     <a href="javascript:void(0)" v-on:click="closePanelAndRedirect('/cms/page/return-policy')"   class="nav_t">
-                        Return Policy
+                        {{ $t("message.return_policy") }}
                     </a>
                 </div>
               </div>

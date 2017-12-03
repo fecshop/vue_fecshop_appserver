@@ -25,17 +25,17 @@
                     <div>
                         <div class="rbc_cold">
                             <span>
-                                <span class="average_rating">Average rating:</span>
+                                <span class="average_rating">{{ $t("message.average_rating") }}:</span>
                                 <span :class="'review_star review_star_'+product.reviw_rate_star_average" style="font-weight:bold;" itemprop="average"></span>  
                                 
                                 <a external rel="nofollow" href="<?= Yii::$service->url->getUrl('catalog/reviewproduct/lists',['spu'=>$spu,'_id'=>$_id]); ?>">
-                                    (<span itemprop="count">{{product.review_count}} reviews</span>)
+                                    (<span itemprop="count">{{product.review_count}} {{ $t("message.reviews") }}</span>)
                                 </a>
                             </span>
                         </div>
                         <div class="clear"></div>
                         <div class="item_code">
-                            Item Code:
+                            {{ $t("message.item_code") }}:
                             <span class="item_sku">{{product.sku}}</span>
                         </div>
                         <div class="clear"></div>
@@ -125,7 +125,7 @@
                         </div>
                         
                         <div class="product_qty pg">
-                            <div class="label">Qty:</div>
+                            <div class="label">{{ $t("message.qty") }}:</div>
                             <div class="rg">
                                 <select v-model="product_select_qty" name="qty" class="qty">
                                     <option value="1">1</option>
@@ -163,22 +163,34 @@
                         
                         <div v-if="tier_price.length" class="tier_price_info">
                             
-                            <div class="label">Wholesale Prices</div>
+                            <div class="label">{{ $t("message.wholesale_prices") }}</div>
                             <table>
                                 <template v-for="(t_item ,t_index) in tier_price">
                                     <tr>
-                                        <td v-for="(t_item_one ,t_index_one) in t_item">{{t_item_one}}</td>
+                                        <td v-for="(t_item_one ,t_index_one) in t_item">
+                                            {{t_item_one}}
+                                        </td>
                                     </tr>
                                 </template>
                             </table>
                         </div>
                         <div class="addtocart">
                             <a @click="addProductToCart()" external href="javascript:void(0)" id="js_registBtn" class="button button-fill button-success redBtn addProductToCart">
-                                <em><span><i></i>Add To Cart</span></em>
+                                <em>
+                                    <span>
+                                        <i></i>
+                                        {{ $t("message.add_to_cart") }}
+                                    </span>
+                                </em>
                             </a>
                             
                             <a @click="addProductFavorite()"   external href="javascript:void(0)" id="js_registBtn" class="button button-fill button-success redBtn addProductToFavo">
-                                <em><span><i></i>Add to Favorites</span></em>
+                                <em>
+                                    <span>
+                                        <i></i>
+                                        {{ $t("message.add_to_favorites") }}
+                                    </span>
+                                </em>
                             </a>
                             
                             <div class="clear"></div>
@@ -193,9 +205,9 @@
             <div class="clear"></div>
             <div class="product_description_info">
                 <div class="buttons-tab">
-                    <a href="#tab1" class="tab-link active button">Description</a>
-                    <a href="#tab2" class="tab-link button">Reviews</a>
-                    <a href="#tab3" class="tab-link button">Shipping & Payment</a>
+                    <a href="#tab1" class="tab-link active button">{{ $t("message.description") }}</a>
+                    <a href="#tab2" class="tab-link button">{{ $t("message.reviews") }}</a>
+                    <a href="#tab3" class="tab-link button">{{ $t("message.shipping_payment") }}</a>
                 </div>
                 <div class="content-block">
                     <div class="tabs">
@@ -266,11 +278,11 @@
                                             <p class="buttons-row">
                                             
                                                 <router-link :to="'/product/review/add/' + product_id"  class="button button-round">
-                                                    Add Review
+                                                    {{ $t("message.add_review") }}
                                                 </router-link>
                                                 
                                                 <router-link :to="'/product/review/lists/' + product_id"  class="button button-round">
-                                                    View  All Review({{product.review_count}}) 
+                                                    {{ $t("message.view_all_review") }}({{product.review_count}}) 
                                                 </router-link>
                                                 
                                             </p>
@@ -315,7 +327,7 @@
             <div class="buy_also_buy_cer">
                 <div class="buy_also_buy" v-if="buy_also_buy" >
                     <div class="scroll_left">
-                        <a href="">Customers Who Bought This Item Also Bought</a>
+                        <a href="">{{ $t("message.customer_who_also_bought") }}</a>
                     </div>
                     <div class="scrollBox">	
                         <div class="viewport" style="overflow: hidden; position: relative;">

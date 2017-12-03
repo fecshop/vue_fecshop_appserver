@@ -1,9 +1,9 @@
 <template>
     <div class="content">
         <div class="shopping-cart-img">
-            Register
+            {{ $t("message.register") }}
             <router-link to="/customer/account/login"  class="f-right">
-                Login
+                {{ $t("message.login") }}
             </router-link>
         </div>
         <div class="fecshop_message" v-if="errormsg">
@@ -96,7 +96,7 @@
                 <div class="buttons-set">
                     <p>
                         <a @click="registerAccount()" href="javascript:void(0)" id="js_registBtn" class="button button-fill">
-                            Register Account
+                            {{ $t("message.register_account") }}
                         </a>
                     </p>
                 </div>

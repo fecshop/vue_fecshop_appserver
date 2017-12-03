@@ -2,7 +2,9 @@
     <div class="content">
         <div class="account-ds">
             <div class="bar bar-nav account-top-m">
-                <h1 class='title'>My Account</h1>
+                <h1 class='title'>
+                    {{ $t("message.my_account") }}
+                </h1>
             </div>
             <div class="list-block" style="margin-top:80px;">
                 <ul>
@@ -22,7 +24,9 @@
             </div>
 
             <div class="account_footer">
-                <a  @click="logoutAccount()"  href="javascript:void(0)" class="button button-fill button-bbb">Logout</a>
+                <a  @click="logoutAccount()"  href="javascript:void(0)" class="button button-fill button-bbb">
+                    {{ $t("message.logout") }}
+                </a>
             </div>
         </div>
     </div>

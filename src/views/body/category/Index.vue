@@ -10,8 +10,14 @@
                     </div> 
                     
                     <div class="sort_filter">
-                        <a href="javascript:void(0)" @click="opensort" class="category-open open-sort">Sort &nbsp;<span class="icon icon-caret"></span></a>
-                        <a href="javascript:void(0)" @click="openfilter"   class="category-open open-filter">Filter &nbsp;<span class="icon icon-caret"></span></a>
+                        <a href="javascript:void(0)" @click="opensort" class="category-open open-sort">
+                            {{ $t("message.sort") }} &nbsp;
+                            <span class="icon icon-caret"></span>
+                        </a>
+                        <a href="javascript:void(0)" @click="openfilter"   class="category-open open-filter">
+                            {{ $t("message.filter") }} &nbsp;
+                            <span class="icon icon-caret"></span>
+                        </a>
                         <div class="clear"></div>
                     </div>
                     <div > 
@@ -120,7 +126,9 @@
                 
                 
                 <div v-if="refine_by_info.length > 0" class="filter_refine_by">
-                    <div class="filter_attr_title">Refine By</div>
+                    <div class="filter_attr_title">
+                        {{ $t("message.refine_by") }}
+                    </div>
                     <div class="filter_refine_by_content">
                         <div v-for="(refine_item, refine_index) in refine_by_info" >
                             <a  @click="clearFilterAttr(refine_item.attr,refine_item.val,$event)" href="javascript:void(0)">
@@ -165,7 +173,7 @@
                         <div class="filter_attr_info" v-if="filter_items.items">
                             <template  v-for="(filter_item, filter_item_index) in filter_items.items"  v-if="filter_item._id">
                                 <a  @click="changeFilterAttr(filter_index,filter_item._id,filter_item.selected,$event)" href="javascript:void(0)" v-bind:class="{ checked: filter_item.selected}" >
-                                    {{filter_item._id}}({{filter_item.count}})
+                                    {{filter_item.label}}({{filter_item.count}})
                                 </a>
                                 <br/>
                             </template>
@@ -180,7 +188,7 @@
                 <div class="category_left_filter" v-if="filter_price">
                     <div class="filter_attr" v-for="(price_items, price_index) in filter_price">
                         <div class="filter_attr_title">
-                            {{price_index}}
+                            {{ $t("message.price") }}
                         </div>
                         <div class="filter_attr_info">
                             <template v-for="(price_item, price_item_index) in price_items">
@@ -211,12 +219,11 @@
                             <div v-if="query_sort" class="category_left_filter">
                                 <div class="filter_attr">
                                     <div class="filter_attr_title">
-                                        <b>Sort By:</b>
+                                        <b>{{ $t("message.sort_by") }}:</b>
                                     </div>
                                     <div class="filter_attr_info">
                                         <template v-for="(sort_item, sort_index) in query_sort">
-                                            <a  href="javascript:void(0)" @click="changeSort(sort_item.value,$event)" v-bind:class="{ checked: sort_item.selected}"  >
-                                              
+                                            <a  href="javascript:void(0)" @click="changeSort(sort_item.value,$event)" v-bind:class="{ checked: sort_item.selected}"  > 
                                                 {{sort_item.label}}
                                             </a>
                                         <br>

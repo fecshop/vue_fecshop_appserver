@@ -8,7 +8,7 @@
                         <span class="icon icon-left"></span>
                     </a>
                     
-                    <h1 class='title'>Cart</h1>
+                    <h1 class='title'>{{ $t("message.cart") }}</h1>
                 </div>
             </div>
             <div class="fecshop_message" v-if="errormsg">
@@ -71,7 +71,7 @@
                             <div class="col-2">
                                 <div id="discount-coupon-form" >
                                     <div class="discount">
-                                        <h2>Discount Codes</h2>
+                                        <h2>{{ $t("message.discount_codes") }}</h2>
                                         <div class="discount-form">
                                             <div class="input-box">
                                                 <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
@@ -91,23 +91,23 @@
                         </div>
                         <div class="cart_cost">
                             <div class="row no-gutter">
-                                <div class="col-80">Subtotal:  </div>
+                                <div class="col-80">{{ $t("message.subtotal") }}:  </div>
                                 <div class="col-20">{{currency.symbol}}{{cart_info.product_total ? cart_info.product_total : 0.00}}</div>
                             </div>
                             
                             <div class="row no-gutter">
-                                <div class="col-80">Shipping Cost: </div>
+                                <div class="col-80">{{ $t("message.shipping_cost") }}: </div>
                                 <div class="col-20">{{currency.symbol}}{{cart_info.shipping_cost ? cart_info.shipping_cost : 0.00}}</div>
                             </div>
                             
                             
                             <div class="row no-gutter">
-                                <div class="col-80">Discount :</div>
+                                <div class="col-80">{{ $t("message.discount") }} :</div>
                                 <div class="col-20">-{{currency.symbol}} {{cart_info.coupon_cost ? cart_info.coupon_cost : 0.00}}</div>
                             </div>
                             
                             <div class="row no-gutter">
-                                <div class="col-80">Grand Total :</div>
+                                <div class="col-80">{{ $t("message.grand_total") }} :</div>
                                 <div class="col-20">{{currency.symbol}} {{cart_info.grand_total ? cart_info.grand_total : 0.00}}</div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                                         >
                                             <span>
                                                 <span>
-                                                    Proceed to Pay
+                                                    {{ $t("message.proceed_to_pay") }}
                                                 </span>
                                             </span>
                                         </button>

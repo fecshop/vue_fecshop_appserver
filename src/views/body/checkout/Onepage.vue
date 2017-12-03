@@ -9,7 +9,7 @@
                         <span class="icon icon-left"></span>
                     </a>
                     
-                    <h1 class='title'>Checkout</h1>
+                    <h1 class='title'>{{ $t("message.checkout") }}</h1>
                 </div>
             </div>
             <div class="fecshop_message" v-if="errormsg">
@@ -22,11 +22,11 @@
             <div  id="onestepcheckout-form">
                 <div style="margin: 0;" class="group-select">
                     <p class="onestepcheckout-description">
-                        Welcome to the checkout,Fill in the fields below to complete your purchase!
+                        {{ $t("message.welcome_to_checkout") }}
                     </p>
                     <p v-if="isCustomerPassword && isGuest" class="onestepcheckout-login-link">
                         <router-link to="/customer/account/login" id="onestepcheckout-login-link" >
-                            Already registered? Click here to login
+                            {{ $t("message.already_registered") }}
                         </router-link>
                     </p>
                     <div class="onestepcheckout-threecolumns checkoutcontainer onestepcheckout-skin-generic onestepcheckout-enterprise">
@@ -37,7 +37,7 @@
                                     <ul>
                                         <li>
                                             <p class="onestepcheckout-numbers onestepcheckout-numbers-1">
-                                                Shipping Address
+                                                {{ $t("message.shipping_address") }}
                                             </p>
                                         </li>
                                         <li>
@@ -49,7 +49,9 @@
                                                         {{address.address}}
                                                     </option>
                                                     
-                                                    <option value="">New Address</option>
+                                                    <option value="">
+                                                        {{ $t("message.new_address") }}
+                                                    </option>
                                                 </select>
                                                 
                                                 
@@ -57,14 +59,14 @@
                                                     <li class="clearfix">
                                                         <div class="input-box input-firstname">
                                                             <label for="billing:firstname">
-                                                                First Name
+                                                                {{ $t("message.first_name") }}
                                                                 <span class="required">*</span>
                                                             </label>
                                                             <input v-model="cart_address.first_name" id="billing:firstname" name="billing[first_name]" class="required-entry input-text" type="text">
                                                         </div>
                                                         <div class="input-box input-lastname">
                                                             <label for="billing:lastname">
-                                                                Last Name
+                                                                {{ $t("message.last_name") }}
                                                                 <span class="required">*</span>
                                                             </label>
                                                             <input v-model="cart_address.last_name"  id="billing:lastname" name="billing[last_name]" class="required-entry input-text" type="text">
@@ -74,7 +76,7 @@
                                                     <li class="clearfix">
                                                         <div  class="  input-box input-email">
                                                             <label for="billing:email">
-                                                                Email Address
+                                                                {{ $t("message.email_address") }}
                                                                 <span class="required">*</span>
                                                             </label>
                                                             <input  v-model="cart_address.email" class="validate-email required-entry input-text" title="Email Address" id="billing:email" name="billing[email]" type="text">
@@ -86,7 +88,7 @@
                                                     <li>
                                                         <div  class="input-box input-telephone">
                                                             <label for="billing:telephone">
-                                                                Telephone <span class="required">*</span>
+                                                                {{ $t("message.telephone") }} <span class="required">*</span>
                                                             </label>
                                                             <input v-model="cart_address.telephone"  id="billing:telephone" class="required-entry input-text" title="Telephone" name="billing[telephone]" type="text">
                                                         </div>
@@ -94,7 +96,7 @@
                                                     <li class="clearfix">
                                                         <div class="input-box input-address">
                                                             <label for="billing:street1">
-                                                                Street<span class="required">*</span>
+                                                                {{ $t("message.street") }}<span class="required">*</span>
                                                             </label>
                                                             <input v-model="cart_address.street1"  class="required-entry input-text onestepcheckout-address-line" id="billing:street1" name="billing[street1]" title="Street Address 1" type="text">
                                                             
@@ -104,7 +106,8 @@
                                                     <li class="clearfix">
                                                         <div class="input-box input-country">
                                                             <label for="billing:country">
-                                                                Country <span class="required">*</span></label>
+                                                                {{ $t("message.country") }} 
+                                                                <span class="required">*</span></label>
                                                                 <select @change="changeCountry()" v-model="country" title="Country" class="billing_country validate-select" id="billing:country" name="billing[country]">
                                                                     <template v-for="(countryName,countryCode) in countryArr">
                                                                         <option :value="countryCode">{{countryName}}</option>
@@ -115,7 +118,8 @@
                                                     <li class="clearfix">
                                                         <div class="input-box input-state">
                                                             <label for="billing:state" class="required">
-                                                                State<span class="required">*</span>
+                                                                {{ $t("message.state") }}
+                                                                <span class="required">*</span>
                                                             </label>
                                                             <div class="state_html">
                                                                 <input @change="changeState()" v-if="!stateArr" v-model="state" id="state" name="billing[state]"  title="State" class="address_state input-text" style="" type="text">
@@ -131,7 +135,8 @@
                                                     <li class="clearfix">
                                                         <div class="input-box input-city">
                                                             <label for="billing:city">
-                                                                City <span class="required">*</span>
+                                                                {{ $t("message.city") }} 
+                                                                <span class="required">*</span>
                                                             </label>
                                                             <input v-model="cart_address.city"  id="billing:city" class="required-entry input-text" title="City" name="billing[city]" type="text">
                                                         </div>
@@ -139,7 +144,8 @@
                                                     <li class="clearfix">
                                                         <div class="input-box input-zip">
                                                             <label for="billing:zip">
-                                                                Zip Code <span class="required">*</span>
+                                                                {{ $t("message.zip_code") }} 
+                                                                <span class="required">*</span>
                                                             </label>
                                                             <input v-model="cart_address.zip" class="validate-zip-international required-entry input-text" id="billing:zip" name="billing[zip]" title="Zip Code" type="text">
                                                         </div>
@@ -149,7 +155,8 @@
                                                             <div class="input-box">
                                                                 <input v-model="isCustomerPassword" @click="addCustomerPassword()" name="create_account" id="id_create_account" type="checkbox">
                                                                 <label style="display:inline" for="id_create_account">
-                                                                    Create an account for later use
+                                                                    {{ $t("message.create_an_account") }}
+                                                                    
                                                                 </label>
                                                             </div>
                                                             <div class="label_create_account">
@@ -159,13 +166,15 @@
                                                         <li :style="'display:'+ customerPasswordDisplay" id="onestepcheckout-li-password">
                                                             <div class="input-box input-password">
                                                                 <label for="billing:customer_password">
-                                                                    Password
+                                                                    {{ $t("message.password") }}
+                                                                    
                                                                 </label>
                                                                 <input v-model="customer_password" name="billing[customer_password]" id="billing:customer_password" title="Password" value="" class="validate-password input-text customer_password" type="password">
                                                             </div>
                                                             <div class="input-box input-password">
                                                                 <label for="billing:confirm_password">
-                                                                    Confirm Password
+                                                                    {{ $t("message.confirm_password") }}
+                                                                    
                                                                 </label>
                                                                 <input v-model="confirm_password" name="billing[confirm_password]" title="Confirm Password" id="billing:confirm_password" value="" class="validate-password input-text customer_confirm_password" type="password">
                                                             </div>
@@ -184,7 +193,7 @@
                             <div class="shipping_method_html">
                                 <div class="onestepcheckout-shipping-method">
                                     <p class="onestepcheckout-numbers onestepcheckout-numbers-2">
-                                        Shipping Method
+                                        {{ $t("message.shipping_method") }}
                                     </p>
                                     <div class="onestepcheckout-shipping-method-block">    
                                         <dl class="shipment-methods">
@@ -218,7 +227,7 @@
                             
                             <div class="onestepcheckout-payment-method">
                                 <p class="onestepcheckout-numbers onestepcheckout-numbers-3">
-                                    Payment Method
+                                    {{ $t("message.payment_method") }}
                                 </p>
                                 <div class="payment_info">
                                     <div class="payment-methods">
@@ -251,10 +260,11 @@
                             <div class="onestepcheckout-coupons">
                                 <div style="display: none;" id="coupon-notice"></div>
                                 <div class="op_block_title">
-                                    Coupon codes (optional)
+                                    {{ $t("message.coupon_codes") }}
                                 </div>
                                 <label for="id_couponcode">
-                                    Enter your coupon code if you have one.
+                                    {{ $t("message.enter_your_coupon_code") }}
+                                    
                                 </label>
                                 
                                 <input v-model="coupon_code" style="color:#777;" class="input-text" id="id_couponcode" name="coupon_code" >
@@ -273,16 +283,16 @@
                                 
                                 
                                 <p class="onestepcheckout-numbers onestepcheckout-numbers-4">
-                                    Review your order
+                                    {{ $t("message.review_your_order") }}
                                 </p>
                                 <div class="onestepcheckout-summary">
                                     <table class="onestepcheckout-summary">
                                         <thead>
                                             <tr>
                                                 <th class="image"></th>
-                                                <th class="name">Name</th>
-                                                <th class="qty">Qty</th>
-                                                <th class="total">Subtotal</th>
+                                                <th class="name">{{ $t("message.name") }}</th>
+                                                <th class="qty">{{ $t("message.qty") }}</th>
+                                                <th class="total">{{ $t("message.subtotal") }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -325,7 +335,7 @@
                                         <tbody>
                                             <tr>
                                                 <td >
-                                                    Subtotal
+                                                    {{ $t("message.subtotal") }}
                                                 </td>
                                                 <td class="value">
                                                     <span class="price">
@@ -337,7 +347,7 @@
                                             </tr>
                                             <tr>
                                                 <td >
-                                                    Shipping Cost
+                                                    {{ $t("message.shipping_cost") }}
                                                 </td>
                                                 <td class="value">
                                                     <span class="price">
@@ -348,7 +358,7 @@
                                             </tr>
                                             <tr>
                                                 <td >
-                                                    Discount
+                                                    {{ $t("message.discount") }}
                                                 </td>
                                                 <td class="value">
                                                     <span class="price">-{{currency_info.symbol}} {{cart_info.coupon_cost}}
@@ -357,7 +367,7 @@
                                             </tr>
                                             <tr class="grand-total">
                                                 <td >
-                                                    Grand Total
+                                                    {{ $t("message.grand_total") }}
                                                 </td>
                                                 <td class="value">
                                                     <span class="price">{{currency_info.symbol}}{{cart_info.grand_total}}
@@ -371,7 +381,7 @@
                             </div>
                             <div class="onestepcheckout-place-order">
                                 <a @click="submitOrder()" class="large orange onestepcheckout-button" href="javascript:void(0)" id="onestepcheckout-place-order">
-                                    Place order now
+                                    {{ $t("message.place_order_now") }}
                                 </a>
                                 <div :style="'display:'+displaySubmitOrder" class="onestepcheckout-place-order-loading">
                                     <img src="//img.fancyecommerce.com/images/opc-ajax-loader.gif">&nbsp;&nbsp;

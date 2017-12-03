@@ -133,8 +133,23 @@ port: 8080,
 
 [vue-i18n 文档](http://kazupon.github.io/vue-i18n/en/started.html)
 
+譬如设置中文使用多语言，/src/config/languages/zh_CN.js 加入hello的语言配置
 
+```
+const messagesZh = {
+    hello: '你好、世界'
+}
+export default messagesZh
+```
 
+调用处代码：
+
+```
+    <p>{{ $t("message.hello") }}</p>
+    <p>{{ $t("message.wowowo") }}</p>
+```
+
+当设置当前语言为中文zh的时候，就会显示语言配置里的中文字符。
 
 
 
