@@ -5,7 +5,9 @@
                 <router-link to="/customer/account/index"  class="button button-link button-nav pull-left">
                     <span class="icon icon-left"></span>
                 </router-link>
-                <h1 class='title'>Customer Order</h1>
+                <h1 class='title'>
+                    {{ $t("message.customer_order") }}
+                </h1>
             </div>
         </div>
         <div class="fecshop_message" v-if="errormsg">
@@ -22,9 +24,9 @@
                         <table id="my-orders-table" class="edit_order">
                             <thead>
                                 <tr class="first last">
-                                    <th>Order #</th>
-                                    <th>Date</th>
-                                    <th>operate</th>
+                                    <th>{{ $t("message.order_increment_id") }}</th>
+                                    <th>{{ $t("message.date") }}</th>
+                                    <th>{{ $t("message.operate") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,8 +39,8 @@
                                         <span class="nobr">{{item.created_at}}</span>
                                     </td>
                                     <td class="a-center last">
-                                        <span class="nobr"><a @click="viewOrder(item.order_id)"  href="javascript:void(0)">View Order</a>
-                                        <span class="separator">|</span> <a @click="reorder(item.order_id)" class="link-reorder" href="javascript:void(0)" >Reorder</a>
+                                        <span class="nobr"><a @click="viewOrder(item.order_id)"  href="javascript:void(0)">{{ $t("message.view_order") }}</a>
+                                        <span class="separator">|</span> <a @click="reorder(item.order_id)" class="link-reorder" href="javascript:void(0)" >{{ $t("message.reorder") }}</a>
                                         </span>
                                     </td>
                                 </tr>

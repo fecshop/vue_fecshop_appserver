@@ -5,7 +5,7 @@
                 <router-link to="/customer/account/index"  class="button button-link button-nav pull-left">
                     <span class="icon icon-left"></span>
                 </router-link>
-                <h1 class='title'>Product Review</h1>
+                <h1 class='title'>{{ $t("message.product_review") }}</h1>
             </div>
         </div>
         <div class="fecshop_message" v-if="errormsg">

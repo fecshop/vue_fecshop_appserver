@@ -5,7 +5,7 @@
                 <router-link to="/customer/account/index"  class="button button-link button-nav pull-left">
                     <span class="icon icon-left"></span>
                 </router-link>
-                <h1 class='title'>Reset Password Success</h1>
+                <h1 class='title'>{{ $t("message.reset_password_success") }}</h1>
             </div>
         </div>
         <div class="fecshop_message" v-if="errormsg">
@@ -24,11 +24,11 @@
 		</div>	
         
         <div class="customer-forgot-success">
-            Reset you account success, you can  
+            {{ $t("message.reset_accout_success") }} 
             <router-link to="/customer/account/login" >
-                click here
+                {{ $t("message.click_here") }}
             </router-link>
-            to login .
+            {{ $t("message.to_login") }} .
         </div>
     </div>
 </template>

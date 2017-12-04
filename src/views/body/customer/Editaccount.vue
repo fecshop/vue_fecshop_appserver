@@ -6,7 +6,7 @@
                 <router-link to="/customer/account/index"  class="button button-link button-nav pull-left">
                     <span class="icon icon-left"></span>
                 </router-link>
-                <h1 class='title'>Edit Account</h1>
+                <h1 class='title'>{{ $t("message.edit_account") }}</h1>
             </div>
         </div>
         <div class="fecshop_message" v-if="errormsg">
@@ -69,7 +69,9 @@
                     <li class="control">
                         <div class="change_password_label item-content">
                             <input name="editForm[change_password]" id="change_password" v-model="change_password_is_checked" @click="setPasswordForm()" title="Change Password" class="checkbox" type="checkbox">
-                            <label for="change_password">Change Password</label>
+                            <label for="change_password">
+                                {{ $t("message.change_password") }}
+                            </label>
                         </div>
                     </li>
                     
@@ -119,7 +121,8 @@
                 <div class="buttons-set">
                     <p>
                         <a @click="editAccountInfo()"  href="javascript:void(0)"  id="js_editBtn" class="button button-fill">
-                            Edit Account
+                            {{ $t("message.edit_account") }}
+                            
                         </a>
                     </p>
                 </div>

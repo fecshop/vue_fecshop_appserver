@@ -5,7 +5,9 @@
                 <router-link to="/customer/order"  class="button button-link button-nav pull-left">
                     <span class="icon icon-left"></span>
                 </router-link>
-                <h1 class='title'>View Order</h1>
+                <h1 class='title'>
+                    {{ $t("message.customer_order") }}
+                </h1>
             </div>
         </div>
         <div class="fecshop_message" v-if="errormsg">
@@ -30,16 +32,18 @@
                         <div class="my_account_order">
                             <table class="page-title title-buttons">
                                 <tbody>
-                                    <tr><td>Order# :</td><td>{{order.increment_id}}</td></tr>		
-                                    <tr><td>Order Status:</td><td>{{order.order_status}}</td></tr>		
-                                    <tr><td>Order Date:</td><td>{{order.created_at}}</td></tr>								
+                                    <tr><td>{{ $t("message.order_increment_id") }} :</td><td>{{order.increment_id}}</td></tr>		
+                                    <tr><td>{{ $t("message.order_status") }}:</td><td>{{order.order_status}}</td></tr>		
+                                    <tr><td>{{ $t("message.order_date") }}:</td><td>{{order.created_at}}</td></tr>								
                                 </tbody>
                             </table>
                             <div class="col2-set order-info-box">
                                 <div class="col-1">
                                     <div class="box">
                                         <div class="box-title">
-                                            <h5>Shipping Address:</h5>
+                                            <h5>
+                                                {{ $t("message.shipping_address") }}:
+                                            </h5>
                                         </div>
                                         <div class="box-content">
                                             <table>
@@ -57,7 +61,9 @@
                                 <div class="col-2">
                                     <div class="box">
                                         <div class="box-title">
-                                            <h5>Shipping Method:</h5>
+                                            <h5>
+                                                {{ $t("message.shipping_method") }}:
+                                            </h5>
                                         </div>
                                         <div class="box-content">
                                             <table>
@@ -71,7 +77,9 @@
                                 <div class="col-2">
                                     <div class="box box-payment">
                                         <div class="box-title">
-                                            <h5>Payment Method:</h5>
+                                            <h5>
+                                                {{ $t("message.payment_method") }}:
+                                            </h5>
                                         </div>
                                         <div class="box-content">
                                             <table>
@@ -86,7 +94,7 @@
                             
                             <div class="order-items order-details box-title">
                                 <h5 class="table-caption">
-                                    Items Ordered:
+                                    {{ $t("message.items_ordered") }}:
                                 </h5>
 
                                 <table summary="Items Ordered" id="my-orders-table" class="data-table">
@@ -98,15 +106,15 @@
                                     </colgroup>
                                     <thead>
                                         <tr class="first last">
-                                            <th>Product Image</th>
-                                            <th>Product Info</th>
-                                            <th class="a-center">Qty</th>
-                                            <th class="a-right">Subtotal</th>
+                                            <th>{{ $t("message.product_image") }}</th>
+                                            <th>{{ $t("message.product_info") }}</th>
+                                            <th class="a-center">{{ $t("message.qty") }}</th>
+                                            <th class="a-right">{{ $t("message.subtotal") }}</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr class="subtotal first">
-                                            <td class="a-right" colspan="3">Subtotal</td>
+                                            <td class="a-right" colspan="3">{{ $t("message.subtotal") }}</td>
                                             <td class="last a-right">
                                                 <span class="price">
                                                 {{order.currency_symbol}}
@@ -116,7 +124,7 @@
                                         </tr>
                                         <tr class="shipping">
                                             <td class="a-right" colspan="3">
-                                                Shipping Cost
+                                                {{ $t("message.shipping_cost") }}
                                             </td>
                                             <td class="last a-right">
                                                 <span class="price">
@@ -128,7 +136,8 @@
                                         </tr>
                                         <tr class="discount">
                                             <td class="a-right" colspan="3">
-                                                Discount</td>
+                                                {{ $t("message.discount") }}
+                                            </td>
                                             <td class="last a-right">
                                                 <span class="price">
                                                     {{order.currency_symbol}}
@@ -140,7 +149,7 @@
                                         <tr class="grand_total last">
                                             <td class="a-right" colspan="3">
                                                 <strong>
-                                                    Grand Total
+                                                    {{ $t("message.grand_total") }}
                                                 </strong>
                                             </td>
                                             <td class="last a-right">

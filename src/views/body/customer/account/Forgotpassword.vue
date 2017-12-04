@@ -5,7 +5,7 @@
                 <router-link to="/customer/account/index"  class="button button-link button-nav pull-left">
                     <span class="icon icon-left"></span>
                 </router-link>
-                <h1 class='title'>Forget Password</h1>
+                <h1 class='title'>{{ $t("message.forget_password") }}</h1>
             </div>
         </div>
         <div class="fecshop_message" v-if="errormsg">
@@ -56,7 +56,7 @@
                 <div class="buttons-set">
                     <p>
                         <a @click="sendCode()" href="javascript:void(0)" id="js_forgotBtn" class="button button-fill">
-                            Send Authorization Code
+                            {{ $t("message.send_authorization_code") }}
                         </a>
                     </p>
                 </div>

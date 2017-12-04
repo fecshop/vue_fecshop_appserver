@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <div class="shopping-cart-img">
-            Contacts
+            {{ $t("message.contacts") }}
         </div>
         <div class="fecshop_message" v-if="errormsg">
             <div class="error-msg">
@@ -94,7 +94,7 @@
                     <div class="buttons-set">
                         <p>
                             <a @click="submitContacts()"  href="javascript:void(0)"  id="js_contactBtn" class="button button-fill">
-                                Contact Us
+                                {{ $t("message.contact_us") }}
                             </a>
                         </p>
                     </div>	
@@ -104,7 +104,7 @@
             <div class="clear"></div>
             <div class="mailtous">
                 <span>
-                    Our Email Address
+                    {{ $t("message.our_email_address") }}
                 </span>: 
                 <a :href="'mailto:'+contacts_email">{{contacts_email}}
             </div>

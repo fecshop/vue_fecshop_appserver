@@ -6,7 +6,7 @@
                 <router-link to="/customer/account/index"  class="button button-link button-nav pull-left">
                     <span class="icon icon-left"></span>
                 </router-link>
-                <h1 class='title'>Reset Password</h1>
+                <h1 class='title'>{{ $t("message.reset_password") }}</h1>
             </div>
         </div>
         <div class="fecshop_message" v-if="errormsg">
@@ -74,7 +74,7 @@
                     <div class="buttons-set">
                         <p>
                             <a @click="submitResetPassword()" external href="javascript:void(0)"   id="js_resetPassBtn" class="button button-fill">
-                                Reset Password
+                                {{ $t("message.reset_password") }}
                             </a>
                         </p>
                     </div>

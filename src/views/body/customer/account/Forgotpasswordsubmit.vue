@@ -5,7 +5,7 @@
                 <router-link to="/customer/account/index"  class="button button-link button-nav pull-left">
                     <span class="icon icon-left"></span>
                 </router-link>
-                <h1 class='title'>Forget Password Send Success</h1>
+                <h1 class='title'>{{ $t("message.forget_password_send_success") }}</h1>
             </div>
         </div>
         
@@ -13,27 +13,31 @@
         <div class="customer-forgot-success ">
             <div >
                 <div>
-                    We've sent a message to your email address
-                    Please follow the instructions provided in the message to reset your password.
+                    {{ $t("message.we_send_message_to_your_email") }}
+                    
+                    {{ $t("message.follow_the_instructions_provided") }}
+                    
                 </div>
                 <div>
                     <p>
-                        Didn't receive the mail from us?
+                        {{ $t("message.donot_receive_email") }}
                         <router-link to="/customer/account/forgotpassword"  class="">
-                            click here to retry
+                            {{ $t("message.click_here_to_retry") }}
                         </router-link>
                     </p>
                     <p>
-                        Check your bulk or junk email folder.
+                        {{ $t("message.check_your_bulk_junk_email_folder") }}
+                        
                     </p>
                     
                     <p>
-                        Confirm your identity to reset password ,If you still can't find it, 
-                        click 
+                        {{ $t("message.confirm_your_identity_to_reset") }} ,
+                        {{ $t("message.click") }}
+                         
                         <router-link to="/customer/contacts" >
-                            support center 
+                            {{ $t("message.support_center") }} 
                         </router-link>
-                        for help
+                        {{ $t("message.for_help") }}
                     </p>
                 </div>
             </div>

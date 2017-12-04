@@ -44,10 +44,10 @@
                             <div style="margin:20px 0 0">
                                 <div class="rbc_cold">
                                     <span>
-                                        <span class="average_rating">Average rating :</span>
+                                        <span class="average_rating">{{ $t("message.average_rating") }} :</span>
                                         <span :class="'review_star review_star_' + reviw_rate_star_average" style="font-weight:bold;" itemprop="average"></span>  
                                         
-                                        (<span itemprop="count">{{review_count}} reviews</span>)
+                                        (<span itemprop="count">{{review_count}} {{ $t("message.reviews") }}</span>)
                                         
                                         
                                     </span>
@@ -57,12 +57,12 @@
                                     <div class="row">
                                         <div class="col-50">
                                             <router-link :to="'/catalog/product/'+product.product_id"   class="submitbutton button  button-fill button-success">
-                                                <span><span>Add To Cart</span></span> 
+                                                <span><span>{{ $t("message.add_to_cart") }}</span></span> 
                                             </router-link>
                                         </div>
                                         <div class="col-50">
                                             <router-link style="margin-left:10px" :to="'/product/review/add/'+product.product_id"   class="submitbutton button  button-fill button-danger">
-                                                <span><span>Add Review</span></span> 
+                                                <span><span>{{ $t("message.add_review") }}</span></span> 
                                             </router-link>
                                         </div>
                                     </div>
@@ -75,7 +75,7 @@
                     <div class="product-reviews"> 
                         <div class="clear"></div>
                         <div class="review_title">
-                            <a external href="javascript:void(0)">Product Review</a>
+                            <a external href="javascript:void(0)">{{ $t("message.product_review") }}</a>
                         </div>
                         
                         <div v-if="reviewList.length > 0" class="product-Reviews_top">

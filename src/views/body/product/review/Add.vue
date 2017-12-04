@@ -59,7 +59,7 @@
                                         </div>
                                         <div class="item-inner">
                                             <div class="item-title label">
-                                                Name<em class="product-description_em">*</em>
+                                                {{ $t("message.name") }}<em class="product-description_em">*</em>
                                             </div>
                                             <input v-model="customer_name"  id="review_email_field" type="text" placeholder="Your name"  class="input-text  review-input-text required-entry" >
                                         </div>
@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="item-inner">
                                             <div class="item-title label">
-                                                Summary<em class="product-description_em">*</em>
+                                                {{ $t("message.summary") }}<em class="product-description_em">*</em>
                                             </div>
                                             <input v-model="summary" placeholder=" Summary of Your Review*" name="editForm[summary]" id="review_title_field" class="input-text  review-input-text required-entry"  type="text">
                                         
@@ -86,7 +86,7 @@
                                       <div class="item-media"><i class="icon icon-form-name"></i></div>
                                       <div class="item-inner">
                                         <div class="item-title label">
-                                            Rate</strong><em class="product-description_em">*</em>
+                                            {{ $t("message.rate") }}</strong><em class="product-description_em">*</em>
                                         </div>
                                         <div class="lh30_f">
                                             <input v-model="selectStar" name="editForm[rate_star]" id="review_price_field" type="hidden">
@@ -110,8 +110,10 @@
                                             <i class="icon icon-form-comment"></i>
                                         </div>
                                         <div class="item-inner">
-                                            <div class="item-title label">Review</div>
-                                                <textarea v-model="review_content" placeholder="Your review content" name="editForm[review_content]" id="review_review_field"></textarea>
+                                            <div class="item-title label">
+                                                {{ $t("message.review") }}
+                                            </div>
+                                            <textarea v-model="review_content" placeholder="Your review content" name="editForm[review_content]" id="review_review_field"></textarea>
                                         </div>
                                     </div>
                                 </li>
@@ -125,10 +127,10 @@
                                         </div>
                                         <div class="item-inner">
                                             <div class="item-title label">
-                                                Captcha<em class="product-description_em">*</em>
+                                                {{ $t("message.captcha") }}<em class="product-description_em">*</em>
                                             </div>
                                             <div class="input-box login-captcha">
-                                                 <input v-model="captcha" placeholder="captcha" type="text" name="editForm[captcha]" value="" size=10 class="login-captcha-input">
+                                                <input v-model="captcha" placeholder="captcha" type="text" name="editForm[captcha]" value="" size=10 class="login-captcha-input">
                                                 <img class="login-captcha-img"  title="click refresh" :src="captchaFile" align="absbottom" ></img>
                                                 <span @click="reflushCaptcha()" class="icon icon-refresh"></span>
                                                 
@@ -139,7 +141,7 @@
                                 </li>
                             </ul>
                             <div class="review_submit">
-                                <button @click="submitReview()" title="Submit Review" class="button" id="m_top_10" ><span><span>Submit</span></span></button>
+                                <button @click="submitReview()" title="Submit Review" class="button" id="m_top_10" ><span><span>{{ $t("message.submit") }}</span></span></button>
                             </div>
                         </div>
                     </div>

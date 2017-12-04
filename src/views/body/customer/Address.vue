@@ -5,7 +5,9 @@
                 <router-link to="/customer/account/index"  class="button button-link button-nav pull-left">
                     <span class="icon icon-left"></span>
                 </router-link>
-                <h1 class='title'>Customer Address</h1>
+                <h1 class='title'>
+                    {{ $t("message.customer_address") }}
+                </h1>
             </div>
         </div>
         <div class="fecshop_message" v-if="errormsg">
@@ -23,9 +25,9 @@
                         <table class="addressbook" width="100%" cellspacing="0" cellpadding="0" border="0">
                             <thead>
                                 <tr class="ress_tit">
-                                    <th width="76" valign="middle" align="center" height="31">Name</th>                                                                                        
-                                    <th width="67" valign="middle" align="center">Address</th>
-                                    <th class="th3" width="71" valign="middle" align="center">Operation</th>
+                                    <th width="76" valign="middle" align="center" height="31">{{ $t("message.name") }}</th>                                                                                        
+                                    <th width="67" valign="middle" align="center">{{ $t("message.address") }}</th>
+                                    <th class="th3" width="71" valign="middle" align="center">{{ $t("message.operation") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,7 +40,7 @@
                                         {{address_item.stateName}}
                                         {{address_item.countryName}}
                                         <br/>
-                                        <span v-if="address_item.is_default == 1" style=" color:#cc0000">Default Address</span> 
+                                        <span v-if="address_item.is_default == 1" style=" color:#cc0000">{{ $t("message.default_address") }}</span> 
                                         	
                                     </td>
                                     <td class="ltp" valign="top ltp" align="center">
@@ -56,7 +58,7 @@
                         </table>
                         <div class="add_new_address">
                             <router-link to="/customer/address/edit/new"  class="button  button-light">
-                                Add New Address
+                                {{ $t("message.add_new_address") }}
                             </router-link>
                         </div>
                     </div>
