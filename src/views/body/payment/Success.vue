@@ -7,22 +7,24 @@
                     
                 </div>
                 <h2 class="sub-title">
-                    Your order has been received,Thank you for your purchase!
+                    {{ $t("message.thank_you_for_purchase") }}
+                    
                 </h2>
                 
                 <p>
-                    Your order # is: {{increment_id}}.</p>
+                    {{ $t("message.your_order_is") }}
+                    : {{increment_id}}.</p>
                 <p>
-                    You will receive an order confirmation email
-                    with details of your order and a link to
-                    track its progress.
+                    {{ $t("message.receive_an_confirm_email") }}
+                    
                 </p>
 
                 <div class="buttons-set">
                     <button @click="redirectHome()" type="button" class="button" title="Continue Shopping" >
                         <span>
                             <span>
-                                Continue Shopping
+                                {{ $t("message.continue_shopping") }}
+                                
                             </span>
                         </span>
                     </button>

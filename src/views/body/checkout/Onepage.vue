@@ -275,6 +275,12 @@
                                 <div class="clear"></div>
                                 <div class="coupon_add_log"></div>
                             </div>
+                            
+                            <div class="onestepcheckout-coupons">
+    							<div class="op_block_title">{{ $t("message.order_remark") }}</div> 
+    							<label for="id_couponcode">{{ $t("message.fill_order_remark") }}</label> 
+    							<textarea v-model="order_remark" class="order_remark" name="order_remark" style="width:94%;height:100px;padding:10px;"></textarea>
+    						</div>
                         </div>
 
                         <div class="onestepcheckout-column-right">
@@ -434,6 +440,7 @@ export default {
             couponLabel:'Add Coupon',
             couponType:1, // 1 代表 add coupon 2 代表 cancel coupon
             coupon_code:'',
+            order_remark:'',
             correctmsg:'',
             displaySubmitOrder:'none',
             payment_method:'',
@@ -517,6 +524,7 @@ export default {
                     city: self.cart_address.city,
                     zip: self.cart_address.zip
                 },
+                order_remark: self.order_remark,
                 customer_password: self.customer_password,
                 confirm_password: self.confirm_password,
                 create_account: create_account,
