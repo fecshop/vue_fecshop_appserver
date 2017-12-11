@@ -64,7 +64,7 @@ export default {
                         }else if(reponseData.code == 1500009){
                             self.errormsg = 'token is invaild';
                         }else if(reponseData.code == 1500010){
-                            self.errormsg = 'payment by paypal api fail';
+                            self.errormsg = 'payment by paypal api fail, '+ reponseData.data.error;
                         }else if(reponseData.code == 1500011){
                             self.errormsg = 'after paypal payment , update order info fail';
                         }else{
