@@ -46,6 +46,7 @@
                                                 <router-link :to="'/catalog/product/' + itemProduct.product_id"  >
                                                     {{itemProduct.name}}
                                                 </router-link>
+                                                </b>
                                             </span>
                                             
                                             <div class="review_description_centen">

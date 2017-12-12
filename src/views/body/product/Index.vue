@@ -2,8 +2,8 @@
     <div class="content">
         <div class="product_page">
             <div class="product_view">
-                <input type="hidden" class="product_view_id" value="{{product_id}}">
-                <input type="hidden" class="sku" value="{{product.sku}}" />
+                <input type="hidden" class="product_view_id"  :value="product_id">
+                <input type="hidden" class="sku" :value="product.sku" />
                 <input type="hidden" class="product_csrf" name="" value="" />
                 
                 <div class="media_img">

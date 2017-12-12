@@ -106,7 +106,7 @@
                 <span>
                     {{ $t("message.our_email_address") }}
                 </span>: 
-                <a :href="'mailto:'+contacts_email">{{contacts_email}}
+                <a :href="'mailto:'+contacts_email">{{contacts_email}}</a>
             </div>
         </div>
     </div>
