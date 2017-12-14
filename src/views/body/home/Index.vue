@@ -3,90 +3,147 @@
       <v-top-advertise :bigImgList="advertiseImg.bigImgList" :smallImgList="advertiseImg.smallImgList"></v-top-advertise>
       <div style="clear:both;"></div>
       <v-product :productList="productList"></v-product>	
-      <v-bottom   :currencyList = "currency.currencyList"  :langList = "language.langList"  :currentCurrency = "currency.currentCurrency"  :currentLang = "language.currentLang"></v-bottom>
+      
+        <div class="footer_bar">
+          <div class="change-bar">
+            <div class="c_left">
+                {{ $t("message.language") }}
+                :</div>
+            <div class="c_right">
+              <select v-model="language.currentLang" @change="changeLang" class="lang" rel="">
+                <option v-for="lang in language.langList"   :value="lang.code">{{lang.languageName}}</option>
+              </select>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="change-bar">
+            <div class="c_left">
+                {{ $t("message.currency") }}:
+            </div>
+            <div class="c_right">
+              <select v-model="currency.currentCurrency" @change="changeCurrency" class="currency">
+                <option v-for="curry in currency.currencyList"   :value="curry.code"><label>{{curry.symbol}}</label>{{curry.code}}</option>
+              </select>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="container">
+            <img class="lazy" src="//img.appfront.fancyecommerce.com/images/pp.png" alt="" />
+          </div>
+          <div class="container">
+            <div id="copy">
+              {{ $t("message.copyright") }}&copy;2016:
+              <a href="http://www.fecshop.com">FecShop</a>.com
+              {{ $t("message.allright") }}:
+            </div>
+          </div>
+        </div>	
     </div>
 </template>
 <script>
 import product from './body/Product.vue'
 import topAdvertise from './body/TopAdvertise.vue'
-import bottom from './body/Bottom.vue'
+//import bottom from './body/Bottom.vue'
 var root = process.env.API_ROOT;
 export default {
   data () {
     return {
-      productList:[],  
-      advertiseImg:{
-        bigImgList:[],
-        smallImgList:[],
-      },
-      language:{
-        currentLang:'',
-        langList:[]
-      },
-      currency:{
-        currentCurrency:'',
-        currencyList:{}
-      },
-      getHomeContentUrl: root + '/cms/home/index'    //存数据接口      
+        productList:[],  
+        advertiseImg:{
+            bigImgList:[],
+            smallImgList:[],
+        },
+        language:{
+            currentLang:'',
+            langList:[]
+        },
+        currency:{
+            currentCurrency:'',
+            currencyList:{}
+        },
+        propsCurrency : 0,
+        propsLang: 0,
+        getHomeContentUrl: root + '/cms/home/index'    //存数据接口      
     }
   },
 
   components: {
     'v-top-advertise': topAdvertise,
-    'v-product': product,
-    'v-bottom': bottom
+    //'v-bottom': bottom,
+    'v-product': product
+    
   },
   created: function(){
     this.getHomeContent() ;
   },
   methods: { 
-        getHomeContent: function(){
-            var self = this; 
-            $.showIndicator();
-            $.ajax({
-                url: self.getHomeContentUrl,
-                async: true,
-                timeout: 120000,
-                dataType: 'json', 
-                type: 'get',
-                headers: self.getRequestHeader(),
-                //beforeSend: function(xhr){
-                //    if(fecshop_uuid){
-                //        xhr.setRequestHeader('fecshop_uuid', fecshop_uuid);
-                //    }
-                //},
-                data:{ 
-                
-                },
-                success:function(reponseData, textStatus,request){
-                    console.log('get home cms index success');
-                    if(reponseData.code == 200){
-                        var serverData      = reponseData.data;
-                        var serverMessage   = reponseData.message;
-                        self.productList    = serverData.productList;
-                        self.advertiseImg   = serverData.advertiseImg;
-                        self.language       = serverData.language;
-                        self.currency       = serverData.currency;
-                    }
-                    self.saveReponseHeader(request); 
-                    $.hideIndicator();
-                },
-                error:function(){
-                    $.hideIndicator();
-                    $.toast("system error");
-                    console.log('get home content error');
-                }
-            });
+    getHomeContent: function(){
+        var self = this; 
+        $.showIndicator();
+        $.ajax({
+            url: self.getHomeContentUrl,
+            async: true,
+            timeout: 120000,
+            dataType: 'json', 
+            type: 'get',
+            headers: self.getRequestHeader(),
+            //beforeSend: function(xhr){
+            //    if(fecshop_uuid){
+            //        xhr.setRequestHeader('fecshop_uuid', fecshop_uuid);
+            //    }
+            //},
+            data:{ 
             
-            //self.$http.get(self.getProductUrl)
-            //    .then((response) => {
-            //        self.productList = response.data 
-            //        //console.log(JSON.stringify(response.data))
-            //    })
-            //    .catch(function(response) {
-            //        console.log(response)
-            //    });
+            },
+            success:function(reponseData, textStatus,request){
+                console.log('get home cms index success');
+                if(reponseData.code == 200){
+                    var serverData      = reponseData.data;
+                    var serverMessage   = reponseData.message;
+                    self.productList    = serverData.productList;
+                    self.advertiseImg   = serverData.advertiseImg;
+                    self.language       = serverData.language;
+                    self.currency       = serverData.currency;
+                }
+                self.saveReponseHeader(request); 
+                $.hideIndicator();
+            },
+            error:function(){
+                $.hideIndicator();
+                $.toast("system error");
+                console.log('get home content error');
+            }
+        });
+        
+        //self.$http.get(self.getProductUrl)
+        //    .then((response) => {
+        //        self.productList = response.data 
+        //        //console.log(JSON.stringify(response.data))
+        //    })
+        //    .catch(function(response) {
+        //        console.log(response)
+        //    });
+    },
+    
+    changeCurrency(){
+        this.propsCurrency += 1;
+        if(this.propsCurrency > 1){
+            window.localStorage.setItem("fecshop-currency",this.currency.currentCurrency);
+            console.log('##########:' +this.currency.currentCurrency);
+            location.reload() ;
+        }
+    },
+    changeLang(){
+        this.propsLang += 1;
+        if(this.propsLang > 1){
+            window.localStorage.setItem("fecshop-lang",this.language.currentLang);
+            this.$i18n.locale  = this.language.currentLang;
+            console.log(this.language.currentLang);
+            location.reload() ;
         }
     }
+  }
 }
 </script>
