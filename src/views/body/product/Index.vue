@@ -215,7 +215,7 @@
                         <div class="content-block">
                             <div class="text-description" style="">
                                 <table>
-                                    <tr v-for="(t_item ,t_index) in groupAttrArr">
+                                    <tr v-for="(t_item ,t_index) in product.groupAttrArr">
                                         <td>{{t_index}}</td>
                                         <td>{{t_item}}</td>
                                     </tr>
