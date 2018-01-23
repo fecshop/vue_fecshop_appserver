@@ -7,7 +7,34 @@ DEMO：http://demo.fancyecommerce.com/
 开发状态：【已完成】
 
 
-1.首先您需要安装npm，详细参看：[安装npm和nodejs](http://www.fancyecommerce.com/2017/07/12/%E5%AE%89%E8%A3%85npm%E5%92%8Cnodejs/)
+1.首先您需要安装npm，
+
+```
+version='5.12.0'
+wget https://npm.taobao.org/mirrors/node/v${version}/node-v${version}-linux-x64.tar.gz
+tar xzf node-v${version}-linux-x64.tar.gz
+mv node-v${version}-linux-x64 /usr/local/nodejs
+
+echo 'export NODEJS_HOME=/usr/local/nodejs' >> ~/.bash_profile
+echo 'export PATH=$PATH:$NODEJS_HOME/bin' >> ~/.bash_profile
+source ~/.bash_profile
+
+echo checking nodejs:
+node -v
+echo checking npm:
+npm -v
+
+# 设置镜像
+npm config set registry=http://registry.npm.taobao.org
+
+```
+
+1.2 安装bzip
+
+```
+yum install bzip2 bzip2-devel
+```
+
 
 2.全局安装 vue-cli：  
 
