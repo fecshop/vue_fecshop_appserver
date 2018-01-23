@@ -67,11 +67,11 @@ npm run build
 生产环境为:`config/prod.env.js`
 
 
-2.1.src/config/store.js
+7.1.1.src/config/store.js
 
 将 `demo.fancyecommerce.com` 改成 `vue.fecshop.com`
 
-2.2.config/prod.env.js
+7.1.2.config/prod.env.js
 
 将 
 
@@ -93,7 +93,7 @@ module.exports = {
 }
 ```
 
-2.3.config/dev.env.js
+7.1.3.config/dev.env.js
 
 将 
 
