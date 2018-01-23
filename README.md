@@ -7,33 +7,7 @@ DEMO：http://demo.fancyecommerce.com/
 开发状态：【已完成】
 
 
-1.首先您需要安装npm，
-
-```
-version='5.12.0'
-wget https://npm.taobao.org/mirrors/node/v${version}/node-v${version}-linux-x64.tar.gz
-tar xzf node-v${version}-linux-x64.tar.gz
-mv node-v${version}-linux-x64 /usr/local/nodejs
-
-echo 'export NODEJS_HOME=/usr/local/nodejs' >> ~/.bash_profile
-echo 'export PATH=$PATH:$NODEJS_HOME/bin' >> ~/.bash_profile
-source ~/.bash_profile
-
-echo checking nodejs:
-node -v
-echo checking npm:
-npm -v
-
-# 设置镜像
-npm config set registry=http://registry.npm.taobao.org
-```
-
-1.2 安装bzip
-
-```
-yum install bzip2 bzip2-devel
-```
-
+1.首先您需要安装npm，详细参看：[安装npm和nodejs](http://www.fancyecommerce.com/2017/07/12/%E5%AE%89%E8%A3%85npm%E5%92%8Cnodejs/)
 
 2.全局安装 vue-cli：  
 
@@ -53,28 +27,11 @@ git clone https://github.com/fecshop/vue_fecshop_appserver.git
 npm install
 ```
 
-如果上述过程中，经常出现killed，说明机器内存不足，参看这里解决：
-http://www.fecshop.com/topic/612
-
-
 这里需要很长一段时间，您也可以使用淘宝镜像  `cnpm install`
 
-5.下面就可以执行了
-
-开发环境执行
-
-```
-npm run dev
-```
-
-线上环境执行，
-
-```
-npm run build
-```
 
 
-6.文件包里面的文件说明：
+5.文件包里面的文件说明：
 
 `build`: 配置了webpack的基本配置、开发环境配置、生产环境配置
 
@@ -88,20 +45,20 @@ npm run build
 
 `index.html`: 文件入口
 
-7.配置
+6.配置
 
-7.1、配置获取远程数据的地址：
+6.1、配置获取远程数据的地址：
 
 开发环境为:`config/dev.env.js`
 
 生产环境为:`config/prod.env.js`
 
 
-7.1.1.src/config/store.js
+6.1.1.src/config/store.js
 
 将 `demo.fancyecommerce.com` 改成 `vue.fecshop.com`
 
-7.1.2.config/prod.env.js
+6.1.2.config/prod.env.js
 
 将 
 
@@ -123,7 +80,7 @@ module.exports = {
 }
 ```
 
-7.1.3.config/dev.env.js
+6.1.3.config/dev.env.js
 
 将 
 
@@ -155,7 +112,7 @@ module.exports = merge(prodEnv, {
 因此，您需要先安装fecshop，并将appserver端配置好，提供api支持，vue才可以通过
 api获取数据。
 
-7.2、生产环境设置发布文件地址：
+6.2、生产环境设置发布文件地址：
 
 `config/index.js` 文件中的`assetsRoot`为设置生产环境的文件发布地址
 
@@ -171,7 +128,7 @@ module.exports = {
 ，因此，在线上环境，您需要将nginx配置的域名指向该文件路径。
 
 
-7.3、设置开发环境的地址和端口
+6.3、设置开发环境的地址和端口
 
 设置地址：`build/dev-server.js`
 
@@ -185,26 +142,41 @@ module.exports = {
 port: 8080,
 ```
 
+7.下面就可以执行了
 
-7.4、另外，vue里面有一些图片地址，是直接写上的，这个开发者自己替换掉自己的图片地址即可。
+开发环境执行
 
-7.5、网站的多语言和多货币，是在服务端appserver中进行设置。
+```
+npm run dev
+```
 
-8.文档
+线上环境执行，
 
-8.1、文档: [fecshop appserver api 状态码](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server-return-code.html)
+```
+npm run build
+```
 
-8.2、文档: [fecshop appserver的一些说明](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server.html)
+8其他
+
+8.1、另外，vue里面有一些图片地址，是直接写上的，这个开发者自己替换掉自己的图片地址即可。
+
+8.2、网站的多语言和多货币，是在服务端appserver中进行设置。
+
+9.文档
+
+9.1、文档: [fecshop appserver api 状态码](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server-return-code.html)
+
+9.2、文档: [fecshop appserver的一些说明](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server.html)
 
 
-9.多语言
+10.多语言
 
 > 多语言分为几个部分，api提供的多语言数据 和 VUE本身的多语言
 
-9.1、api提供的多语言: 在fecshop appapi入口的翻译文件部分
+10.1、api提供的多语言: 在fecshop appapi入口的翻译文件部分
 处理，详细参看：[Fecshop 多语言](http://www.fecshop.com/doc/fecshop-guide/instructions/cn-1.0/guide-fecshop_mutil_lang.html)
 
-9.2、VUE本身的多语言: 在文件路径  `/src/config/languages/` 下面就可以
+10.2、VUE本身的多语言: 在文件路径  `/src/config/languages/` 下面就可以
 看到各个语言对应的js类型的配置文件，多语言使用的是vue-i18n，
 下面是这个组件的资料。
 
