@@ -26,7 +26,6 @@ npm -v
 
 # 设置镜像
 npm config set registry=http://registry.npm.taobao.org
-
 ```
 
 1.2 安装bzip
@@ -53,6 +52,10 @@ git clone https://github.com/fecshop/vue_fecshop_appserver.git
 ```
 npm install
 ```
+
+如果上述过程中，经常出现killed，说明机器内存不足，参看这里解决：
+http://www.fecshop.com/topic/612
+
 
 这里需要很长一段时间，您也可以使用淘宝镜像  `cnpm install`
 
