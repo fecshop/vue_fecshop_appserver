@@ -66,12 +66,61 @@ npm run build
 
 生产环境为:`config/prod.env.js`
 
-需要更改下面的配置
+
+2.1.src/config/store.js
+
+将 `demo.fancyecommerce.com` 改成 `vue.fecshop.com`
+
+2.2.config/prod.env.js
+
+将 
 
 ```
-API_ROOT: '"//fecshop.appserver.fancyecommerce.com"', // 数据获取api的地址
-WEBSITE_ROOT: '"//demo.fancyecommerce.com"'           // vue客户端访问的首页地址
+module.exports = {
+  NODE_ENV: '"production"',
+  API_ROOT: '"//fecshop.appserver.fancyecommerce.com"',
+  WEBSITE_ROOT: '"http://demo.fancyecommerce.com"'
+}
 ```
+
+改成：
+
+```
+module.exports = {
+  NODE_ENV: '"production"',
+  API_ROOT: '"//appserver.fecshop.com"',
+  WEBSITE_ROOT: '"http://vue.fecshop.com"'
+}
+```
+
+2.3.config/dev.env.js
+
+将 
+
+```
+module.exports = merge(prodEnv, {
+  NODE_ENV: '"development"',
+  API_ROOT: '"//fecshop.appserver.fancyecommerce.com"',
+  WEBSITE_ROOT: '"//demo.fancyecommerce.com"'
+})
+```
+
+改成：
+
+```
+module.exports = merge(prodEnv, {
+  NODE_ENV: '"development"',
+  API_ROOT: '"//appserver.fecshop.com"',
+  WEBSITE_ROOT: '"http://vue.fecshop.com"'
+})
+```
+
+
+`src/config/store.js`:这里设置vue端的多语言store，
+将`domain`改成您的vue端访问的域名，并设置相应的语言，
+您还可以在这里添加其他的域名，设置默认访问的语言
+
+
 
 因此，您需要先安装fecshop，并将appserver端配置好，提供api支持，vue才可以通过
 api获取数据。
@@ -152,4 +201,17 @@ export default messagesZh
 当设置当前语言为中文zh的时候，就会显示语言配置里的中文字符。
 
 
+
+### 问题：
+
+1.多语言显示message.xxx，不显示相应的翻译
+
+答：参看7.1步，设置`src/config/store.js`
+
+2.切换语言不变语言，第二次切换才会剩下
+
+答：打开文件 `src/view/body/home/Index.vue`, 将132行和140行的
+`if(this.propsCurrency = 1){`
+改成
+`if(this.propsCurrency >= 1){`
 
