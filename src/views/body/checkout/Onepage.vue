@@ -38,6 +38,7 @@
                                         <li>
                                             <p class="onestepcheckout-numbers onestepcheckout-numbers-1">
                                                 {{ $t("message.shipping_address") }}
+
                                             </p>
                                         </li>
                                         <li>
@@ -435,7 +436,6 @@ export default {
             displayAddressDetails:'none',
             address_list:'',
             isCustomerPassword:0,
-            pageInitComplete:false,
             currency:'',
             couponLabel:'Add Coupon',
             couponType:1, // 1 代表 add coupon 2 代表 cancel coupon
@@ -626,7 +626,6 @@ export default {
                     //console.log('cart_products.length:'+ self.cart_products.length);
                     self.saveReponseHeader(request); 
                     $.hideIndicator();
-                    self.pageInitComplete = true;
                 },
                 error:function(){
                     $.hideIndicator();
@@ -648,37 +647,35 @@ export default {
         },
         changeCountry: function(){
             var self = this;
-            if(self.pageInitComplete){
                 
-                var country = self.country;
-                self.errormsg = '';
-                self.correctmsg = '';
-                $.showIndicator();
-                $.ajax({
-                    url: self.changeCountryUrl,
-                    async: true,
-                    timeout: 120000,
-                    type: 'get',
-                    headers: self.getRequestHeader(),
-                    data:{ 
-                        country:country
-                    },
-                    success:function(reponseData, textStatus,request){
-                        if(reponseData.code == 200){
-                            self.stateArr = reponseData.data.stateArr;
-                            self.state = '';
-                            self.saveReponseHeader(request); 
-                            self.getShippingAndCartInfo();
-                        }
-                        $.hideIndicator();
-                    },
-                    error:function(){
-                        $.hideIndicator();
-                        $.toast('system error');
-                        console.log('');
+            var country = self.country;
+            self.errormsg = '';
+            self.correctmsg = '';
+            $.showIndicator();
+            $.ajax({
+                url: self.changeCountryUrl,
+                async: true,
+                timeout: 120000,
+                type: 'get',
+                headers: self.getRequestHeader(),
+                data:{ 
+                    country:country
+                },
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.stateArr = reponseData.data.stateArr;
+                        self.state = '';
+                        self.saveReponseHeader(request); 
+                        self.getShippingAndCartInfo();
                     }
-                });
-            }
+                    $.hideIndicator();
+                },
+                error:function(){
+                    $.hideIndicator();
+                    $.toast('system error');
+                    console.log('');
+                }
+            });
         },
         routerGo: function(){
             this.$router.go(-1);
@@ -688,7 +685,7 @@ export default {
             var self = this;
             self.errormsg = '';
             self.correctmsg = '';
-            self.pageInitComplete = false;
+
             $.showIndicator();
             $.ajax({
                 url: self.pageInitUrl,
@@ -730,6 +727,7 @@ export default {
                         }
                         console.log('get editAccount info success');
                         self.saveReponseHeader(request); 
+                        self.changeCountry();
                     }else if(reponseData.code == 1500007){
                         $.toast('cart product is empty');
                         self.$router.push('/checkout/cart');
@@ -737,7 +735,6 @@ export default {
                     }
                     //console.log('cart_products.length:'+ self.cart_products.length);
                     $.hideIndicator();
-                    self.pageInitComplete = true;
                 },
                 error:function(){
                     $.hideIndicator();
