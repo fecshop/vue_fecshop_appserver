@@ -91,12 +91,23 @@
                         </div>
                         <div class="cart_cost">
                             <div class="row no-gutter">
-                                <div class="col-80">{{ $t("message.subtotal") }}:  </div>
+                                <div class="col-80">{{ $t("message.subtotal") }} :  </div>
                                 <div class="col-20">{{currency.symbol}}{{cart_info.product_total ? cart_info.product_total : 0.00}}</div>
                             </div>
                             
                             <div class="row no-gutter">
-                                <div class="col-80">{{ $t("message.shipping_cost") }}: </div>
+                                <div class="col-80">{{ $t("message.sub_weight") }} :  </div>
+                                <div class="col-20">{{cart_info.product_weight ? cart_info.product_weight : 0.00}} Kg</div>
+                            </div>
+                            
+                            <div class="row no-gutter">
+                                <div class="col-80">{{ $t("message.sub_volume") }} :  </div>
+                                <div class="col-20">{{cart_info.product_volume ? cart_info.product_volume : 0.00}} c㎡</div>
+                            </div>
+                            
+                            
+                            <div class="row no-gutter">
+                                <div class="col-80">{{ $t("message.shipping_cost") }} : </div>
                                 <div class="col-20">{{currency.symbol}}{{cart_info.shipping_cost ? cart_info.shipping_cost : 0.00}}</div>
                             </div>
                             

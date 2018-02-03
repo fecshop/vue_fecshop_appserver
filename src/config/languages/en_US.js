@@ -26,6 +26,8 @@ const messagesEn = {
     cart: 'Cart',
     discount_codes: 'Discount Codes',
     subtotal: 'Subtotal',
+    sub_weight: 'Sub Weight',
+    sub_volume: 'Sub Volume',
     shipping_cost: 'Shipping Cost',
     discount: 'Discount',
     proceed_to_pay: 'Proceed to Pay',

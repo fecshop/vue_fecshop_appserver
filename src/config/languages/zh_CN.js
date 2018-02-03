@@ -26,6 +26,8 @@ const messagesZh = {
     cart: '购物车',
     discount_codes: '折扣',
     subtotal: '小计',
+    sub_weight: '总重',
+    sub_volume: '总体积',
     shipping_cost: '运费',
     discount: '折扣',
     grand_total: '总计',
