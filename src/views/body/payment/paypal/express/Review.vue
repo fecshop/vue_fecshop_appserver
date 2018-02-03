@@ -440,8 +440,8 @@ export default {
                     telephone: self.cart_address.telephone,
                     street1: self.cart_address.street1,
                     street2: self.cart_address.street2,
-                    country: self.cart_address.country,
-                    state: self.cart_address.state,
+                    country: self.country, // self.cart_address.country,
+                    state: self.state,  // self.cart_address.state,
                     city: self.cart_address.city,
                     zip: self.cart_address.zip
                 },
@@ -473,6 +473,8 @@ export default {
                         self.errormsg = 'payment by paypal express fail';
                     }else if(reponseData.code == 1500002){
                         self.errormsg = 'order generate fail';
+                    }else if(reponseData.code == 1500020){
+                        self.errormsg = reponseData.message;
                     }else if(reponseData.code == 1500004){
                         self.errormsg = 'generate order require param is invaild';
                     }
