@@ -148,7 +148,11 @@
                                     <option value="18">18</option>
                                     <option value="19">19</option>
                                     <option value="20">20</option>
-                                  </select>
+                                </select>
+                                  
+                                <span v-if="product.package_number">
+                                    X {{product.package_number}} items
+                                </span>
                             </div>
                             <div class="clear"></div>
                         </div>
