@@ -99,22 +99,24 @@
 
                                 <table summary="Items Ordered" id="my-orders-table" class="data-table">
                                     <colgroup>
-                                    <col width="1">
-                                    <col width="1">
-                                    <col width="1">
-                                    <col width="1">
+                                        <col width="1">
+                                        <col width="1">
+                                        <col width="1">
+                                        <col width="1">
+                                        <col width="1">
                                     </colgroup>
                                     <thead>
                                         <tr class="first last">
                                             <th>{{ $t("message.product_image") }}</th>
                                             <th>{{ $t("message.product_info") }}</th>
                                             <th class="a-center">{{ $t("message.qty") }}</th>
+                                            <th class="a-center">{{ $t("message.review") }}</th>
                                             <th class="a-right">{{ $t("message.subtotal") }}</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr class="subtotal first">
-                                            <td class="a-right" colspan="3">{{ $t("message.subtotal") }}</td>
+                                            <td class="a-right" colspan="4">{{ $t("message.subtotal") }}</td>
                                             <td class="last a-right">
                                                 <span class="price">
                                                 {{order.currency_symbol}}
@@ -123,7 +125,7 @@
                                             </td>
                                         </tr>
                                         <tr class="shipping">
-                                            <td class="a-right" colspan="3">
+                                            <td class="a-right" colspan="4">
                                                 {{ $t("message.shipping_cost") }}
                                             </td>
                                             <td class="last a-right">
@@ -135,7 +137,7 @@
                                             </td>
                                         </tr>
                                         <tr class="discount">
-                                            <td class="a-right" colspan="3">
+                                            <td class="a-right" colspan="4">
                                                 {{ $t("message.discount") }}
                                             </td>
                                             <td class="last a-right">
@@ -147,7 +149,7 @@
                                             </td>
                                         </tr>
                                         <tr class="grand_total last">
-                                            <td class="a-right" colspan="3">
+                                            <td class="a-right" colspan="4">
                                                 <strong>
                                                     {{ $t("message.grand_total") }}
                                                 </strong>
@@ -187,6 +189,14 @@
                                             <td class="a-right">
                                                 <span class="nobr" ><strong>{{itemProduct.qty}}</strong><br>
                                                 </span>
+                                            </td>
+                                            <td class="a-center">
+                                                <router-link :to="'/product/review/add/' + itemProduct.product_id"  >
+                                                    <span style="font-size:1em">
+                                                        Review 
+                                                        <br>
+                                                    </span>
+                                                </router-link>
                                             </td>
                                             <td class="a-right last">
                                                 <span class="price-excl-tax">
