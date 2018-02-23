@@ -26,7 +26,7 @@
                         <div class="rbc_cold">
                             <span>
                                 <span class="average_rating">{{ $t("message.average_rating") }}:</span>
-                                <span :class="'review_star review_star_'+product.reviw_rate_star_average" style="font-weight:bold;" itemprop="average"></span>  
+                                <span :class="'review_star review_star_'+ Math.round(product.reviw_rate_star_average)" style="font-weight:bold;" itemprop="average"></span>  
                                 
                                 <a external rel="nofollow" href="<?= Yii::$service->url->getUrl('catalog/reviewproduct/lists',['spu'=>$spu,'_id'=>$_id]); ?>">
                                     (<span itemprop="count">{{product.review_count}} {{ $t("message.reviews") }}</span>)
@@ -201,10 +201,7 @@
                         </div>
                     </div>
                 </div>
-                
-                
             </div>
-            
             
             <div class="clear"></div>
             <div class="product_description_info">
@@ -243,7 +240,66 @@
                                 <div class="product-Reviews">
                                     <div id="pic_list_2" class="scroll_horizontal">
                                         <div class="clear"></div>
-                                        <div class="box">
+                                        <div class="box pro_commit">
+                                            
+                                            
+                                            <div class="averageWarp">
+                                                <span class="lineBlock fon14">{{ $t("message.average_rating") }}: </span>
+                                                <a  lehref="#" :class="'review_star review_star_'+ Math.round(product.reviw_rate_star_average)" onclick="javascript:return false;"></a>
+                                                <b class="lineBlock fon18">{{product.reviw_rate_star_average}}</b>
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="lbBox writeRiviewTitle">
+                                                <ul class="lineBlock proportionStars">
+                                                    <li class="lbBox">
+                                                        <span class="lineBlock fz_blue">{{ $t("message.stars_5") }}</span>
+                                                        <div class="lineBlock proportionBox">
+                                                            <div :style="'width: '+ product.reviw_rate_star_info.star_5 + '%'"> </div>
+                                                        </div>
+                                                        <span class="lineBlock">{{product.reviw_rate_star_info.star_5}}%</span>
+                                                    </li>
+                                                    <li class="lbBox">
+                                                        <span class="lineBlock fz_blue">{{ $t("message.stars_4") }}</span>
+                                                        <div class="lineBlock proportionBox">
+                                                            <div :style="'width: '+ product.reviw_rate_star_info.star_4 + '%'"> </div>
+                                                        </div>
+                                                        <span class="lineBlock">{{product.reviw_rate_star_info.star_4}}%</span>
+                                                    </li>
+                                                    <li class="lbBox">
+                                                        <span class="lineBlock fz_blue">{{ $t("message.stars_3") }}</span>
+                                                        <div class="lineBlock proportionBox">
+                                                            <div :style="'width: '+ product.reviw_rate_star_info.star_3 + '%'"> </div>
+                                                        </div>
+                                                        <span class="lineBlock">{{product.reviw_rate_star_info.star_3}}%</span>				
+                                                    </li>
+                                                    <li class="lbBox">
+                                                        <span class="lineBlock fz_blue">{{ $t("message.stars_2") }}</span>
+                                                        <div class="lineBlock proportionBox">
+                                                            <div :style="'width: '+ product.reviw_rate_star_info.star_2 + '%'"> </div>
+                                                        </div>
+                                                        <span class="lineBlock">{{product.reviw_rate_star_info.star_2}}%</span>
+                                                    </li>
+                                                    <li class="lbBox">
+                                                        <span class="lineBlock fz_blue">{{ $t("message.stars_1") }}</span>
+                                                        <div class="lineBlock proportionBox">
+                                                            <div :style="'width: '+ product.reviw_rate_star_info.star_1 + '%'"> </div>
+                                                        </div>
+                                                        <span class="lineBlock">{{product.reviw_rate_star_info.star_1}}%</span>
+                                                    </li>
+                                                </ul>
+                                                <p class="buttons-row">
+                                                    <router-link :to="'/product/review/add/' + product_id"  class="button button-round">
+                                                        {{ $t("message.add_review") }}
+                                                    </router-link>
+                                                    
+                                                    <router-link :to="'/product/review/lists/' + product_id"  class="button button-round">
+                                                        {{ $t("message.view_all_review") }}({{product.review_count}}) 
+                                                    </router-link>
+                                                </p>
+                                            </div>
+                                            
+                                            
+                                        
                                             <div v-if="productReview && productReview.coll" class="product-Reviews_top">
                                                 <template  v-for="(item_one ,t_index) in productReview.coll">     
                                                     <div class="card">
@@ -279,17 +335,7 @@
                                             </div>
                                             <div class="clear"></div>
                                             
-                                            <p class="buttons-row">
                                             
-                                                <router-link :to="'/product/review/add/' + product_id"  class="button button-round">
-                                                    {{ $t("message.add_review") }}
-                                                </router-link>
-                                                
-                                                <router-link :to="'/product/review/lists/' + product_id"  class="button button-round">
-                                                    {{ $t("message.view_all_review") }}({{product.review_count}}) 
-                                                </router-link>
-                                                
-                                            </p>
                                         </div>
                                     </div>
                                 </div>

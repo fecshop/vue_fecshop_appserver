@@ -45,7 +45,7 @@
                                 <div class="rbc_cold">
                                     <span>
                                         <span class="average_rating">{{ $t("message.average_rating") }} :</span>
-                                        <span :class="'review_star review_star_' + reviw_rate_star_average" style="font-weight:bold;" itemprop="average"></span>  
+                                        <span :class="'review_star review_star_' + Math.round(reviw_rate_star_average)" style="font-weight:bold;" itemprop="average"></span>  
                                         
                                         (<span itemprop="count">{{review_count}} {{ $t("message.reviews") }}</span>)
                                         
@@ -72,11 +72,66 @@
                         </div>
                         <div class="clear"></div>
                     </div>
-                    <div class="product-reviews"> 
+                    <div class="product-reviews pro_commit"> 
                         <div class="clear"></div>
-                        <div class="review_title">
-                            <a external href="javascript:void(0)">{{ $t("message.product_review") }}</a>
+                        
+                        <div class="averageWarp">
+                            <span class="lineBlock fon14">{{ $t("message.average_rating") }}: </span>
+                            <b class="lineBlock fon18">{{reviw_rate_star_average}}</b>
                         </div>
+                        <div class="clear"></div>
+                        <div class="lbBox writeRiviewTitle">
+                            <ul class="lineBlock proportionStars">
+                                <li class="lbBox">
+                                    <span class="lineBlock fz_blue">{{ $t("message.stars_5") }}</span>
+                                    <div class="lineBlock proportionBox">
+                                        <div :style="'width: '+ reviw_rate_star_info.star_5 + '%'"> </div>
+                                    </div>
+                                    <span class="lineBlock">{{reviw_rate_star_info.star_5}}%</span>
+                                </li>
+                                <li class="lbBox">
+                                    <span class="lineBlock fz_blue">{{ $t("message.stars_4") }}</span>
+                                    <div class="lineBlock proportionBox">
+                                        <div :style="'width: '+ reviw_rate_star_info.star_4 + '%'"> </div>
+                                    </div>
+                                    <span class="lineBlock">{{reviw_rate_star_info.star_4}}%</span>
+                                </li>
+                                <li class="lbBox">
+                                    <span class="lineBlock fz_blue">{{ $t("message.stars_3") }}</span>
+                                    <div class="lineBlock proportionBox">
+                                        <div :style="'width: '+ reviw_rate_star_info.star_3 + '%'"> </div>
+                                    </div>
+                                    <span class="lineBlock">{{reviw_rate_star_info.star_3}}%</span>				
+                                </li>
+                                <li class="lbBox">
+                                    <span class="lineBlock fz_blue">{{ $t("message.stars_2") }}</span>
+                                    <div class="lineBlock proportionBox">
+                                        <div :style="'width: '+ reviw_rate_star_info.star_2 + '%'"> </div>
+                                    </div>
+                                    <span class="lineBlock">{{reviw_rate_star_info.star_2}}%</span>
+                                </li>
+                                <li class="lbBox">
+                                    <span class="lineBlock fz_blue">{{ $t("message.stars_1") }}</span>
+                                    <div class="lineBlock proportionBox">
+                                        <div :style="'width: '+ reviw_rate_star_info.star_1 + '%'"> </div>
+                                    </div>
+                                    <span class="lineBlock">{{reviw_rate_star_info.star_1}}%</span>
+                                </li>
+                            </ul>
+                            <p class="buttons-row">
+                                <router-link :to="'/product/review/add/' + product_id"  class="button button-round">
+                                    {{ $t("message.add_review") }}
+                                </router-link>
+                                
+                                <router-link :to="'/product/review/lists/' + product_id"  class="button button-round">
+                                    {{ $t("message.view_all_review") }}({{review_count}}) 
+                                </router-link>
+                            </p>
+                        </div>
+                        
+                        
+                        
+                        
                         
                         <div v-if="reviewList.length > 0" class="product-Reviews_top">
                             <template  v-for="(item_one ,t_index) in reviewList">     
@@ -137,6 +192,7 @@ export default {
             product:{},
             review_count:0,
             reviw_rate_star_average:0,
+            reviw_rate_star_info:{},
             count:0,
             loading: false ,
             correctmsg:''
@@ -170,6 +226,7 @@ export default {
                         self.product = reponseData.data.product;
                         self.review_count = reponseData.data.review_count;
                         self.reviw_rate_star_average = reponseData.data.reviw_rate_star_average;
+                        self.reviw_rate_star_info = reponseData.data.reviw_rate_star_info;
                         self.count = 1;
                         console.log('get editAccount info success');
                         self.saveReponseHeader(request); 
