@@ -364,10 +364,11 @@ a{font-size:0.8em;}
 .item_sku{color:#555;}
 
 .product-image{
-	 display: block;
+	display: block;
     margin-top: 0.5rem;
 	
 }
+
 .product-image img{width:100%;height:auto;}
 
 .cart_info {}
@@ -440,7 +441,7 @@ a.btn-remove {
 .cart_info .row{
 	position:relative;
 	border-bottom:1px solid #e5e5e5;
-	padding:0.5rem 0 1rem;
+	padding:0.5rem;
 }
 .cart{background:#fff;}
 .row .col-80{margin-left:2%}
@@ -1115,8 +1116,22 @@ ul#billing_address_list  li input , ul#billing_address_list  li select{
 
 
 
+.cart_select_div{
+    padding:0.5rem;
 
+}
 
+.shopping-cart-img{border:none;margin-bottom:0}
+
+.cart_select_item{
+    float:left;
+}
+
+.cart_info .product-image{
+    margin-top:0;
+    float:left;
+    max-width: 85%;
+}
 
 
 
