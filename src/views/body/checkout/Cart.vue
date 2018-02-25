@@ -25,13 +25,13 @@
                     
                     <div class="cart_info">
                         <div class="cart_select_div">
-                            <input id="cart_select_all" type="checkbox" name="cart_select_all" class="cart_select cart_select_all">
+                            <input @click="selectAll(selectAllStatus)"  v-model="selectAllStatus" id="cart_select_all" type="checkbox" name="cart_select_all" class="cart_select cart_select_all">
                             &nbsp;
                             <label for="cart_select_all">Select All Product</label>
                         </div>
                         <div v-for="(productOne,index) in cart_products " class="row">
                             <div class="col-33">
-                                <input v-model="productOne.active" type="checkbox" name="cart_select_item" class="cart_select cart_select_item">
+                                <input @click="selectOne(productOne.item_id, productOne.active)" v-model="productOne.active" type="checkbox" name="cart_select_item" class="cart_select cart_select_item">
                                 <router-link :to="productOne.url" title="productOne.name"  class="product-image">
                                     <img :src="productOne.img_url"   alt="productOne.name" width="75" height="75">
                                 </router-link>
@@ -97,35 +97,35 @@
                         </div>
                         <div class="cart_cost">
                             <div class="row no-gutter">
-                                <div class="col-80">{{ $t("message.subtotal") }} :  </div>
-                                <div class="col-20">{{currency.symbol}}{{cart_info.product_total ? cart_info.product_total : 0.00}}</div>
+                                <div class="col-66">{{ $t("message.subtotal") }} :  </div>
+                                <div class="col-33">{{currency.symbol}}{{cart_info.product_total ? cart_info.product_total : 0.00}}</div>
                             </div>
                             
                             <div class="row no-gutter">
-                                <div class="col-80">{{ $t("message.sub_weight") }} :  </div>
-                                <div class="col-20">{{cart_info.product_weight ? cart_info.product_weight : 0.00}} Kg</div>
+                                <div class="col-66">{{ $t("message.sub_weight") }} :  </div>
+                                <div class="col-33">{{cart_info.product_weight ? cart_info.product_weight : 0.00}} Kg</div>
                             </div>
                             
                             <div class="row no-gutter">
-                                <div class="col-80">{{ $t("message.sub_volume") }} :  </div>
-                                <div class="col-20">{{cart_info.product_volume ? cart_info.product_volume : 0.00}} c㎡</div>
-                            </div>
-                            
-                            
-                            <div class="row no-gutter">
-                                <div class="col-80">{{ $t("message.shipping_cost") }} : </div>
-                                <div class="col-20">{{currency.symbol}}{{cart_info.shipping_cost ? cart_info.shipping_cost : 0.00}}</div>
+                                <div class="col-66">{{ $t("message.sub_volume") }} :  </div>
+                                <div class="col-33">{{cart_info.product_volume ? cart_info.product_volume : 0.00}} c㎡</div>
                             </div>
                             
                             
                             <div class="row no-gutter">
-                                <div class="col-80">{{ $t("message.discount") }} :</div>
-                                <div class="col-20">-{{currency.symbol}} {{cart_info.coupon_cost ? cart_info.coupon_cost : 0.00}}</div>
+                                <div class="col-66">{{ $t("message.shipping_cost") }} : </div>
+                                <div class="col-33">{{currency.symbol}}{{cart_info.shipping_cost ? cart_info.shipping_cost : 0.00}}</div>
+                            </div>
+                            
+                            
+                            <div class="row no-gutter">
+                                <div class="col-66">{{ $t("message.discount") }} :</div>
+                                <div class="col-33">-{{currency.symbol}} {{cart_info.coupon_cost ? cart_info.coupon_cost : 0.00}}</div>
                             </div>
                             
                             <div class="row no-gutter">
-                                <div class="col-80">{{ $t("message.grand_total") }} :</div>
-                                <div class="col-20">{{currency.symbol}} {{cart_info.grand_total ? cart_info.grand_total : 0.00}}</div>
+                                <div class="col-66">{{ $t("message.grand_total") }} :</div>
+                                <div class="col-33">{{currency.symbol}} {{cart_info.grand_total ? cart_info.grand_total : 0.00}}</div>
                             </div>
                         </div>
                         <div class="totals cart-totals">
@@ -191,8 +191,11 @@ export default {
             addCouponUrl: root + '/checkout/cart/addcoupon' ,
             cancelCouponUrl: root + '/checkout/cart/cancelcoupon' ,
             updateInfoUrl: root + '/checkout/cart/updateinfo' ,
-            paypalExpressStartUrl: root + '/payment/paypal/express/start' ,
+            selectOneUrl: root + '/checkout/cart/selectone' ,
+            selectAllUrl: root + '/checkout/cart/selectall' ,
             
+            paypalExpressStartUrl: root + '/payment/paypal/express/start' ,
+            selectAllStatus: 0,
             errormsg:'',
             cart_products:[],
             productQty:{},
@@ -299,10 +302,91 @@ export default {
                     console.log('get address list page init error');
                 }
             });
-        
         },
+        selectOne: function(item_id, active){
+            var self = this;
+            self.errormsg = '';
+            $.showIndicator();
+            var url = self.selectOneUrl;
+            active = active ? 1 : 0;
+            $.ajax({
+                url: url,
+                async: true,
+                timeout: 120000,
+                type: 'get',
+                headers: self.getRequestHeader(),
+                data:{ 
+                    checked: active,
+                    item_id: item_id
+                },
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.saveReponseHeader(request);
+                        self.pageInit();
+                    }else{
+                        self.saveReponseHeader(request); 
+                        self.errormsg = 'select cart product fail';
+                        $.toast('select cart product fail');
+                    }
+                    $.hideIndicator();
+                },
+                error:function(){
+                    $.hideIndicator();
+                    $.toast('system error');
+                    console.log('get address list page init error');
+                }
+            });
+        },
+        
+        selectAll: function(active){
+            var self = this;
+            self.errormsg = '';
+            $.showIndicator();
+            active = active ? 1 : 0;
+            var url = self.selectAllUrl;
+            $.ajax({
+                url: url,
+                async: true,
+                timeout: 120000,
+                type: 'get',
+                headers: self.getRequestHeader(),
+                data:{ 
+                    checked: active,
+                },
+                success:function(reponseData, textStatus,request){
+                    if(reponseData.code == 200){
+                        self.saveReponseHeader(request);
+                        self.pageInit();
+                    }else{
+                        self.saveReponseHeader(request); 
+                        self.errormsg = 'select cart product fail';
+                        $.toast('select cart product fail');
+                    }
+                    $.hideIndicator();
+                },
+                error:function(){
+                    $.hideIndicator();
+                    $.toast('system error');
+                    console.log('get address list page init error');
+                }
+            });
+        },
+        
         goToPay: function(){
             this.$router.push('/checkout/onepage');
+        },
+        initSelectAll: function(){
+            var self = this;
+            var products = self.cart_products;
+            // 检查各个select是否全部选择，如果全部选择，则 selectAllStatus = 1
+            var selectAll = 1;
+            for(var x in products){
+                var productOne = products[x];
+                if (productOne['active'] != 1) {
+                    selectAll = 0;
+                }
+            }
+            self.selectAllStatus = selectAll;
         },
         pageInit: function(){
             var self = this;
@@ -335,6 +419,7 @@ export default {
                         }
                         console.log('get editAccount info success');
                         self.saveReponseHeader(request); 
+                        self.initSelectAll();
                     }
                     //console.log('cart_products.length:'+ self.cart_products.length);
                     self.pageInitComplete = true;
