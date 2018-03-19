@@ -254,37 +254,37 @@
                                                     <li class="lbBox">
                                                         <span class="lineBlock fz_blue">{{ $t("message.stars_5") }}</span>
                                                         <div class="lineBlock proportionBox">
-                                                            <div :style="'width: '+ product.reviw_rate_star_info.star_5 + '%'"> </div>
+                                                            <div :style="'width: '+ reviw_rate_star_info.star_5 + '%'"> </div>
                                                         </div>
-                                                        <span class="lineBlock">{{product.reviw_rate_star_info.star_5}}%</span>
+                                                        <span class="lineBlock">{{reviw_rate_star_info.star_5}}%</span>
                                                     </li>
                                                     <li class="lbBox">
                                                         <span class="lineBlock fz_blue">{{ $t("message.stars_4") }}</span>
                                                         <div class="lineBlock proportionBox">
-                                                            <div :style="'width: '+ product.reviw_rate_star_info.star_4 + '%'"> </div>
+                                                            <div :style="'width: '+ reviw_rate_star_info.star_4 + '%'"> </div>
                                                         </div>
-                                                        <span class="lineBlock">{{product.reviw_rate_star_info.star_4}}%</span>
+                                                        <span class="lineBlock">{{reviw_rate_star_info.star_4}}%</span>
                                                     </li>
                                                     <li class="lbBox">
                                                         <span class="lineBlock fz_blue">{{ $t("message.stars_3") }}</span>
                                                         <div class="lineBlock proportionBox">
-                                                            <div :style="'width: '+ product.reviw_rate_star_info.star_3 + '%'"> </div>
+                                                            <div :style="'width: '+ reviw_rate_star_info.star_3 + '%'"> </div>
                                                         </div>
-                                                        <span class="lineBlock">{{product.reviw_rate_star_info.star_3}}%</span>				
+                                                        <span class="lineBlock">{{reviw_rate_star_info.star_3}}%</span>				
                                                     </li>
                                                     <li class="lbBox">
                                                         <span class="lineBlock fz_blue">{{ $t("message.stars_2") }}</span>
                                                         <div class="lineBlock proportionBox">
-                                                            <div :style="'width: '+ product.reviw_rate_star_info.star_2 + '%'"> </div>
+                                                            <div :style="'width: '+ reviw_rate_star_info.star_2 + '%'"> </div>
                                                         </div>
-                                                        <span class="lineBlock">{{product.reviw_rate_star_info.star_2}}%</span>
+                                                        <span class="lineBlock">{{reviw_rate_star_info.star_2}}%</span>
                                                     </li>
                                                     <li class="lbBox">
                                                         <span class="lineBlock fz_blue">{{ $t("message.stars_1") }}</span>
                                                         <div class="lineBlock proportionBox">
-                                                            <div :style="'width: '+ product.reviw_rate_star_info.star_1 + '%'"> </div>
+                                                            <div :style="'width: '+ reviw_rate_star_info.star_1 + '%'"> </div>
                                                         </div>
-                                                        <span class="lineBlock">{{product.reviw_rate_star_info.star_1}}%</span>
+                                                        <span class="lineBlock">{{reviw_rate_star_info.star_1}}%</span>
                                                     </li>
                                                 </ul>
                                                 <p class="buttons-row">
@@ -407,6 +407,7 @@ export default {
             product_id: '',
             thumbnail_img:[],
             product: {},
+            reviw_rate_star_info:{},
             errormsg:'',
             productReview:[],
             tier_price:[],
@@ -453,7 +454,9 @@ export default {
     },
     methods:{
         isActiveSelectCustomOption(selectAttr,selectVal){
-            var selected_attr = this.custom_option_selected_attr;
+            // var selected_attr = this.custom_option_selected_attr;
+            // selected_attr[selectAttr] = selectVal;
+            var selected_attr = Object.assign({}, this.custom_option_selected_attr)
             selected_attr[selectAttr] = selectVal;
             if(this.custom_option){
                 for(var x in this.custom_option){
@@ -476,12 +479,18 @@ export default {
             return false;
         },
         selectCustomOption: function(selectAttr,selectVal){
-            console.log('selectAttr:'+selectAttr);
-            console.log('selectVal:'+selectVal);
             if(!this.isActiveSelectCustomOption(selectAttr,selectVal)){
                 return;
             }
-            this.custom_option_selected_attr[selectAttr] = selectVal;
+            console.log(this.custom_option_selected_attr);
+            if (this.custom_option_selected_attr[selectAttr] == selectVal) {
+                delete this.custom_option_selected_attr[selectAttr];
+            } else {
+                this.custom_option_selected_attr[selectAttr] = selectVal;
+            }
+            console.log('selectAttr:'+selectAttr);
+            console.log('selectVal:'+selectVal);
+            // this.custom_option_selected_attr[selectAttr] = selectVal;
             console.log(this.custom_option_selected_attr);
             var active_attr = {};
             var other_tj = {};
@@ -799,6 +808,7 @@ export default {
                         console.log('fetch product success');
                         var product = reponseData.data.product;
                         self.product = product;
+                        self.reviw_rate_star_info = self.product.reviw_rate_star_info;
                         self.tier_price = product.tier_price;
                         self.buy_also_buy = product.buy_also_buy;
                         
