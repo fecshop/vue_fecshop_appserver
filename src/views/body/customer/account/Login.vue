@@ -220,6 +220,7 @@ export default {
                 self.errormsg = msgArr.join(",");
                 return;
             }
+            var cookies = self.getTraceAllCookie();
             $.showIndicator();
             $.ajax({
                 url: self.accountLoginUrl,
@@ -228,9 +229,10 @@ export default {
                 type: 'post',
                 headers: self.getRequestHeader(),
                 data:{ 
-                    email:email,
-                    password:password,
-                    captcha:captcha
+                    email: email,
+                    password: password,
+                    captcha: captcha,
+                    cookies: cookies
                 },
                 success:function(reponseData, textStatus,request){
                     var code = reponseData.code;

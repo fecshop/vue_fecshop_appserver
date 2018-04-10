@@ -509,7 +509,7 @@ export default {
                     }
                 }
             }
-            
+            var cookies = self.getTraceAllCookie();
             var ajaxData = {
                 address_id: self.cart_address_id,
                 billing:{
@@ -529,7 +529,8 @@ export default {
                 confirm_password: self.confirm_password,
                 create_account: create_account,
                 shipping_method: self.shipping_method,
-                payment_method: self.payment_method
+                payment_method: self.payment_method,
+                cookies: cookies
             };
             $.showIndicator();
             self.displaySubmitOrder = 'block';

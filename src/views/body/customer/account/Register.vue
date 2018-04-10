@@ -176,6 +176,7 @@ export default {
                 self.errormsg = msgArr.join(",");
                 return;
             }
+            var cookies = self.getTraceAllCookie();
             $.showIndicator();
             $.ajax({
                 url: self.accountRegisterUrl,
@@ -185,11 +186,12 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                     email:email,
-                    password:password,
-                    firstname:firstname,
-                    lastname:lastname,
-                    is_subscribed:is_subscribed,
-                    captcha:captcha
+                    password: password,
+                    firstname: firstname,
+                    lastname: lastname,
+                    is_subscribed: is_subscribed,
+                    captcha: captcha,
+                    cookies: cookies
                 },
                 success:function(reponseData, textStatus,request){
                     var code = reponseData.code;

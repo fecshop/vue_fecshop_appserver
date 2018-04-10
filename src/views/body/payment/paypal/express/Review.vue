@@ -431,7 +431,7 @@ export default {
                 self.errormsg = 'PayerID can not empty';
                 return;
             }
-            
+            var cookies = self.getTraceAllCookie();
             var ajaxData = {
                 billing:{
                     first_name: self.cart_address.first_name,
@@ -448,7 +448,8 @@ export default {
                 order_remark: self.order_remark,
                 token:token,
                 PayerID:PayerID,
-                shipping_method: self.shipping_method
+                shipping_method: self.shipping_method,
+                cookies: cookies
             };
             
             $.showIndicator();

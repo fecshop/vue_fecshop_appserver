@@ -128,6 +128,50 @@ Vue.prototype.getRequestHeader = function (){
     //console.log('get header ####');
 }
 
+
+var trace_website_id = process.env.TRACE_WEBSITE_ID;
+var trace_enable = process.env.TRACE_ENABLE;
+var trace_js_url = process.env.TRACE_JS_URL;
+
+Vue.prototype.reloadTraceJs = function (data){
+    if (trace_enable == 'true') {
+        // 获取js url
+        var sSrc = ('https:' == document.location.protocol ? 'https://' : 'http://') + trace_js_url;
+        var scriptSrc;
+        scriptSrc = sSrc + '?website_id=' + trace_website_id;
+        // 添加当前页面参数
+        for (var k in data) {
+            var v = data[k];
+            scriptSrc += '&'+k+'=' + encodeURIComponent(v);
+        }
+        // 删除前面添加的script
+        var allScript = document.getElementsByTagName('script'); 
+        for (var i=allScript.length; i>=0; i--){ 
+            if (allScript[i] && allScript[i].getAttribute("src")!=null && allScript[i].getAttribute("src").indexOf(sSrc)!=-1){
+                allScript[i].parentNode.removeChild(allScript[i]); 
+            } 
+        } 
+        // 重新添加js文件，并加载。
+        var ma = document.createElement('script'); ma.type = 'text/javascript'; ma.async = true;
+        ma.src = scriptSrc;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ma, s);
+    }
+}  
+  
+Vue.prototype.getTraceAllCookie = function (){
+    var cookies = { };
+    if (document.cookie && document.cookie != '') {
+        var split = document.cookie.split(';');
+        for (var i = 0; i < split.length; i++) {
+            var name_value = split[i].split("=");
+            name_value[0] = name_value[0].replace(/^ /, '');
+            cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
+        }
+    }
+    return cookies;
+}                
+
 Vue.prototype.setLoginSuccessRedirectUrl = function($url){
     return window.localStorage.setItem("login-success-redirect",$url);
 }

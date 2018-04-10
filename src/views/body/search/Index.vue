@@ -400,6 +400,10 @@ export default {
                     }else{
                         self.isNoDisPlay = 1;
                     }
+                    var search = {"text": self.searchInfo.searchText, "result_qty": parseInt(self.searchInfo.searchCount)};
+                    // search trace
+                    var traceData = {"search": JSON.stringify(search)};
+                    self.reloadTraceJs(traceData); 
                     self.saveReponseHeader(request); 
                 }else{
                     self.isNoDisPlay = 1;

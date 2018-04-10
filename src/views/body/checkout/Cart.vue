@@ -416,9 +416,16 @@ export default {
                         self.currency = reponseData.data.currency;
                         self.cart_products = reponseData.data.cart_info.products;
                         var products = self.cart_products;
+                        var traceCart = [];
                         for(var x in products){
                             var productOne = products[x];
                             self.productQty[productOne.item_id] = productOne.qty;
+                            var traceProduct = {
+                                'sku': productOne.sku,
+                                'qty': productOne.qty,
+                                'price': productOne.base_product_price
+                            };
+                            traceCart.push(traceProduct)
                         }
                         
                         self.cart_info = reponseData.data.cart_info;
@@ -428,6 +435,9 @@ export default {
                             self.couponLabel = 'Cancel Coupon';
                         }
                         console.log('get editAccount info success');
+                        // cart trace
+                        var traceData = {"cart": JSON.stringify(traceCart)};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         self.initSelectAll();
                     }

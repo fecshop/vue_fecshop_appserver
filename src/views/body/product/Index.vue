@@ -821,6 +821,9 @@ export default {
                         self.reflushCustomOption();
                         console.log(product.name);
                         self.saveReponseHeader(request); 
+                        // sku trace
+                        var traceData = {"sku": product.sku};
+                        self.reloadTraceJs(traceData); 
                         // 上面ajax获取值渲染产品图片的html代码，然后需要sui渲染一次
                         // 必须等待vue渲染完成，sui才能渲染，因此加了1.2秒的延迟。
                         setTimeout("$.init();",1200);

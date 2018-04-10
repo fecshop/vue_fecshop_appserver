@@ -305,6 +305,8 @@ export default {
         this.filterPrice = '';
         this.fetchCategory();
         //$.closeModal(".popup");
+        
+
     },
     clearFilterAttr: function(attr,val,$event){
         this.productList = [];
@@ -418,10 +420,13 @@ export default {
                         }else{
                             self.isNoDisPlay = 1;
                         }
+                        
                         self.saveReponseHeader(request); 
                     }else{
                         self.isNoDisPlay = 1;
                     }
+                    
+                    
                     $.hideIndicator();
                 },
                 error:function(){
@@ -484,6 +489,9 @@ export default {
                     }else{
                         self.isNoDisPlay = 1;
                     }
+                    // category trace
+                    var traceData = {"category": self.categoryInfo.name_default_lang};
+                    self.reloadTraceJs(traceData); 
                     self.saveReponseHeader(request); 
                 }else{
                     self.isNoDisPlay = 1;
