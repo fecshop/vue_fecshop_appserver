@@ -278,6 +278,8 @@ export default {
                             self.reflushCaptcha();
                         }
                         console.log('');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();

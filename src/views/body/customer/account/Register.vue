@@ -247,6 +247,8 @@ export default {
                         self.minPassLength = reponseData.data.minPassLength;
                         self.maxPassLength = reponseData.data.maxPassLength;
                         console.log('get register info success');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         console.log(self.registerCaptchaActive);
                         if(self.registerCaptchaActive){

@@ -217,6 +217,8 @@ export default {
                         self.contacts_email         = reponseData.data.contactsEmail;
                         self.getContactsCaptcha();
                         console.log('get editAccount info success');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();

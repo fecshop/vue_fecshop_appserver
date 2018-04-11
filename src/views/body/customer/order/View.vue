@@ -264,6 +264,8 @@ export default {
                             self.orderProducts = self.order.products;
                         }
                         console.log('');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();

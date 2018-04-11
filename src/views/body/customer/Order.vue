@@ -104,6 +104,8 @@ export default {
                     }else if(reponseData.code == 200){
                         self.orderList = reponseData.data.orderList;
                         console.log('get customer order info success');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         self.count = 1;
                     }

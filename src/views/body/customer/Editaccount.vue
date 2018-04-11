@@ -278,6 +278,8 @@ export default {
                         self.minPassLength = reponseData.data.minPassLength;
                         self.maxPassLength = reponseData.data.maxPassLength;
                         console.log('get editAccount info success');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         
                     }

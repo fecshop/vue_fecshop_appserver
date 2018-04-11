@@ -237,6 +237,8 @@ export default {
                     }else if(reponseData.code == 200){
                         self.address = reponseData.data.address;
                         console.log('get address edit info success');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         self.addressCountry = self.address.country;
                         self.addressState = self.address.state;

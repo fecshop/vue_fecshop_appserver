@@ -61,6 +61,8 @@ export default {
                     if(reponseData.code == 200){
                         self.title = reponseData.data.title;
                         self.content = reponseData.data.content;
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();

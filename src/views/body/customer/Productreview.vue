@@ -136,6 +136,8 @@ export default {
                         self.activeStatus   = reponseData.data.activeStatus;
                         self.refuseStatus   = reponseData.data.refuseStatus;
                         console.log('page init success2');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         self.count = 1;
                     }

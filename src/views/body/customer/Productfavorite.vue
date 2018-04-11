@@ -147,6 +147,8 @@ export default {
                         return;
                     }else if(reponseData.code == 200){
                         self.productList = reponseData.data.productList;
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         self.count = 1;
                     }

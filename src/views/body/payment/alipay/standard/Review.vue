@@ -88,6 +88,8 @@ export default {
                     },
                     success:function(data, textStatus,request){
                         if(data.code == 200){
+                            var traceData = {};
+                            self.reloadTraceJs(traceData);
                             self.saveReponseHeader(request);
                             self.$router.push('/payment/success');
                         }else{

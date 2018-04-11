@@ -40,6 +40,8 @@ export default {
                 },
                 success:function(reponseData, textStatus,request){
                     if(reponseData.code == 200){
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request);
                         var redirectUrl = reponseData.data.redirectUrl;
                         console.log(redirectUrl);

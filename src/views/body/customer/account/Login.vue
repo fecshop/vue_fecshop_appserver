@@ -135,6 +135,8 @@ export default {
                         self.loginCaptchaActive = reponseData.data.loginCaptchaActive;
                         self.googleLoginUrl = reponseData.data.googleLoginUrl;
                         self.facebookLoginUrl = reponseData.data.facebookLoginUrl;
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         console.log(self.loginCaptchaActive);
                         if(self.loginCaptchaActive){

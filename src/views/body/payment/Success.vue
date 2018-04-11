@@ -70,6 +70,8 @@ export default {
                     if(reponseData.code == 200){
                         self.increment_id = reponseData.data.increment_id;
                         self.order = reponseData.data.order;
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                     }else{
                         self.$router.push("/");
                     }

@@ -59,6 +59,8 @@ export default {
                     },
                     success:function(reponseData, textStatus,request){
                         if(reponseData.code == 200){
+                            var traceData = {};
+                            self.reloadTraceJs(traceData);
                             self.saveReponseHeader(request);
                             self.$router.push('/payment/success');
                         }else if(reponseData.code == 1500009){

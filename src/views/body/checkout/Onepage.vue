@@ -563,6 +563,7 @@ export default {
                         self.displaySubmitOrder = 'none';
                         
                     }
+                    
                     self.saveReponseHeader(request); 
                     $.hideIndicator();
                 },
@@ -727,6 +728,8 @@ export default {
                             self.displayAddressDetails = 'block';
                         }
                         console.log('get editAccount info success');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         self.changeCountry();
                     }else if(reponseData.code == 1500007){

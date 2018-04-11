@@ -49,6 +49,8 @@ export default {
                 ajaxData[x] = requestParams[x];
             }
             $.showIndicator();
+            var cookies = self.getTraceAllCookie();
+            ajaxData["cookies"] = cookies;
             $.ajax({
                 url: self.pageInitUrl,
                 async: true,
@@ -60,6 +62,8 @@ export default {
                     if(reponseData.code == 200){
                         
                         self.reloadPage();
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();

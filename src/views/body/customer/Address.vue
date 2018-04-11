@@ -108,6 +108,8 @@ export default {
                     }else if(reponseData.code == 200){
                         self.addressList = reponseData.data.addressList;
                         console.log('get editAccount info success');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();

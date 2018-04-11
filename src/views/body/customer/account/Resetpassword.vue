@@ -199,6 +199,8 @@ export default {
                         //如果用户登录，则跳转到账户中心页面
                         self.resetPasswordActive = reponseData.data.resetPasswordActive;
                         console.log('');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }else{
                         self.errormsg = 'reset password token is expired';

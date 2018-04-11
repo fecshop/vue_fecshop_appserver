@@ -637,6 +637,8 @@ export default {
                                 self.couponLabel = 'Cancel Coupon';
                             }
                             console.log('get editAccount info success');
+                            var traceData = {};
+                            self.reloadTraceJs(traceData);
                             self.saveReponseHeader(request); 
                             
                         }else if(reponseData.code == 1500007){ 

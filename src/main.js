@@ -138,7 +138,19 @@ Vue.prototype.reloadTraceJs = function (data){
         // 获取js url
         var sSrc = ('https:' == document.location.protocol ? 'https://' : 'http://') + trace_js_url;
         var scriptSrc;
+        // 添加website_id参数
         scriptSrc = sSrc + '?website_id=' + trace_website_id;
+        var fecshop_lang = window.localStorage.getItem("fecshop-lang");
+        var fecshop_currency = window.localStorage.getItem("fecshop-currency");
+
+        // 添加语言参数
+        scriptSrc += '&fec_lang=' + encodeURIComponent(fecshop_lang);
+        // 添加货币参数
+        scriptSrc += '&fec_currency=' + encodeURIComponent(fecshop_currency);
+        // 添加入口参数
+        scriptSrc += '&fec_app=appserver';
+        // 添加store 参数 - 因为appserver端没有store概念，因此没有
+        
         // 添加当前页面参数
         for (var k in data) {
             var v = data[k];

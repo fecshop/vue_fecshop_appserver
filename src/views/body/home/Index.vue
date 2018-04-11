@@ -107,6 +107,8 @@ export default {
                     self.language       = serverData.language;
                     self.currency       = serverData.currency;
                 }
+                var traceData = {};
+                self.reloadTraceJs(traceData);
                 self.saveReponseHeader(request); 
                 $.hideIndicator();
             },

@@ -145,6 +145,8 @@ export default {
                     }else if(reponseData.code == 200){
                         self.forgotCaptchaActive = reponseData.data.forgotCaptchaActive;
                         console.log('get forgot info success');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         if(self.forgotCaptchaActive){
                             console.log('begin get forgot captcha');

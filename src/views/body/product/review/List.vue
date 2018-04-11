@@ -229,6 +229,8 @@ export default {
                         self.reviw_rate_star_info = reponseData.data.reviw_rate_star_info;
                         self.count = 1;
                         console.log('get editAccount info success');
+                        var traceData = {};
+                        self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
                     $.hideIndicator();
