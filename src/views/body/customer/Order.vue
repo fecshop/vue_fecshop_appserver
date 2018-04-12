@@ -97,8 +97,8 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(reponseData.code == 200){
@@ -109,7 +109,7 @@ export default {
                         self.saveReponseHeader(request); 
                         self.count = 1;
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast('system error');
@@ -135,8 +135,8 @@ export default {
                         p: self.count+1
                     },
                     success:function(reponseData, textStatus,request){
+                        $.hideIndicator();
                         if(reponseData.code == 1100003){
-                            $.hideIndicator();
                             self.$router.push('/customer/account/login');
                             return;
                         }else if(reponseData.code == 200){
@@ -153,7 +153,7 @@ export default {
                             }
                             self.saveReponseHeader(request);
                         }
-                        $.hideIndicator();
+                        
                     },
                     error:function(){
                         $.toast('system error');
@@ -183,9 +183,9 @@ export default {
                     order_id:order_id
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
                         self.saveReponseHeader(request);
-                        $.hideIndicator();
                         self.$router.push('/customer/account/login');
                     }else if(reponseData.code == 200){
                         self.saveReponseHeader(request);
@@ -195,7 +195,7 @@ export default {
                     }else{
                         $.toast('reorder fail');
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast('system error');

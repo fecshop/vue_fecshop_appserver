@@ -67,6 +67,7 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.increment_id = reponseData.data.increment_id;
                         self.order = reponseData.data.order;
@@ -75,7 +76,7 @@ export default {
                     }else{
                         self.$router.push("/");
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast('system error');

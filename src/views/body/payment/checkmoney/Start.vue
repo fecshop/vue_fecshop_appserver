@@ -37,12 +37,13 @@ export default {
                 data:{ 
                 },
                 success:function(data, textStatus,request){
+                    $.hideIndicator();
                     if(data.code == 200){
                         var traceData = {};
                         self.reloadTraceJs(traceData);
                         self.$router.push('/payment/success');
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();

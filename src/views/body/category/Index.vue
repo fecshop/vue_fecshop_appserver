@@ -407,6 +407,7 @@ export default {
                     filterPrice: self.filterPrice
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         console.log('fetch category product success');
                         var products = reponseData.data.products;
@@ -427,11 +428,11 @@ export default {
                     }
                     
                     
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
-                    self.isNoDisPlay = 1;
                     $.hideIndicator();
+                    self.isNoDisPlay = 1;
                     $.toast("system error");
                     console.log('get get Category info error');
                 }
@@ -457,6 +458,7 @@ export default {
                 filterPrice: self.filterPrice
             },
             success:function(reponseData, textStatus,request){
+                $.hideIndicator();
                 if(reponseData.code == 200){
                     console.log('fetch category success');
                     self.categoryInfo = reponseData.data;
@@ -496,7 +498,7 @@ export default {
                 }else{
                     self.isNoDisPlay = 1;
                 } 
-                $.hideIndicator();
+                
             },
             error:function(){
                 $.hideIndicator();

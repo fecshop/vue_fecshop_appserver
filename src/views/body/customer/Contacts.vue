@@ -179,6 +179,7 @@ export default {
                     comment:comment,
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.correctmsg = 'submit contacts info success';
                     }else{
@@ -187,7 +188,7 @@ export default {
                     console.log('');
                     self.saveReponseHeader(request); 
                     self.reflushCaptcha();
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");
@@ -210,6 +211,7 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.contactsCaptchaActive  = reponseData.data.contactsCaptchaActive;
                         self.customer_name          = reponseData.data.customer_name;
@@ -221,7 +223,6 @@ export default {
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
                 },
                 error:function(){
                     $.toast("system error");
@@ -246,11 +247,11 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.captchaFile = "data:image/gif;base64," + reponseData.data.image;
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
                 },
                 error:function(){
                     $.toast("system error");

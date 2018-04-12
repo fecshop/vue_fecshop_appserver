@@ -98,6 +98,7 @@ export default {
             
             },
             success:function(reponseData, textStatus,request){
+                $.hideIndicator();
                 console.log('get home cms index success');
                 if(reponseData.code == 200){
                     var serverData      = reponseData.data;
@@ -110,7 +111,7 @@ export default {
                 var traceData = {};
                 self.reloadTraceJs(traceData);
                 self.saveReponseHeader(request); 
-                $.hideIndicator();
+                
             },
             error:function(){
                 $.hideIndicator();

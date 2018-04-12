@@ -45,13 +45,13 @@ export default {
                     'return_url': website_root + '/#/payment/alipay/standard/review'
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         var traceData = {};
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request);
                         window.location.href = reponseData.data.redirectUrl;
                     }
-                    //$.hideIndicator();
                 },
                 error:function(){
                     $.toast('system error');

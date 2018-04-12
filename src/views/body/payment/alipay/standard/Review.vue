@@ -87,6 +87,7 @@ export default {
                         'version': version
                     },
                     success:function(data, textStatus,request){
+                        $.hideIndicator();
                         if(data.code == 200){
                             var traceData = {};
                             self.reloadTraceJs(traceData);
@@ -96,7 +97,7 @@ export default {
                             alert('order pay by alipay fail');
                             self.$router.push('/checkout/onepage');
                         }
-                        $.hideIndicator();
+                        
                     },
                     error:function(){
                         $.hideIndicator();

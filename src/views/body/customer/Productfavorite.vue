@@ -141,8 +141,8 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(reponseData.code == 200){
@@ -153,7 +153,7 @@ export default {
                         self.count = 1;
                     }
                     self.pageInitComplete = true;
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast('system error');
@@ -180,9 +180,9 @@ export default {
                         p: self.count+1
                     },
                     success:function(reponseData, textStatus,request){
+                        $.hideIndicator();
                         console.log('111');
                         if(reponseData.code == 1100003){
-                            $.hideIndicator();
                             self.$router.push('/customer/account/login');
                             return;
                         }else if(reponseData.code == 200){
@@ -199,7 +199,7 @@ export default {
                             }
                             self.saveReponseHeader(request); 
                         }
-                        $.hideIndicator();
+                        
                     },
                     error:function(){
                         $.toast('system error');
@@ -225,8 +225,8 @@ export default {
                     favorite_id:favorite_id
                 },
                 success:function(data, textStatus,request){
+                    $.hideIndicator();
                     if(data.code == 400 && data.status == "access token error"){
-                        $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(data.code == 200){
@@ -235,7 +235,7 @@ export default {
                         location.reload() ;
                         self.correctmsg = 'remove Favorite success';
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();

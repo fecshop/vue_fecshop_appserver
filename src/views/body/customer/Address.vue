@@ -101,8 +101,8 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(reponseData.code == 200){
@@ -112,7 +112,7 @@ export default {
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast('system error');
@@ -139,8 +139,8 @@ export default {
                         address_id:address_id
                     },
                     success:function(reponseData, textStatus,request){
+                        $.hideIndicator();
                         if(reponseData.code == 1100003){
-                            $.hideIndicator();
                             self.$router.push('/customer/account/login');
                             return;
                         }else if(reponseData.code == 200){
@@ -154,7 +154,7 @@ export default {
                         }else{
                         
                         }
-                        $.hideIndicator();
+                        
                     },
                     error:function(){
                         $.toast('system error');

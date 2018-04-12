@@ -125,9 +125,9 @@ export default {
                     
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100006){
                         self.isLogin = reponseData.data.isLogin;
-                        $.hideIndicator();
                         self.$router.push('/customer/account/index');
                         return;
                     }else if(reponseData.code == 200){
@@ -144,7 +144,6 @@ export default {
                             self.getLoginCaptcha();
                         }
                     }
-                    $.hideIndicator();
                 },
                 error:function(){
                     $.toast("system error");
@@ -237,11 +236,11 @@ export default {
                     cookies: cookies
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     var code = reponseData.code;
                     if(code == 200){
                         console.log('account login success');
                         self.saveReponseHeader(request); 
-                        $.hideIndicator();
                         var loginSuccessUrl = self.getLoginSuccessRedirectUrl();
                         if(loginSuccessUrl){
                             self.$router.push(loginSuccessUrl);
@@ -251,7 +250,6 @@ export default {
                     }else if(code == 1100006){
                         console.log('account has login');
                         self.saveReponseHeader(request); 
-                        $.hideIndicator();
                         self.$router.push('/customer/account/index');
                     }else if(code == 1000007){
                         msgArr.push('captcha is not right');
@@ -264,7 +262,7 @@ export default {
                         self.errormsg = msgArr.join(",");
                     }
                     self.saveReponseHeader(request); 
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");
@@ -293,11 +291,11 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.captchaFile = "data:image/gif;base64," + reponseData.data.image;
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
                 },
                 error:function(){
                     $.toast("system error");

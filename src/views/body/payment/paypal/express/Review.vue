@@ -462,8 +462,8 @@ export default {
                 headers: self.getRequestHeader(),
                 data:ajaxData,
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
-                        $.hideIndicator();
                         self.saveReponseHeader(request); 
                         self.$router.push('/payment/success');
                     }else if(reponseData.code == 1500003){
@@ -479,7 +479,7 @@ export default {
                     }else if(reponseData.code == 1500004){
                         self.errormsg = 'generate order require param is invaild';
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast('system error');
@@ -519,14 +519,14 @@ export default {
                         country:country
                     },
                     success:function(reponseData, textStatus,request){
+                        $.hideIndicator();
                         if(reponseData.code == 200){
                             self.stateArr = reponseData.data.stateArr;
                             self.state = '';
                             self.saveReponseHeader(request); 
                             self.getShippingAndCartInfo();
                         }
-                        $.hideIndicator();
-                        $.hideIndicator();
+                        
                     },
                     error:function(){
                         $.toast('system error');
@@ -569,6 +569,7 @@ export default {
                     shipping_method:shipping_method,
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     // 1500008
                     if(reponseData.code == 200){
                         self.shippings = reponseData.data.shippings;
@@ -579,7 +580,7 @@ export default {
                     }
                     //console.log('cart_products.length:'+ self.cart_products.length);
                     self.saveReponseHeader(request); 
-                    $.hideIndicator();
+                    
                     self.pageInitComplete = true;
                 },
                 error:function(){
@@ -618,6 +619,7 @@ export default {
                         'PayerID':self.PayerID,
                     },
                     success:function(reponseData, textStatus,request){
+                        $.hideIndicator();
                         if(reponseData.code == 200){
                             self.cart_address = reponseData.data.cart_address;
                             
@@ -646,7 +648,7 @@ export default {
                         }else if(reponseData.code == 1500016){
                             self.errormsg = 'get address info from paypal express api fail';
                         }
-                        $.hideIndicator();
+                        
                         self.pageInitComplete = true;
                         self.displayAddressDetails = 'block';
                         self.fetchAjaxWait = 'none';
@@ -685,8 +687,8 @@ export default {
                     coupon_code:coupon_code
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         var path = self.$route.path;
                         self.token = self.$route.query.token;
                         self.PayerID = self.$route.query.PayerID;
@@ -714,7 +716,7 @@ export default {
                             self.errormsg = 'cancel coupon error';
                         }
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();

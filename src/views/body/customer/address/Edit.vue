@@ -230,8 +230,8 @@ export default {
                 headers: self.getRequestHeader(),
                 data:dataParam,
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(reponseData.code == 200){
@@ -245,7 +245,7 @@ export default {
                         self.isDefaultActive = (self.address.is_default == 1) ? 1 : 0;
                     }
                     console.log('hideIndicator');
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast('system error');
@@ -325,8 +325,8 @@ export default {
                 headers: self.getRequestHeader(),
                 data:dataParam,
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003 ){
-                        $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(reponseData.code == 200){
@@ -336,7 +336,6 @@ export default {
                     }else if(reponseData.code == 1100013){
                         self.errormsg = reponseData.data.error;
                     }
-                    $.hideIndicator();
                 },
                 error:function(){
                     $.toast('system error');
@@ -362,6 +361,7 @@ export default {
                     },
                     url:ajaxurl,
                     success:function(reponseData, textStatus,request){ 
+                        $.hideIndicator();
                         if(reponseData.code == 200){
                             self.address.stateArr = reponseData.data.stateArr;
                             self.address.stateIsSelect = reponseData.data.stateIsSelect;
@@ -370,7 +370,6 @@ export default {
                             }
                         }
                         self.saveReponseHeader(request); 
-                        $.hideIndicator();
                     },
                     error:function (XMLHttpRequest, textStatus, errorThrown){
                         $.toast('system error');

@@ -221,6 +221,7 @@ export default {
                     product_id:product_id,
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.reviewList = reponseData.data.reviewList;
                         self.product = reponseData.data.product;
@@ -233,7 +234,7 @@ export default {
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");
@@ -262,6 +263,7 @@ export default {
                         p: self.count+1
                     },
                     success:function(reponseData, textStatus,request){
+                        $.hideIndicator();
                         if(reponseData.code == 200){
                             var reviewList = reponseData.data.reviewList;
                             if(reviewList.length > 0){
@@ -275,7 +277,7 @@ export default {
                             }
                             self.saveReponseHeader(request); 
                         }
-                        $.hideIndicator();
+                        
                     },
                     error:function(){
                         $.toast("system error");

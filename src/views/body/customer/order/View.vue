@@ -254,8 +254,8 @@ export default {
                     order_id:order_id
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(reponseData.code == 200){
@@ -268,7 +268,6 @@ export default {
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
                 },
                 error:function(){
                     $.hideIndicator();

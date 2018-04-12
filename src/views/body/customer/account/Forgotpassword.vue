@@ -101,14 +101,13 @@ export default {
                     captcha: self.captcha
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100006){
-                        //如果用户登录，则跳转到账户中心页面
-                        $.hideIndicator();
+                        //如果用户登录，则跳转到账户中心页面、
                         self.$router.push('/customer/account/index');
                     }else if(reponseData.code == 200){
                         self.saveReponseHeader(request); 
                         self.$router.push('/customer/account/forgotpasswordsubmit');
-                        $.hideIndicator();
                     }else if(reponseData.code == 1100008){
                         self.errormsg = 'email address is not exist';
                     }else if(reponseData.code == 1000007){
@@ -117,7 +116,7 @@ export default {
                         self.errormsg = 'send code fail';
                     }
                     self.saveReponseHeader(request); 
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");
@@ -138,9 +137,9 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100006){
                         //如果用户登录，则跳转到账户中心页面
-                        $.hideIndicator();
                         self.$router.push('/customer/account/index');
                     }else if(reponseData.code == 200){
                         self.forgotCaptchaActive = reponseData.data.forgotCaptchaActive;
@@ -153,7 +152,7 @@ export default {
                             self.getForgotCaptcha();
                         }
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");
@@ -177,11 +176,12 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.captchaFile = "data:image/gif;base64," + reponseData.data.image;
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();

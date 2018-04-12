@@ -88,9 +88,9 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     console.log(reponseData.code)
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.saveReponseHeader(request); 
                         self.$router.push('/customer/account/login');
                         return;
@@ -98,7 +98,7 @@ export default {
                         self.menuList = reponseData.data.menuList;
                         self.saveReponseHeader(request); 
                     }   
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");

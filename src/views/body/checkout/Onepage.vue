@@ -542,8 +542,8 @@ export default {
                 headers: self.getRequestHeader(),
                 data:ajaxData,
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
-                        $.hideIndicator();
                         self.saveReponseHeader(request); 
                         var redirectUrl = reponseData.data.redirectUrl;
                         self.$router.push(redirectUrl);
@@ -565,7 +565,7 @@ export default {
                     }
                     
                     self.saveReponseHeader(request); 
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast('system error');
@@ -617,6 +617,7 @@ export default {
                     shipping_method:shipping_method,
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     // 1500008
                     if(reponseData.code == 200){
                         self.shippings = reponseData.data.shippings;
@@ -627,7 +628,7 @@ export default {
                     }
                     //console.log('cart_products.length:'+ self.cart_products.length);
                     self.saveReponseHeader(request); 
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();
@@ -664,13 +665,14 @@ export default {
                     country:country
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.stateArr = reponseData.data.stateArr;
                         self.state = '';
                         self.saveReponseHeader(request); 
                         self.getShippingAndCartInfo();
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();
@@ -698,8 +700,8 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.setLoginSuccessRedirectUrl('/checkout/onepage');
                         self.$router.push('/customer/account/login');
                         return;
@@ -738,7 +740,7 @@ export default {
                         return;
                     }
                     //console.log('cart_products.length:'+ self.cart_products.length);
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();
@@ -774,8 +776,8 @@ export default {
                     coupon_code:coupon_code
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.setLoginSuccessRedirectUrl('/checkout/onepage');
                         self.$router.push('/customer/account/login');
                         return;
@@ -800,7 +802,7 @@ export default {
                         }
                     }
                     
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();

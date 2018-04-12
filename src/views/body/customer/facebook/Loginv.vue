@@ -59,14 +59,13 @@ export default {
                 headers: self.getRequestHeader(),
                 data:ajaxData,
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
-                        
                         self.reloadPage();
                         var traceData = {};
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
                 },
                 error:function(){
                     $.toast('system error');

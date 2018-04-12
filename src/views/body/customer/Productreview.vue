@@ -125,9 +125,9 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     console.log('page init success1');
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(reponseData.code == 200){
@@ -142,7 +142,7 @@ export default {
                         self.count = 1;
                     }
                     self.pageInitComplete = true;
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast('system error');
@@ -169,8 +169,8 @@ export default {
                         p: self.count+1
                     },
                     success:function(reponseData, textStatus,request){
+                        $.hideIndicator();
                         if(reponseData.code == 1100003){
-                            $.hideIndicator();
                             self.$router.push('/customer/account/login');
                             return;
                         }else if(reponseData.code == 200){
@@ -187,7 +187,7 @@ export default {
                             }
                             self.saveReponseHeader(request); 
                         }
-                        $.hideIndicator();
+                        
                     },
                     error:function(){
                         $.toast('system error');

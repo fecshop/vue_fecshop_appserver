@@ -58,6 +58,7 @@ export default {
                     url_key:page_key
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.title = reponseData.data.title;
                         self.content = reponseData.data.content;
@@ -65,7 +66,6 @@ export default {
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
                 },
                 error:function(){
                     $.hideIndicator();

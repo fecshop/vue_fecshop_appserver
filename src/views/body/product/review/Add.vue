@@ -223,6 +223,7 @@ export default {
                     
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
                         self.setLoginSuccessRedirectUrl('/product/review/add/'+product_id);
                         self.$router.push('/customer/account/login');
@@ -235,7 +236,7 @@ export default {
                         self.errormsg = reponseData.message;
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");
@@ -267,6 +268,7 @@ export default {
                     product_id:product_id,
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
                         self.setLoginSuccessRedirectUrl('/product/review/add/'+product_id);
                         self.$router.push('/customer/account/login');
@@ -282,7 +284,7 @@ export default {
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");
@@ -311,11 +313,12 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.captchaFile = "data:image/gif;base64," + reponseData.data.image;
                         self.saveReponseHeader(request); 
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");

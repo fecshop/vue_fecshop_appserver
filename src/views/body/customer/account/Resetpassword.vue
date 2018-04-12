@@ -151,6 +151,7 @@ export default {
                     confirmPassword:confirmPassword
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         //如果用户登录，则跳转到账户中心页面
                         self.$router.push('/customer/account/resetpasswordsuccess');
@@ -170,7 +171,7 @@ export default {
                         self.saveReponseHeader(request); 
                     }
                     self.loadSuccess = true;
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");
@@ -195,6 +196,7 @@ export default {
                     resetToken:resetToken
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         //如果用户登录，则跳转到账户中心页面
                         self.resetPasswordActive = reponseData.data.resetPasswordActive;
@@ -207,7 +209,7 @@ export default {
                         self.saveReponseHeader(request); 
                     }
                     self.loadSuccess = true;
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");

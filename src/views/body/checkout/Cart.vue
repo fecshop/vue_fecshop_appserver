@@ -233,6 +233,7 @@ export default {
                     'cancel_url': website_root + '/#/checkout/cart',
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.saveReponseHeader(request);
                         var redirectUrl = reponseData.data.redirectUrl;
@@ -249,7 +250,7 @@ export default {
                     }
                     self.saveReponseHeader(request); 
                     self.errormsg = reponseData.data.error;
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();
@@ -286,6 +287,7 @@ export default {
                     item_id:item_id
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.saveReponseHeader(request);
                         self.pageInit();
@@ -294,7 +296,7 @@ export default {
                         self.errormsg = 'update cart product qty fail';
                         $.toast('update qty fail');
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();
@@ -324,6 +326,7 @@ export default {
                     item_id: item_id
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.saveReponseHeader(request);
                         self.pageInit();
@@ -332,7 +335,7 @@ export default {
                         self.errormsg = 'select cart product fail';
                         $.toast('select cart product fail');
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();
@@ -364,6 +367,7 @@ export default {
                     checked: active,
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.saveReponseHeader(request);
                         self.pageInit();
@@ -372,7 +376,7 @@ export default {
                         self.errormsg = 'select cart product fail';
                         $.toast('select cart product fail');
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();
@@ -412,6 +416,7 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         self.currency = reponseData.data.currency;
                         self.cart_products = reponseData.data.cart_info.products;
@@ -443,7 +448,7 @@ export default {
                     }
                     //console.log('cart_products.length:'+ self.cart_products.length);
                     self.pageInitComplete = true;
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();
@@ -478,8 +483,8 @@ export default {
                     coupon_code:coupon_code
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.setLoginSuccessRedirectUrl('/checkout/cart');
                         self.$router.push('/customer/account/login');
                         return;
@@ -502,7 +507,7 @@ export default {
                             self.errormsg = 'cancel coupon error';
                         }
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();

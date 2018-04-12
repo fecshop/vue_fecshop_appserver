@@ -371,6 +371,7 @@ export default {
                 price: self.filterPrice
             },
             success:function(reponseData, textStatus,request){
+                $.hideIndicator();
                 if(reponseData.code == 200){
                     console.log('fetch category success');
                     self.searchInfo = reponseData.data;
@@ -409,7 +410,7 @@ export default {
                     self.isNoDisPlay = 1;
                     $.toast("system error");
                 } 
-                $.hideIndicator();
+                
             },
             error:function(){
                 $.hideIndicator();

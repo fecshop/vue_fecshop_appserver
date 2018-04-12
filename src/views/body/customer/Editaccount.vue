@@ -231,8 +231,8 @@ export default {
                 headers: self.getRequestHeader(),
                 data:updateData,
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(reponseData.code == 200){
@@ -241,7 +241,7 @@ export default {
                         self.errormsg = reponseData.data.error;
                     }
                     self.saveReponseHeader(request); 
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();
@@ -264,8 +264,8 @@ export default {
                 data:{ 
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 1100003){
-                        $.hideIndicator();
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(reponseData.code == 200){
@@ -283,7 +283,7 @@ export default {
                         self.saveReponseHeader(request); 
                         
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.hideIndicator();

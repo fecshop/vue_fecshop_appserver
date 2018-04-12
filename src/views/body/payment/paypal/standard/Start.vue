@@ -39,6 +39,7 @@ export default {
                     'cancel_url': website_root + '/#/checkout/onepage',
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         var traceData = {};
                         self.reloadTraceJs(traceData);
@@ -50,7 +51,6 @@ export default {
                         self.saveReponseHeader(request);
                         $.toast(reponseData.data.error);
                     }
-                    //$.hideIndicator();
                 },
                 error:function(){
                     $.toast('system error');

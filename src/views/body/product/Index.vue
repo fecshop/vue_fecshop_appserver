@@ -689,6 +689,7 @@ export default {
                 headers: self.getRequestHeader(),
                 url:self.addProductFavoriteUrl,
                 success:function(reponseData, textStatus,request){ 
+                    $.hideIndicator();
                     console.log('favorite product success');
                     //var content = reponseData.content;
                     if(reponseData.code == 200){
@@ -702,12 +703,12 @@ export default {
                         $.toast("Favorite Fail");
                     }
                     self.saveReponseHeader(request); 
-                    $.hideIndicator();
+                    
                 },
                 error:function (XMLHttpRequest, textStatus, errorThrown){
+                    $.hideIndicator();
                     console.log('Favorite Fail');
                     $.toast("system error");
-                    $.hideIndicator();
                 }
             });
             
@@ -753,6 +754,7 @@ export default {
                 headers: self.getRequestHeader(),
                 url:self.addProductToCartUrl,
                 success:function(reponseData, textStatus,request){ 
+                    $.hideIndicator();
                     var data = reponseData.data;
                     if(reponseData.code == 200){
                         console.log('add to cart success');
@@ -769,7 +771,7 @@ export default {
                         $.toast("Add product to cart fail");
                     }
                     self.saveReponseHeader(request); 
-                    $.hideIndicator();
+                    
                 },
                 error:function (XMLHttpRequest, textStatus, errorThrown){
                     $.toast("system error");
@@ -804,6 +806,7 @@ export default {
                     product_id:product_id
                 },
                 success:function(reponseData, textStatus,request){
+                    $.hideIndicator();
                     if(reponseData.code == 200){
                         console.log('fetch product success');
                         var product = reponseData.data.product;
@@ -825,14 +828,14 @@ export default {
                         var traceData = {"sku": product.sku};
                         self.reloadTraceJs(traceData); 
                         // 上面ajax获取值渲染产品图片的html代码，然后需要sui渲染一次
-                        // 必须等待vue渲染完成，sui才能渲染，因此加了1.2秒的延迟。
-                        setTimeout("$.init();",1200);
+                        // 必须等待vue渲染完成，sui才能渲染，因此加了0.8秒的延迟。
+                        setTimeout("$.init();",800);
                     }else if (reponseData.code == 1300001){
                         $.toast("Product is off the shelf");
                     }else{
                         $.toast("Get product info error");
                     }
-                    $.hideIndicator();
+                    
                 },
                 error:function(){
                     $.toast("system error");

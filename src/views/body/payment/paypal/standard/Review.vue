@@ -58,6 +58,7 @@ export default {
                         'PayerID': self.PayerID
                     },
                     success:function(reponseData, textStatus,request){
+                        $.hideIndicator();
                         if(reponseData.code == 200){
                             var traceData = {};
                             self.reloadTraceJs(traceData);
@@ -73,7 +74,7 @@ export default {
                             //self.$router.push('/checkout/onepage');
                             self.errormsg = 'payment error , plase contact us send your error content';
                         }
-                        $.hideIndicator();
+                        
                     },
                     error:function(){
                         $.toast('system error');
