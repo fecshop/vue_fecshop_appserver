@@ -510,7 +510,12 @@ export default {
                         self.isNoDisPlay = 1;
                     }
                     // category trace
+                    
                     var traceData = {"category": self.categoryInfo.name_default_lang, "refer_url": self.refer_url};
+                    var routerQ = self.$route.query
+                    for (var k in routerQ) {
+                        traceData[k] = routerQ[k]
+                    }
                     self.reloadTraceJs(traceData); 
                     self.saveReponseHeader(request); 
                 }else{

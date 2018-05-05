@@ -256,6 +256,10 @@ export default {
                         self.address = reponseData.data.address;
                         console.log('get address edit info success');
                         var traceData = {"refer_url": self.refer_url};
+                        var routerQ = self.$route.query
+                        for (var k in routerQ) {
+                            traceData[k] = routerQ[k]
+                        }
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         self.addressCountry = self.address.country;

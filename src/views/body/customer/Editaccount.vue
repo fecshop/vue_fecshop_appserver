@@ -297,6 +297,10 @@ export default {
                         self.maxPassLength = reponseData.data.maxPassLength;
                         console.log('get editAccount info success');
                         var traceData = {"refer_url": self.refer_url};
+                        var routerQ = self.$route.query
+                        for (var k in routerQ) {
+                            traceData[k] = routerQ[k]
+                        }
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         

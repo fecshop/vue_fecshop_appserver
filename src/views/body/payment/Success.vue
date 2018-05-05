@@ -89,6 +89,10 @@ export default {
                         self.increment_id = reponseData.data.increment_id;
                         self.order = reponseData.data.order;
                         var traceData = {"refer_url": self.refer_url};
+                        var routerQ = self.$route.query
+                        for (var k in routerQ) {
+                            traceData[k] = routerQ[k]
+                        }
                         self.reloadTraceJs(traceData);
                     }else{
                         self.$router.push("/");

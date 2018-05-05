@@ -843,6 +843,10 @@ export default {
                         self.saveReponseHeader(request); 
                         // sku trace
                         var traceData = {"sku": product.sku, "refer_url": self.refer_url};
+                        var routerQ = self.$route.query
+                        for (var k in routerQ) {
+                            traceData[k] = routerQ[k]
+                        }
                         self.reloadTraceJs(traceData); 
                         // 上面ajax获取值渲染产品图片的html代码，然后需要sui渲染一次
                         // 必须等待vue渲染完成，sui才能渲染，因此加了0.8秒的延迟。

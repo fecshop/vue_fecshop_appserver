@@ -115,6 +115,10 @@ export default {
                     }else if(reponseData.code == 200){
                         // sku trace
                         var traceData = {"refer_url": self.refer_url};
+                        var routerQ = self.$route.query
+                        for (var k in routerQ) {
+                            traceData[k] = routerQ[k]
+                        }
                         self.reloadTraceJs(traceData); 
                         self.menuList = reponseData.data.menuList;
                         self.saveReponseHeader(request); 

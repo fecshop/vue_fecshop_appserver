@@ -154,6 +154,10 @@ export default {
                         self.googleLoginUrl = reponseData.data.googleLoginUrl;
                         self.facebookLoginUrl = reponseData.data.facebookLoginUrl;
                         var traceData = {"refer_url": self.refer_url};
+                        var routerQ = self.$route.query
+                        for (var k in routerQ) {
+                            traceData[k] = routerQ[k]
+                        }
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         console.log(self.loginCaptchaActive);

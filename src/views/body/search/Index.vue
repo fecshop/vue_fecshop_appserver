@@ -422,6 +422,10 @@ export default {
                     var search = {"text": self.searchInfo.searchText, "result_qty": parseInt(self.searchInfo.searchCount)};
                     // search trace
                     var traceData = {"search": JSON.stringify(search), "refer_url": self.refer_url};
+                    var routerQ = self.$route.query
+                    for (var k in routerQ) {
+                        traceData[k] = routerQ[k]
+                    }
                     self.reloadTraceJs(traceData); 
                     self.saveReponseHeader(request); 
                 }else{

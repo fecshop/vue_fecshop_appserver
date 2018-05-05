@@ -282,6 +282,10 @@ export default {
                         }
                         console.log('');
                         var traceData = {"refer_url": self.refer_url};
+                        var routerQ = self.$route.query
+                        for (var k in routerQ) {
+                            traceData[k] = routerQ[k]
+                        }
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }
