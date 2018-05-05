@@ -28,6 +28,7 @@ export default {
             pageInitUrl: root + '/cms/article/index' ,
             errormsg: "",
             title: "",
+            refer_url: '',
             content: ""
         }
     },
@@ -37,6 +38,23 @@ export default {
     watch: {
         // 如果路由有变化，会再次执行该方法
         '$route': 'pageInit',
+    },
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
     },
     methods:{
     
@@ -62,7 +80,7 @@ export default {
                     if(reponseData.code == 200){
                         self.title = reponseData.data.title;
                         self.content = reponseData.data.content;
-                        var traceData = {};
+                        var traceData = {"refer_url": self.refer_url};
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }

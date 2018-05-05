@@ -45,13 +45,30 @@ export default {
             pageInitUrl: root + '/payment/success' ,
             errormsg:'',
             increment_id:'',
+            refer_url: '',
             order:{}
         }
     },
     created: function(){
         this.pageInit();
     },
-    
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
+    },
     methods: {
         pageInit: function(){
             var self = this;
@@ -71,7 +88,7 @@ export default {
                     if(reponseData.code == 200){
                         self.increment_id = reponseData.data.increment_id;
                         self.order = reponseData.data.order;
-                        var traceData = {};
+                        var traceData = {"refer_url": self.refer_url};
                         self.reloadTraceJs(traceData);
                     }else{
                         self.$router.push("/");

@@ -41,10 +41,28 @@ export default {
             menuList:[],
             getAccountUrl: root + '/customer/account/index' ,
             getLogoutAccountUrl: root + '/customer/account/logout' ,
+            refer_url: ''
         }
     },
     created: function(){
         this.pageInit();
+    },
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
     },
     methods:{
         logoutAccount: function(){
@@ -95,6 +113,9 @@ export default {
                         self.$router.push('/customer/account/login');
                         return;
                     }else if(reponseData.code == 200){
+                        // sku trace
+                        var traceData = {"refer_url": self.refer_url};
+                        self.reloadTraceJs(traceData); 
                         self.menuList = reponseData.data.menuList;
                         self.saveReponseHeader(request); 
                     }   

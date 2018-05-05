@@ -205,13 +205,29 @@ export default {
             couponLabel:'Add Coupon',
             couponType:1, // 1 代表 add coupon 2 代表 cancel coupon
             coupon_code:'',
+            refer_url: '',
             correctmsg:''
         }
     },
     created: function(){
         this.pageInit();
     },
-    
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
+    },
     methods: {
         routerGo: function(){
             this.$router.go(-1);
@@ -441,7 +457,7 @@ export default {
                         }
                         console.log('get editAccount info success');
                         // cart trace
-                        var traceData = {"cart": JSON.stringify(traceCart)};
+                        var traceData = {"cart": JSON.stringify(traceCart), "refer_url": self.refer_url};
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         self.initSelectAll();

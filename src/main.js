@@ -147,6 +147,8 @@ Vue.prototype.reloadTraceJs = function (data){
         scriptSrc += '&fec_lang=' + encodeURIComponent(fecshop_lang);
         // 添加货币参数
         scriptSrc += '&fec_currency=' + encodeURIComponent(fecshop_currency);
+        // 添加refer url
+        
         // 添加入口参数
         scriptSrc += '&fec_app=appserver';
         // 添加store 参数 - 因为appserver端没有store概念，因此没有

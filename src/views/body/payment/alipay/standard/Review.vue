@@ -34,13 +34,30 @@ export default {
     data () {
         return {
             pageInitUrl: root + '/payment/alipay/standard/review' ,
+            refer_url: '',
             errormsg:''
         }
     },
     created: function(){
         this.pageInit();
     },
-    
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
+    },
     methods: {
         pageInit: function(){
             var self = this;
@@ -89,7 +106,7 @@ export default {
                     success:function(data, textStatus,request){
                         $.hideIndicator();
                         if(data.code == 200){
-                            var traceData = {};
+                            var traceData = {"refer_url": self.refer_url};
                             self.reloadTraceJs(traceData);
                             self.saveReponseHeader(request);
                             self.$router.push('/payment/success');

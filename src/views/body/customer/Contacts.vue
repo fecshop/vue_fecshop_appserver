@@ -129,13 +129,30 @@ export default {
             correctmsg:'',
             captcha:'',
             captchaFile:'',
+            refer_url: '',
             contactsCaptchaActive:false,  // 是否开启注册验证码
         }
     },
     created: function(){
         this.pageInit();
     },
-    
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
+    },
     methods: {
         submitContacts: function(){
             var self = this;
@@ -219,7 +236,7 @@ export default {
                         self.contacts_email         = reponseData.data.contactsEmail;
                         self.getContactsCaptcha();
                         console.log('get editAccount info success');
-                        var traceData = {};
+                        var traceData = {"refer_url": self.refer_url};
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }

@@ -49,7 +49,38 @@ var root = process.env.API_ROOT;
 export default {
     data () {
         return {
+            refer_url: ''
+        }
+    },
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
             
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
+    },
+    created: function(){
+        this.initThisPage();
+    },
+    watch: {
+        // 如果路由有变化，会再次执行该方法
+        '$route': 'initThisPage'
+    },
+    methods:{
+        initThisPage() {
+            var self = this
+            var traceData = {"refer_url": self.refer_url};
+            self.reloadTraceJs(traceData); 
         }
     }
 }

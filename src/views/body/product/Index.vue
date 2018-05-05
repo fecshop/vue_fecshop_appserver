@@ -423,8 +423,8 @@ export default {
             custom_option_selected_sku:'',      // 当把所有的custom option选择完成后，这个将会设置当前选择的custom option sku。
             getProductUrl: root + '/catalog/product/index' ,
             addProductToCartUrl: root + '/checkout/cart/add',
-            addProductFavoriteUrl: root + '/catalog/product/favorite'
-            
+            addProductFavoriteUrl: root + '/catalog/product/favorite',
+            refer_url: ''
             
         }
     },
@@ -451,6 +451,23 @@ export default {
     },
     mounted: function(){
         
+    },
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
     },
     methods:{
         isActiveSelectCustomOption(selectAttr,selectVal){
@@ -825,7 +842,7 @@ export default {
                         console.log(product.name);
                         self.saveReponseHeader(request); 
                         // sku trace
-                        var traceData = {"sku": product.sku};
+                        var traceData = {"sku": product.sku, "refer_url": self.refer_url};
                         self.reloadTraceJs(traceData); 
                         // 上面ajax获取值渲染产品图片的html代码，然后需要sui渲染一次
                         // 必须等待vue渲染完成，sui才能渲染，因此加了0.8秒的延迟。

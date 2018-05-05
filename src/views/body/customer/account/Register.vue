@@ -125,11 +125,29 @@ export default {
             maxNameLength: 0,
             minPassLength: 0,
             maxPassLength: 0,
+            refer_url: '',
             errormsg:''
         }
     },
     created: function(){
         this.pageInit();
+    },
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
     },
     methods: {
         registerAccount: function(){
@@ -246,7 +264,7 @@ export default {
                         self.minPassLength = reponseData.data.minPassLength;
                         self.maxPassLength = reponseData.data.maxPassLength;
                         console.log('get register info success');
-                        var traceData = {};
+                        var traceData = {"refer_url": self.refer_url};
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         console.log(self.registerCaptchaActive);

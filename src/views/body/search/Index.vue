@@ -207,11 +207,29 @@ export default {
         filter_price:[],
         //sortColumn:'',
         filterAttrs:{},
+        refer_url: '',
         filterPrice:''
     }
   },
   created: function(){
     this.fetchSearch();
+  },
+  beforeRouteEnter (to, from, next) {
+    var website_root = process.env.WEBSITE_ROOT
+    var fullPath = from.fullPath
+    var name = from.name
+    console.log(fullPath);
+    console.log(from);  
+    if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+        var referUrl = website_root + "/#" + fullPath
+        console.log(referUrl)
+        
+    } else {
+        referUrl = ''
+    }
+    next( vm => {
+        vm.refer_url = referUrl;
+    });  
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
@@ -403,7 +421,7 @@ export default {
                     }
                     var search = {"text": self.searchInfo.searchText, "result_qty": parseInt(self.searchInfo.searchCount)};
                     // search trace
-                    var traceData = {"search": JSON.stringify(search)};
+                    var traceData = {"search": JSON.stringify(search), "refer_url": self.refer_url};
                     self.reloadTraceJs(traceData); 
                     self.saveReponseHeader(request); 
                 }else{

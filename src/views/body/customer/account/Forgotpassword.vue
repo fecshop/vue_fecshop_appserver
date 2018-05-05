@@ -78,11 +78,29 @@ export default {
             forgotCaptchaActive:false,
             captcha:'',
             errormsg:'',
+            refer_url: '',
             captchaFile:''
         }
     },
     created: function(){
         this.pageInit();
+    },
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
     },
     methods:{
         sendCode: function(){
@@ -144,7 +162,7 @@ export default {
                     }else if(reponseData.code == 200){
                         self.forgotCaptchaActive = reponseData.data.forgotCaptchaActive;
                         console.log('get forgot info success');
-                        var traceData = {};
+                        var traceData = {"refer_url": self.refer_url};
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         if(self.forgotCaptchaActive){

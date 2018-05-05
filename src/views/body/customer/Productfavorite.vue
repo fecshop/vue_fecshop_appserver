@@ -117,6 +117,7 @@ export default {
             count:0,
             pageInitComplete:false,
             loading: false ,
+            refer_url: '',
             correctmsg:''
         }
     },
@@ -125,6 +126,23 @@ export default {
     },
     components:{
         'mugen-scroll': MugenScroll
+    },
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
     },
     methods: {
         pageInit: function(){
@@ -147,7 +165,7 @@ export default {
                         return;
                     }else if(reponseData.code == 200){
                         self.productList = reponseData.data.productList;
-                        var traceData = {};
+                        var traceData = {"refer_url": self.refer_url};
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         self.count = 1;

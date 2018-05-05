@@ -269,6 +269,7 @@ export default {
         query_sort:[],
         sortColumn:'',
         filterAttrs:{},
+        refer_url: '',
         filterPrice:''
     }
   },
@@ -279,6 +280,23 @@ export default {
     // 如果路由有变化，会再次执行该方法
     '$route': 'loadNewCategory',
     
+  },
+  beforeRouteEnter (to, from, next) {
+    var website_root = process.env.WEBSITE_ROOT
+    var fullPath = from.fullPath
+    var name = from.name
+    console.log(fullPath);
+    console.log(from);  
+    if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+        var referUrl = website_root + "/#" + fullPath
+        console.log(referUrl)
+        
+    } else {
+        referUrl = ''
+    }
+    next( vm => {
+        vm.refer_url = referUrl;
+    });  
   },
   methods:{
     openfilter: function(){
@@ -492,7 +510,7 @@ export default {
                         self.isNoDisPlay = 1;
                     }
                     // category trace
-                    var traceData = {"category": self.categoryInfo.name_default_lang};
+                    var traceData = {"category": self.categoryInfo.name_default_lang, "refer_url": self.refer_url};
                     self.reloadTraceJs(traceData); 
                     self.saveReponseHeader(request); 
                 }else{

@@ -202,11 +202,29 @@ export default {
             isDefaultActive:'',
             changeCountryUrl: root + '/customer/address/changecountry',
             saveAddressUrl: root + '/customer/address/save',
+            refer_url: '',
             pageInitUrl: root + '/customer/address/edit' 
         }
     },
     created: function(){
         this.pageInit();
+    },
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
     },
     methods: {
         
@@ -237,7 +255,7 @@ export default {
                     }else if(reponseData.code == 200){
                         self.address = reponseData.data.address;
                         console.log('get address edit info success');
-                        var traceData = {};
+                        var traceData = {"refer_url": self.refer_url};
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         self.addressCountry = self.address.country;

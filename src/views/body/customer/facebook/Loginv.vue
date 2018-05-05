@@ -31,13 +31,30 @@ export default {
         return {
             pageInitUrl: root + '/customer/facebook/loginv' ,
             errormsg:'',
+            refer_url: '',
             correctmsg:''
         }
     },
     created: function(){
         this.pageInit();
     },
-    
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
+    },
     methods: {
         pageInit: function(){
             var self = this;
@@ -62,7 +79,7 @@ export default {
                     $.hideIndicator();
                     if(reponseData.code == 200){
                         self.reloadPage();
-                        var traceData = {};
+                        var traceData = {"refer_url": self.refer_url};
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }

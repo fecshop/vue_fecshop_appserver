@@ -108,11 +108,29 @@ export default {
             confirmPassword: '',
             errormsg:'',
             correctmsg:'',
+            refer_url: '',
             loadSuccess:false
         }
     },
     created: function(){
         this.pageInit();
+    },
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
     },
     methods:{
         submitResetPassword: function(){
@@ -201,7 +219,7 @@ export default {
                         //如果用户登录，则跳转到账户中心页面
                         self.resetPasswordActive = reponseData.data.resetPasswordActive;
                         console.log('');
-                        var traceData = {};
+                        var traceData = {"refer_url": self.refer_url};
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                     }else{

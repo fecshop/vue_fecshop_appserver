@@ -29,6 +29,7 @@ export default {
             pageInitUrl: root + '/payment/paypal/standard/review' ,
             errormsg:'',
             token:'',
+            refer_url: '',
             PayerID:''
             
         }
@@ -36,7 +37,23 @@ export default {
     created: function(){
         this.pageInit();
     },
-    
+    beforeRouteEnter (to, from, next) {
+        var website_root = process.env.WEBSITE_ROOT
+        var fullPath = from.fullPath
+        var name = from.name
+        console.log(fullPath);
+        console.log(from);  
+        if (fullPath !== '/' || typeof(name) === 'undefined' ) {
+            var referUrl = website_root + "/#" + fullPath
+            console.log(referUrl)
+            
+        } else {
+            referUrl = ''
+        }
+        next( vm => {
+            vm.refer_url = referUrl;
+        });  
+    },
     methods: {
         pageInit: function(){
             var self = this;
@@ -60,7 +77,7 @@ export default {
                     success:function(reponseData, textStatus,request){
                         $.hideIndicator();
                         if(reponseData.code == 200){
-                            var traceData = {};
+                            var traceData = {"refer_url": self.refer_url};
                             self.reloadTraceJs(traceData);
                             self.saveReponseHeader(request);
                             self.$router.push('/payment/success');
