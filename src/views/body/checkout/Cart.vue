@@ -439,16 +439,16 @@ export default {
                         var products = self.cart_products;
                         // 现在已经改成了服务端发送购物车数据，因此，购物车页面不再发送购物车数据。
                         // var traceCart = [];
-                        // for(var x in products){
-                        //     var productOne = products[x];
-                        //     self.productQty[productOne.item_id] = productOne.qty;
-                        //     var traceProduct = {
-                        //         'sku': productOne.sku,
-                        //         'qty': productOne.qty,
-                        //         'price': productOne.base_product_price
-                        //     };
-                        //     traceCart.push(traceProduct)
-                        // }
+                        for(var x in products){
+                            var productOne = products[x];
+                            self.productQty[productOne.item_id] = productOne.qty;
+                            //  var traceProduct = {
+                            //      'sku': productOne.sku,
+                            //      'qty': productOne.qty,
+                            //      'price': productOne.base_product_price
+                            //  };
+                            //  traceCart.push(traceProduct)
+                        }
                         
                         self.cart_info = reponseData.data.cart_info;
                         self.coupon_code = self.cart_info.coupon_code;
