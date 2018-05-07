@@ -762,6 +762,8 @@ export default {
             sendData['product_id'] 	= self.product._id;
             sendData['qty'] 			= qty;
             $.showIndicator();
+            var cookies = self.getTraceAllCookie();
+            sendData['cookies'] =  cookies
             $.ajax({
                 async:true,
                 timeout: 120000,
