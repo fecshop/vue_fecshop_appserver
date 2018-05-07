@@ -437,17 +437,18 @@ export default {
                         self.currency = reponseData.data.currency;
                         self.cart_products = reponseData.data.cart_info.products;
                         var products = self.cart_products;
-                        var traceCart = [];
-                        for(var x in products){
-                            var productOne = products[x];
-                            self.productQty[productOne.item_id] = productOne.qty;
-                            var traceProduct = {
-                                'sku': productOne.sku,
-                                'qty': productOne.qty,
-                                'price': productOne.base_product_price
-                            };
-                            traceCart.push(traceProduct)
-                        }
+                        // 现在已经改成了服务端发送购物车数据，因此，购物车页面不再发送购物车数据。
+                        // var traceCart = [];
+                        // for(var x in products){
+                        //     var productOne = products[x];
+                        //     self.productQty[productOne.item_id] = productOne.qty;
+                        //     var traceProduct = {
+                        //         'sku': productOne.sku,
+                        //         'qty': productOne.qty,
+                        //         'price': productOne.base_product_price
+                        //     };
+                        //     traceCart.push(traceProduct)
+                        // }
                         
                         self.cart_info = reponseData.data.cart_info;
                         self.coupon_code = self.cart_info.coupon_code;
@@ -457,7 +458,8 @@ export default {
                         }
                         console.log('get editAccount info success');
                         // cart trace
-                        var traceData = {"cart": JSON.stringify(traceCart), "refer_url": self.refer_url};
+                        // var traceData = {"cart": JSON.stringify(traceCart), "refer_url": self.refer_url};
+                        var traceData = {"refer_url": self.refer_url};  // 购物车信息的接收，改成服务端发送，因此去掉："cart": JSON.stringify(traceCart)
                         var routerQ = self.$route.query
                         for (var k in routerQ) {
                             traceData[k] = routerQ[k]
