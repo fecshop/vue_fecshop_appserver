@@ -7,7 +7,11 @@ DEMO：http://demo.fancyecommerce.com/
 开发状态：【已完成】
 
 
-1.首先您需要安装npm，详细参看：[安装npm和nodejs](http://www.fancyecommerce.com/2017/07/12/%E5%AE%89%E8%A3%85npm%E5%92%8Cnodejs/)
+1.首先您需要安装npm，建议在window下面安装VUE部分。
+
+linux 详细参看：[安装npm和nodejs](http://www.fancyecommerce.com/2017/07/12/%E5%AE%89%E8%A3%85npm%E5%92%8Cnodejs/)
+
+window 详细参看：http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-about-install-vue.html
 
 2.全局安装 vue-cli：  
 
@@ -21,17 +25,28 @@ npm install -g vue-cli
 git clone https://github.com/fecshop/vue_fecshop_appserver.git
 ```
 
-4.进入上面下载的文件夹，然后执行。
+4.进入上面下载的`文件夹vue_fecshop_appserver`，然后执行。
 
 ```
-npm install
+npm install 
 ```
 
-这里需要很长一段时间，您也可以使用淘宝镜像  `cnpm install`
+这里需要很长一段时间，您也可以使用淘宝镜像,速度会快很多
 
+```
+npm install --registry=https://registry.npm.taobao.org
+```
 
+如果中间没有报错（warn警告信息就没问题的），则说明安装成功了
 
-5.文件包里面的文件说明：
+在页面的底部有一些常见的问题的解决方式，您可以参看一下，如果出现的问题，里面没有
+，可以自行搜索解决这些问题，大多数可能是库包缺失或者版本的问题导致`无法install`
+
+下面进行配置工作
+
+5.vue的配置
+
+5.1文件包里面的文件说明：
 
 `build`: 配置了webpack的基本配置、开发环境配置、生产环境配置
 
@@ -45,135 +60,153 @@ npm install
 
 `index.html`: 文件入口
 
-6.配置
+5.2配置后端url地址和vue url地址
 
-6.1、配置获取远程数据的地址：
+打开配置文件：
 
 开发环境为:`config/dev.env.js`
 
 生产环境为:`config/prod.env.js`
 
-
-6.1.1.src/config/store.js
-
-将 `demo.fancyecommerce.com` 改成 `vue.fecshop.com`
-
-6.1.2.config/prod.env.js
-
-将 
+上面2个环境下的配置文件都可以看到下面的配置：
 
 ```
-module.exports = {
-  NODE_ENV: '"production"',
-  API_ROOT: '"//fecshop.appserver.fancyecommerce.com"',
-  WEBSITE_ROOT: '"http://demo.fancyecommerce.com"'
-}
+API_ROOT: '"//fecshop.appserver.fancyecommerce.com"',
+WEBSITE_ROOT: '"//demo.fancyecommerce.com"'
 ```
 
-改成：
+`API_ROOT`: 是fecshop server部分的api url，也就是咱们上面配置的fecshop的appserver, `appserver.fecshop.com`
+
+`WEBSITE_ROOT`: 这个是vue部分的域名，也就是访问vue的域名
+
+**下面，我们以本地开发环境为例子进行配置**
+
+您需要将这里改成您自己的域名，譬如：我的fecshop是docker配置的，
+fecshop appserver入口url为：appserver.fecshop.com，
+我打开配置文件`config/dev.env.js`，修改配置如下：
 
 ```
-module.exports = {
-  NODE_ENV: '"production"',
-  API_ROOT: '"//appserver.fecshop.com"',
-  WEBSITE_ROOT: '"http://vue.fecshop.com"'
-}
+API_ROOT: '"//appserver.fecshop.com"',
+WEBSITE_ROOT: '"//localhost:8080"'
 ```
 
-6.1.3.config/dev.env.js
+在运行vue端之前，你要保证`//appserver.fecshop.com` 已经配置好，否则无法获取后端数据
 
-将 
 
-```
-module.exports = merge(prodEnv, {
-  NODE_ENV: '"development"',
-  API_ROOT: '"//fecshop.appserver.fancyecommerce.com"',
-  WEBSITE_ROOT: '"//demo.fancyecommerce.com"'
-})
-```
+5.3配置store
 
-改成：
+打开配置文件：src/config/store.js
+
+可以看到
 
 ```
-module.exports = merge(prodEnv, {
-  NODE_ENV: '"development"',
-  API_ROOT: '"//appserver.fecshop.com"',
-  WEBSITE_ROOT: '"http://vue.fecshop.com"'
-})
+
+'domain': 'demo.fancyecommerce.com',
+'lang_code' : 'zh',
+'currency_code' : 'EUR'
 ```
 
+`domain`: 就是上面的`WEBSITE_ROOT`部分设置成一样即可
 
-`src/config/store.js`:这里设置vue端的多语言store，
-将`domain`改成您的vue端访问的域名，并设置相应的语言，
-您还可以在这里添加其他的域名，设置默认访问的语言
+`lang_code`: 这个是默认的语言
 
+`currency_code`: 默认的货币
 
-
-因此，您需要先安装fecshop，并将appserver端配置好，提供api支持，vue才可以通过
-api获取数据。
-
-6.2、生产环境设置发布文件地址：
-
-`config/index.js` 文件中的`assetsRoot`为设置生产环境的文件发布地址
+因此，我们需要进行更改如下：
 
 ```
-module.exports = {
-  build: {
-    env: require('./prod.env'),
-    index: path.resolve(__dirname, '../dist/index.html'),
-    assetsRoot: path.resolve(__dirname, '../dist'),
+'domain': 'localhost:8080',
+'lang_code' : 'zh',
+'currency_code' : 'EUR'
 ```
 
-这个，懂vue的都明白，也就是线上环境编译后文件的存放位置
-，因此，在线上环境，您需要将nginx配置的域名指向该文件路径。
+5.4下面就可以执行了
 
+在vue的根目录下面启动vue
 
-6.3、设置开发环境的地址和端口
-
-设置地址：`build/dev-server.js`
-
-```
- var uri = 'http://localhost:' + port
-```
-
-设置端口：config/index.js 设置dev里面的port，改为您想要更改的端口
-
-```
-port: 8080,
-```
-
-7.下面就可以执行了
-
-开发环境执行
+5.4.1开发环境执行
 
 ```
 npm run dev
 ```
 
-线上环境执行，
+执行成功后，访问`http://localhost:8080/#/` 即可访问
+
+
+5.4.2生产环境执行，
 
 ```
 npm run build
 ```
 
-8其他
-
-8.1、另外，vue里面有一些图片地址，是直接写上的，这个开发者自己替换掉自己的图片地址即可。
-
-8.2、网站的多语言和多货币，是在服务端appserver中进行设置。
-
-9.文档
-
-9.1、文档: [fecshop appserver api 状态码](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server-return-code.html)
-
-9.2、文档: [fecshop appserver的一些说明](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server.html)
+执行后，后在dist文件夹下面生成相应的html js css文件，您将nginx设置到这个路径即可
+，使用生产环境，nginx设置的域名，需要到 `config/prod.env.js` 和  `src/config/store.js`
+中设置，上面已经说明，这里不做陈述
 
 
-10.多语言
+
+
+
+6.其他说明
+
+6.1、另外，vue里面有一些图片地址，是直接写上的，这个开发者自己替换掉自己的图片地址即可。
+
+6.2、网站的多语言和多货币，是在服务端appserver中进行设置。
+
+
+6.3、文档: [fecshop appserver api 状态码](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server-return-code.html)
+
+6.4、文档: [fecshop appserver的一些说明](http://www.fecshop.com/doc/fecshop-guide/develop/cn-1.0/guide-fecshop-server.html)
+
+
+
+
+### 安装的报错解决
+
+报错1:
+
+```
+npm ERR! phantomjs-prebuilt@2.1.14 install: `node install.js`
+
+npm ERR! Exit status 1
+
+npm ERR! 
+
+npm ERR! Failed at the phantomjs-prebuilt@2.1.14 install script 'node install.js
+```
+
+解决：
+```
+npm install phantomjs-prebuilt@2.1.14 --ignore-scripts
+```
+
+
+报错2：
+
+执行`npm install`报错如下
+
+```
+npm ERR! code EINTEGRITY
+npm ERR! sha512-MKiLiV+I1AA596t9w1sQJ8jkiSr5+ZKi0WKrYGUn6d1Fx+Ij4tIj+m2WMQSGczs5jZVxV339chE8iwk6F64wjA== integrity checksum failed when using sha512: wanted sha512-MKiLiV+I1AA596t9w1sQJ8jkiSr5+ZKi0WKrYGUn6d1Fx+Ij4tIj+m2WMQSGczs5jZVxV339chE8iwk6F64wjA== but got sha512-n+6hC9m8/M79/zP73OVephxorZkaamBKLLwslR3SOUCqGyBpmyWwfdmqEs/NZGksb86QEJawH8+fz6iKNrYJKw==. (48732 bytes)
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Users\likang\AppData\Roaming\npm-cache\_logs\2017-12-14T11_24_54_278Z-debug.log
+```
+
+解决：
+
+
+使用 `npm cache clean --force` 重新清理，然后重新 `npm install`, 成功
+
+
+### 后续：
+
+
+关于vue部分的多语言
 
 > 多语言分为几个部分，api提供的多语言数据 和 VUE本身的多语言
 
-10.1、api提供的多语言: 在fecshop appapi入口的翻译文件部分
+10.1、api提供的多语言: 在fecshop appserver入口的翻译文件部分
 处理，详细参看：[Fecshop 多语言](http://www.fecshop.com/doc/fecshop-guide/instructions/cn-1.0/guide-fecshop_mutil_lang.html)
 
 10.2、VUE本身的多语言: 在文件路径  `/src/config/languages/` 下面就可以
@@ -201,19 +234,4 @@ export default messagesZh
 ```
 
 当设置当前语言为中文zh的时候，就会显示语言配置里的中文字符。
-
-
-
-### 问题：
-
-1.多语言显示message.xxx，不显示相应的翻译
-
-答：参看7.1步，设置`src/config/store.js`
-
-2.切换语言不变语言，第二次切换才会剩下
-
-答：打开文件 `src/view/body/home/Index.vue`, 将132行和140行的
-`if(this.propsCurrency = 1){`
-改成
-`if(this.propsCurrency >= 1){`
 
