@@ -108,7 +108,7 @@ WEBSITE_ROOT: '"//localhost:8080"'
 'currency_code' : 'EUR'
 ```
 
-`domain`: 就是上面的`WEBSITE_ROOT`部分设置成一样即可
+`domain`: 这个是vue访问的url地址，和上面的`WEBSITE_ROOT`部分设置成一样即可
 
 `lang_code`: 这个是默认的语言
 
@@ -168,72 +168,4 @@ npm run build
 报错1:
 
 ```
-npm ERR! phantomjs-prebuilt@2.1.14 install: `node install.js`
-
-npm ERR! Exit status 1
-
-npm ERR! 
-
-npm ERR! Failed at the phantomjs-prebuilt@2.1.14 install script 'node install.js
-```
-
-解决：
-```
-npm install phantomjs-prebuilt@2.1.14 --ignore-scripts
-```
-
-
-报错2：
-
-执行`npm install`报错如下
-
-```
-npm ERR! code EINTEGRITY
-npm ERR! sha512-MKiLiV+I1AA596t9w1sQJ8jkiSr5+ZKi0WKrYGUn6d1Fx+Ij4tIj+m2WMQSGczs5jZVxV339chE8iwk6F64wjA== integrity checksum failed when using sha512: wanted sha512-MKiLiV+I1AA596t9w1sQJ8jkiSr5+ZKi0WKrYGUn6d1Fx+Ij4tIj+m2WMQSGczs5jZVxV339chE8iwk6F64wjA== but got sha512-n+6hC9m8/M79/zP73OVephxorZkaamBKLLwslR3SOUCqGyBpmyWwfdmqEs/NZGksb86QEJawH8+fz6iKNrYJKw==. (48732 bytes)
-
-npm ERR! A complete log of this run can be found in:
-npm ERR!     C:\Users\likang\AppData\Roaming\npm-cache\_logs\2017-12-14T11_24_54_278Z-debug.log
-```
-
-解决：
-
-
-使用 `npm cache clean --force` 重新清理，然后重新 `npm install`, 成功
-
-
-### 后续：
-
-
-关于vue部分的多语言
-
-> 多语言分为几个部分，api提供的多语言数据 和 VUE本身的多语言
-
-10.1、api提供的多语言: 在fecshop appserver入口的翻译文件部分
-处理，详细参看：[Fecshop 多语言](http://www.fecshop.com/doc/fecshop-guide/instructions/cn-1.0/guide-fecshop_mutil_lang.html)
-
-10.2、VUE本身的多语言: 在文件路径  `/src/config/languages/` 下面就可以
-看到各个语言对应的js类型的配置文件，多语言使用的是vue-i18n，
-下面是这个组件的资料。
-
-[vue-i18n github地址](https://github.com/kazupon/vue-i18n)
-
-[vue-i18n 文档](http://kazupon.github.io/vue-i18n/en/started.html)
-
-譬如设置中文使用多语言，/src/config/languages/zh_CN.js 加入hello的语言配置
-
-```
-const messagesZh = {
-    hello: '你好、世界'
-}
-export default messagesZh
-```
-
-调用处代码：
-
-```
-    <p>{{ $t("message.hello") }}</p>
-    <p>{{ $t("message.wowowo") }}</p>
-```
-
-当设置当前语言为中文zh的时候，就会显示语言配置里的中文字符。
-
+npm ERR! phantomjs-prebuilt@2.1.14 install: `node install.js
