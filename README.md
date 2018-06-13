@@ -7,7 +7,9 @@ DEMO：http://demo.fancyecommerce.com/
 开发状态：【已完成】
 
 
-1.首先您需要安装npm，建议在window下面安装VUE部分。
+1.首先您需要安装npm
+
+**建议在window下面安装VUE部分**
 
 linux 详细参看：[安装npm和nodejs](http://www.fancyecommerce.com/2017/07/12/%E5%AE%89%E8%A3%85npm%E5%92%8Cnodejs/)
 
@@ -39,7 +41,7 @@ npm install --registry=https://registry.npm.taobao.org
 
 如果中间没有报错（warn警告信息就没问题的），则说明安装成功了
 
-在页面的底部有一些常见的问题的解决方式，您可以参看一下，如果出现的问题，里面没有
+在`本页面的底部`有一些常见的问题的解决方式，您可以参看一下，如果出现的问题，里面没有
 ，可以自行搜索解决这些问题，大多数可能是库包缺失或者版本的问题导致`无法install`
 
 下面进行配置工作
@@ -75,7 +77,7 @@ API_ROOT: '"//fecshop.appserver.fancyecommerce.com"',
 WEBSITE_ROOT: '"//demo.fancyecommerce.com"'
 ```
 
-`API_ROOT`: 是fecshop server部分的api url，也就是咱们上面配置的fecshop的appserver, `appserver.fecshop.com`
+`API_ROOT`: 是fecshop server部分的api url，也就是fecshop的appserver入口, 作为vue后端数据提供者
 
 `WEBSITE_ROOT`: 这个是vue部分的域名，也就是访问vue的域名
 
