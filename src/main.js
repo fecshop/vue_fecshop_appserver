@@ -49,23 +49,38 @@ const router = new VueRouter({
 var current_domain = window.location.host;
 console.log('current_domain ######' + current_domain);
 var store_config = store.storeConfig;
+
+// 得到所有的参数
+var vars = {};
+var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+    vars[key] = value;
+});
+Vue.prototype.fecvars = vars;
+
+console.log("###### vars");
+console.log(vars);
+var paramLang = vars['lang'];
+
 var fecshop_lang = window.localStorage.getItem("fecshop-lang");
 var fecshop_currency = window.localStorage.getItem("fecshop-currency");
 if(!fecshop_lang || !fecshop_currency){
     for(var k in store_config){
         var one = store_config[k];
         if(one.domain == current_domain){
-            if(!fecshop_lang){
+            if(!fecshop_lang && !paramLang){
                 console.log('### domain config set lang')
-                window.localStorage.setItem("fecshop-lang",one.lang_code);
+                window.localStorage.setItem("fecshop-lang", one.lang_code);
+            } else if (!fecshop_lang && paramLang){
+                window.localStorage.setItem("fecshop-lang", paramLang);
             }
             if(!fecshop_currency){
                 console.log('### domain config set currency')
-                window.localStorage.setItem("fecshop-currency",one.currency_code);
+                window.localStorage.setItem("fecshop-currency", one.currency_code);
             }
         }
     }
 }
+
 const i18n = new VueI18n({
   locale: window.localStorage.getItem("fecshop-lang"),    // 语言标识
   messages

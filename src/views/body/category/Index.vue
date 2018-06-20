@@ -274,6 +274,26 @@ export default {
     }
   },
   created: function(){
+    // 如果存在参数，则使用参数进行初始化
+    var vars = this.fecvars;
+    console.log("###my vars:");
+    console.log(vars);
+    for (var k in vars) {
+        var v = vars[k];
+        if (k === 'numPerPage') {
+            
+        } else if (k === 'p') {
+        
+        } else if (k === 'sort') {
+            this.sortColumn = v;
+        } else if (k === 'dir') {
+        
+        } else if (k === 'price') {
+            this.filterPrice = v;
+        } else {
+            this.filterAttrs[k] = v;
+        }
+    }
     this.fetchCategory();
   },
   watch: {

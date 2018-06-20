@@ -69,7 +69,6 @@ export default {
         getHomeContentUrl: root + '/cms/home/index'    //存数据接口      
     }
   },
-
   components: {
     'v-top-advertise': topAdvertise,
     //'v-bottom': bottom,
