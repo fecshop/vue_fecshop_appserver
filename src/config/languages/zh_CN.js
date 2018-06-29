@@ -1,4 +1,5 @@
 const messagesZh = {
+    tracking_number: '货运追踪号',
     hello: 'Hello world',
     language: '语言',
     currency: '货币',

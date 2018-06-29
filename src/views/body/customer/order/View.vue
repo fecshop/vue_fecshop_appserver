@@ -74,6 +74,24 @@
                                         </div>
                                     </div>				
                                 </div>
+                                
+                                <div class="col-2">
+                                    <div class="box">
+                                        <div class="box-title">
+                                            <h5>
+                                                {{ $t("message.tracking_number") }}:
+                                            </h5>
+                                        </div>
+                                        <div class="box-content">
+                                            <table>
+                                                <tbody>
+                                                    <tr><td>{{order.tracking_number ? order.tracking_number : 'null'}}</td></tr>  
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>				
+                                </div>
+                                
                                 <div class="col-2">
                                     <div class="box box-payment">
                                         <div class="box-title">

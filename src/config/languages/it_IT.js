@@ -1,4 +1,5 @@
 const messagesIt = {
+    tracking_number: 'Tracking Number',
     hello: 'Hello world',
     language: 'Language',
     currency: 'Currency',

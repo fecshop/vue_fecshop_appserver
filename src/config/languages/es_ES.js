@@ -89,7 +89,7 @@ const messagesEs = {
     payment_method: 'Payment Method',
     items_ordered: 'Items Ordered',
     product_image: 'Product Image',
-    
+    tracking_number: 'Tracking Number',
     grand_total: 'Grand Total',
     product_info: 'Product Info',
     product_review: 'Product Review',

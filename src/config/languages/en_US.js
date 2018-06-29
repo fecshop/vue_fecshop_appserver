@@ -88,6 +88,7 @@ const messagesEn = {
     order_date: 'Order Date',
     shipping_address: 'Shipping Address',
     shipping_method: 'Shipping Method',
+    tracking_number: 'Tracking Number',
     payment_method: 'Payment Method',
     items_ordered: 'Items Ordered',
     product_image: 'Product Image',
