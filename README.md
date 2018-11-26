@@ -122,6 +122,14 @@ WEBSITE_ROOT: '"//localhost:8080"'
 'currency_code' : 'EUR'
 ```
 
+
+5.3.2配置跨域
+
+如果你的vue和appserver域名不一样，那么存在ajax 跨域问题，需要设置cors，
+打开fecshop的@appserver/config/fecshop_local_services/Helper.php文件,
+将`'Origin' => ['http://demo.fancyecommerce.com'],` 改成您自己的域名地址即可
+，详细参看帖子：http://www.fecshop.com/topic/1547
+
 5.4下面就可以执行了
 
 在vue的根目录下面启动vue
