@@ -753,7 +753,7 @@ export default {
                         }
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
-                        self.changeCountry();
+                        // self.changeCountry();
                     }else if(reponseData.code == 1500007){
                         $.toast('cart product is empty');
                         self.$router.push('/checkout/cart');
