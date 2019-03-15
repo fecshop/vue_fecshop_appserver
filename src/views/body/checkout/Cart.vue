@@ -25,13 +25,13 @@
                     
                     <div class="cart_info">
                         <div class="cart_select_div">
-                            <input @click="selectAll()"  v-model="selectAllStatus" id="cart_select_all" type="checkbox" name="cart_select_all" class="cart_select cart_select_all">
+                            <input @change="selectAll()"  v-model="selectAllStatus" id="cart_select_all" type="checkbox" name="cart_select_all" class="cart_select cart_select_all">
                             &nbsp;
                             <label for="cart_select_all">Select All Product</label>
                         </div>
                         <div v-for="(productOne,index) in cart_products " class="row">
                             <div class="col-33">
-                                <input @click="selectOne(index)" v-model="productOne.active" type="checkbox" name="cart_select_item" class="cart_select cart_select_item">
+                                <input @change="selectOne(index)" v-model="productOne.active" type="checkbox" name="cart_select_item" class="cart_select cart_select_item">
                                 <router-link :to="productOne.url" title="productOne.name"  class="product-image">
                                     <img :src="productOne.img_url"   alt="productOne.name" width="75" height="75">
                                 </router-link>
