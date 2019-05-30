@@ -63,30 +63,31 @@
                     <div class="product_info_section" id="product_info_section">
                         <div class="product_options" v-if="product.options">
                             <div class="pg" v-for="(item, index) in product.options">
-                                <div class="label size-label">{{item.label}}</div>
-                                    <div class="chose_size rg">
-                                        <ul v-if="item.value">
-                                            <template v-for="(l_item ,l_index) in item.value">
-                                                
-                                                <li v-if="l_item.show_as_img"  class="show_as_img" :class="l_item.active">
-                                                    <a :class="l_item.active" @click="goToOtherProduct(l_item.url)" href="javascript:void(0)" :rel="l_item.url">
-                                                        <span>
-                                                            <img :src="l_item.show_as_img" />
-                                                        </span>
-                                                    </a>
-                                                    <b></b>
-                                                </li>
-                                                
-                                                <li v-else :class="l_item.active">
-                                                    <a :class="l_item.active" @click="goToOtherProduct(l_item.url)" href="javascript:void(0)" :rel="l_item.url"><span>{{l_item.attr_val}}</span></a>
-                                                    <b></b>
-                                                </li>
-                                            </template>
-                                        </ul>
-                                        <div class="clear"></div>
-                                    </div>
+                                <div class="label size-label">
+                                    {{item.label}}
+                                </div>
+                                <div class="chose_size rg">
+                                    <ul v-if="item.value">
+                                        <template v-for="(l_item ,l_index) in item.value">
+                                            
+                                            <li v-if="l_item.show_as_img"  class="show_as_img" :class="l_item.active">
+                                                <a :class="l_item.active" @click="goToOtherProduct(l_item.url)" href="javascript:void(0)" :rel="l_item.url">
+                                                    <span>
+                                                        <img :src="l_item.show_as_img" />
+                                                    </span>
+                                                </a>
+                                                <b></b>
+                                            </li>
+                                            
+                                            <li v-else :class="l_item.active">
+                                                <a :class="l_item.active" @click="goToOtherProduct(l_item.url)" href="javascript:void(0)" :rel="l_item.url"><span>{{l_item.attr_val}}</span></a>
+                                                <b></b>
+                                            </li>
+                                        </template>
+                                    </ul>
                                     <div class="clear"></div>
                                 </div>
+                                <div class="clear"></div>
                             </div>
                             
                         </div>

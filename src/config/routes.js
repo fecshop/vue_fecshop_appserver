@@ -43,6 +43,7 @@ import appCustomerAccountResetpasswordSuccessBody from '../views/body/customer/a
 import appCustomerAccountIndexBody from '../views/body/customer/account/Index.vue'
 import appCustomerAccountLoginBody from '../views/body/customer/account/Login.vue'
 import appCustomerAccountRegisterBody from '../views/body/customer/account/Register.vue'
+import appCustomerAccountRegisterEnableBody from '../views/body/customer/account/Registerenable.vue'
 
 import appCustomerOrderBody from '../views/body/customer/Order.vue'
 import appCustomerOrderViewBody from '../views/body/customer/order/View.vue'
@@ -137,6 +138,18 @@ export default [
       leftaccount: leftAccount
     }
   },
+  {
+    path: '/customer/account/registerenable/:token',  // 注册页面
+    components: {
+      header: appHeader,
+      body: appCustomerAccountRegisterEnableBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  
+  
   
   {
     path: '/customer/order',  // 用户订单

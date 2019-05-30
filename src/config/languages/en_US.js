@@ -13,6 +13,7 @@ const messagesEn = {
     reviews: 'reviews',
     item_code: 'Item Code',
     qty: 'Qty',
+    register_enable:'Register Account Enable',
     wholesale_prices: 'Wholesale Prices',
     add_to_cart: 'Add To Cart',
     add_to_favorites: 'Add to Favorites',

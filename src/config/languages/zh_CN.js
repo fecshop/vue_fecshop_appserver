@@ -14,6 +14,7 @@ const messagesZh = {
     reviews: '评论',
     item_code: '产品编码',
     qty: '个数',
+    register_enable:'注册账户激活',
     wholesale_prices: '批发价',
     add_to_cart: '加入购物车',
     add_to_favorites: '加入收藏',
