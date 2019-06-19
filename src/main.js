@@ -30,6 +30,8 @@ import VueI18n from 'vue-i18n'
 import messages from './config/i18n'
 Vue.use(VueI18n)
 
+//import wx from 'weixin-jsapi'
+
 //切换
 //  this.$i18n.locale  = 'zh'
 

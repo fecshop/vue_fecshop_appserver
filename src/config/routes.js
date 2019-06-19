@@ -23,6 +23,7 @@ import appPaypalStandardReviewBody from '../views/body/payment/paypal/standard/R
 import appAlipayStandardStartBody from '../views/body/payment/alipay/standard/Start.vue'
 import appAlipayStandardReviewBody from '../views/body/payment/alipay/standard/Review.vue'
 
+import appWxpayJsApiStartBody from '../views/body/payment/wxpay/jsapi/Start.vue'
 
   
 import appCategoryBody from '../views/body/category/Index.vue' //
@@ -418,7 +419,16 @@ export default [
     }
   },
   
-  
+  {
+    path: '/payment/wxpayjsapi/start',  // alipay 支付开始页面
+    components: {
+      header: appHeader,
+      body: appWxpayJsApiStartBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
   
   {
     path: '/payment/alipay/standard/start',  // alipay 支付开始页面
@@ -430,6 +440,8 @@ export default [
       leftaccount: leftAccount
     }
   },
+  
+  
   
   {
     path: '/payment/alipay/standard/review',  // alipay 支付支付成功后返回的页面
