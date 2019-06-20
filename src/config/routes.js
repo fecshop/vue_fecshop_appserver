@@ -24,7 +24,8 @@ import appAlipayStandardStartBody from '../views/body/payment/alipay/standard/St
 import appAlipayStandardReviewBody from '../views/body/payment/alipay/standard/Review.vue'
 
 import appWxpayJsApiStartBody from '../views/body/payment/wxpay/jsapi/Start.vue'
-
+import appWxpayH5StartBody from '../views/body/payment/wxpay/h5/Start.vue'
+import appWxpayH5ReviewBody from '../views/body/payment/wxpay/h5/Review.vue'
   
 import appCategoryBody from '../views/body/category/Index.vue' //
 import appSearchBody from '../views/body/search/Index.vue' 
@@ -420,10 +421,31 @@ export default [
   },
   
   {
-    path: '/payment/wxpayjsapi/start',  // alipay 支付开始页面
+    path: '/payment/wxpayjsapi/start',  // wx hsapi 支付开始页面
     components: {
       header: appHeader,
       body: appWxpayJsApiStartBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  
+  {
+    path: '/payment/wxpayh5/start',  // wx h5 支付开始页面
+    components: {
+      header: appHeader,
+      body: appWxpayH5StartBody,
+      footer: appFooter,
+      leftmenu: leftMenu,
+      leftaccount: leftAccount
+    }
+  },
+  {
+    path: '/payment/wxpayh5/review',  // wx h5 支付开始页面
+    components: {
+      header: appHeader,
+      body: appWxpayH5ReviewBody,
       footer: appFooter,
       leftmenu: leftMenu,
       leftaccount: leftAccount
