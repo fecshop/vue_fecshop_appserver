@@ -72,6 +72,12 @@ export default {
     methods: {
         pageInit: function(){
             var self = this;
+            var increment_id = self.getCurrentOrderIncrementId();
+            if (!increment_id) {
+                self.$router.push("/");
+                return;
+            }
+            self.increment_id = increment_id;
             self.errormsg = '';
             self.correctmsg = '';
             $.showIndicator();
@@ -82,12 +88,13 @@ export default {
                 type: 'post',
                 headers: self.getRequestHeader(),
                 data:{ 
+                    increment_id: increment_id
                 },
                 success:function(reponseData, textStatus,request){
                     $.hideIndicator();
                     if(reponseData.code == 200){
-                        self.increment_id = reponseData.data.increment_id;
                         self.order = reponseData.data.order;
+                        self.removeCurrentOrderIncrementId();
                         var traceData = {"refer_url": self.refer_url};
                         var routerQ = self.$route.query
                         for (var k in routerQ) {

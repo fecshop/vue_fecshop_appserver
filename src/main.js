@@ -99,7 +99,7 @@ Vue.prototype.saveReponseHeader = function (response){
             console.log('save header [fecshop-uuid] ######' + fecshop_uuid);
         }
     }
-    
+    // access-token
     var access_token = response.getResponseHeader('access-token');
     if(access_token){
         console.log('save header [access-token1]' );
@@ -111,9 +111,24 @@ Vue.prototype.saveReponseHeader = function (response){
             
         }
     }
-    
-    
-    
+    // lang
+    var fecshop_lang = response.getResponseHeader('fecshop-lang');
+    if(fecshop_lang){
+        var local_fecshop_lang = window.localStorage.getItem("fecshop-lang");
+        if(local_fecshop_lang != fecshop_lang){
+            window.localStorage.setItem("fecshop-lang",fecshop_lang);
+            console.log('save header [fecshop-lang] ######' + fecshop_lang);
+        }
+    }
+    // currency
+    var fecshop_currency = response.getResponseHeader('fecshop-currency');
+    if(fecshop_currency){
+        var local_fecshop_currency = window.localStorage.getItem("fecshop-currency");
+        if(local_fecshop_currency != fecshop_currency){
+            window.localStorage.setItem("fecshop-currency",fecshop_currency);
+            console.log('save header [fecshop-currency] ######' + fecshop_currency);
+        }
+    }
 }
 
 
@@ -210,6 +225,20 @@ Vue.prototype.getLoginSuccessRedirectUrl = function(){
     var url = window.localStorage.getItem("login-success-redirect");
     window.localStorage.setItem("login-success-redirect",'');
     return url;
+}
+
+// 设置当前正在支付的订单编号
+Vue.prototype.setCurrentOrderIncrementId = function(incrementId){
+    return window.localStorage.setItem("order-increment-id",incrementId);
+}
+// 得到当前正在支付的订单编号
+Vue.prototype.getCurrentOrderIncrementId = function(){
+    var incrementId = window.localStorage.getItem("order-increment-id");
+    return incrementId;
+}
+// 清除正在支付的订单编号
+Vue.prototype.removeCurrentOrderIncrementId = function(){
+    window.localStorage.setItem("order-increment-id",'');
 }
 
 // 跑起来吧

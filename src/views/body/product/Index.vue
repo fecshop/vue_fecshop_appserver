@@ -734,6 +734,7 @@ export default {
         addProductToCart: function(){
             self = this;
             self.errormsg = '';
+             var product_id = self.product._id;
             console.log('addProductToCart');
             var selected_attr = self.custom_option_selected_attr;
             var custom_option = self.custom_option;
@@ -787,6 +788,11 @@ export default {
                     }else if(reponseData.code == 1400002){
                         $.toast("Add product to cart fail");
                         console.log(reponseData.message);
+                    }else if(reponseData.code == 1100003){
+                        self.saveReponseHeader(request); 
+                        self.setLoginSuccessRedirectUrl('/catalog/product/'+product_id);
+                        self.$router.push('/customer/account/login');
+                        return;
                     }else{
                         $.toast("Add product to cart fail");
                     }

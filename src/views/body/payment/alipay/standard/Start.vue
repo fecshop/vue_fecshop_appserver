@@ -49,6 +49,11 @@ export default {
     methods: {
         pageInit: function(){
             var self = this;
+            var incrementId = self.getCurrentOrderIncrementId();
+            if (!incrementId) {
+                $.toast('error, no order increment');
+            }
+            
             self.errormsg = '';
             self.correctmsg = '';
             $.showIndicator();
@@ -59,7 +64,8 @@ export default {
                 type: 'post',
                 headers: self.getRequestHeader(),
                 data:{ 
-                    'return_url': website_root + '/#/payment/alipay/standard/review'
+                    'return_url': website_root + '/#/payment/alipay/standard/review',
+                    'increment_id': incrementId
                 },
                 success:function(reponseData, textStatus,request){
                     $.hideIndicator();

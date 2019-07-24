@@ -261,6 +261,11 @@ export default {
                         $.toast('generate order fail');
                     }else if(reponseData.code == 1500003){
                         $.toast('Get paypal express token fail');
+                    }else if(reponseData.code == 1100003){
+                        self.saveReponseHeader(request); 
+                        self.setLoginSuccessRedirectUrl('/checkout/cart');
+                        self.$router.push('/customer/account/login');
+                        return;
                     }else{
                         $.toast('generate order fail');
                     }
@@ -307,6 +312,11 @@ export default {
                     if(reponseData.code == 200){
                         self.saveReponseHeader(request);
                         self.pageInit();
+                    }else if(reponseData.code == 1100003){
+                        self.saveReponseHeader(request); 
+                        self.setLoginSuccessRedirectUrl('/checkout/cart');
+                        self.$router.push('/customer/account/login');
+                        return;
                     }else{
                         self.saveReponseHeader(request); 
                         self.errormsg = 'update cart product qty fail';
@@ -346,6 +356,11 @@ export default {
                     if(reponseData.code == 200){
                         self.saveReponseHeader(request);
                         self.pageInit();
+                    }else if(reponseData.code == 1100003){
+                        self.saveReponseHeader(request); 
+                        self.setLoginSuccessRedirectUrl('/checkout/cart');
+                        self.$router.push('/customer/account/login');
+                        return;
                     }else{
                         self.saveReponseHeader(request); 
                         self.errormsg = 'select cart product fail';
@@ -387,6 +402,11 @@ export default {
                     if(reponseData.code == 200){
                         self.saveReponseHeader(request);
                         self.pageInit();
+                    }else if(reponseData.code == 1100003){
+                        self.saveReponseHeader(request); 
+                        self.setLoginSuccessRedirectUrl('/checkout/cart');
+                        self.$router.push('/customer/account/login');
+                        return;
                     }else{
                         self.saveReponseHeader(request); 
                         self.errormsg = 'select cart product fail';
@@ -467,6 +487,11 @@ export default {
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
                         self.initSelectAll();
+                    } else if(reponseData.code == 1100003){
+                        self.saveReponseHeader(request); 
+                        self.setLoginSuccessRedirectUrl('/checkout/cart');
+                        self.$router.push('/customer/account/login');
+                        return;
                     }
                     //console.log('cart_products.length:'+ self.cart_products.length);
                     self.pageInitComplete = true;

@@ -562,6 +562,8 @@ export default {
                     if(reponseData.code == 200){
                         self.saveReponseHeader(request); 
                         var redirectUrl = reponseData.data.redirectUrl;
+                        var incrementId = reponseData.data.incrementId;
+                        self.setCurrentOrderIncrementId(incrementId);
                         self.$router.push(redirectUrl);
                     }else{
                         var message = reponseData.message;
@@ -751,9 +753,10 @@ export default {
                         for (var k in routerQ) {
                             traceData[k] = routerQ[k]
                         }
+                        self.changeCountry();
                         self.reloadTraceJs(traceData);
                         self.saveReponseHeader(request); 
-                        // self.changeCountry();
+                        
                     }else if(reponseData.code == 1500007){
                         $.toast('cart product is empty');
                         self.$router.push('/checkout/cart');
