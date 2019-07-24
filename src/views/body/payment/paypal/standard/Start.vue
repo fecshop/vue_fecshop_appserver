@@ -42,6 +42,10 @@ export default {
     methods: {
         pageInit: function(){
             var self = this;
+            var incrementId = self.getCurrentOrderIncrementId();
+            if (!incrementId) {
+                $.toast('error, no order increment');
+            }
             self.errormsg = '';
             self.correctmsg = '';
             $.showIndicator();
@@ -54,6 +58,7 @@ export default {
                 data:{ 
                     'return_url': website_root + '/#/payment/paypal/standard/review',
                     'cancel_url': website_root + '/#/checkout/onepage',
+                    'increment_id': incrementId
                 },
                 success:function(reponseData, textStatus,request){
                     $.hideIndicator();

@@ -54,7 +54,10 @@ export default {
     methods: {
         pageInit: function(){
             var self = this;
-            
+            var incrementId = self.getCurrentOrderIncrementId();
+            if (!incrementId) {
+                $.toast('error, no order increment');
+            }
             self.errormsg = '';
             self.correctmsg = '';
             
@@ -63,9 +66,9 @@ export default {
                 url: self.pageInitUrl,
                 async: true,
                 timeout: 120000,
-                type: 'get',
+                type: 'post',
                 headers: self.getRequestHeader(),
-                data:{},
+                data:{'increment_id': incrementId},
                 success:function(data, textStatus,request){
                     $.hideIndicator();
                     if(data.code == 200){

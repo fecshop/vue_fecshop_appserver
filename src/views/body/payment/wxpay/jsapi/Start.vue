@@ -123,6 +123,11 @@ export default {
         },
         pageInit: function(){
             var self = this;
+            var incrementId = self.getCurrentOrderIncrementId();
+            if (!incrementId) {
+                $.toast('error, no order increment');
+            }
+            self.increment_id = incrementId;
             // 获取code
             var code = self.$route.query.code;
             self.weixinCode = code;
@@ -147,6 +152,7 @@ export default {
                     headers: self.getRequestHeader(),
                     data:{ 
                         url: window.location.href,
+                        'increment_id': incrementId
                     },
                     success:function(reponseData, textStatus,request){
                         $.hideIndicator();
@@ -174,6 +180,7 @@ export default {
                 headers: self.getRequestHeader(),
                 data:{ 
                     code: code,
+                    'increment_id': incrementId
                 },
                 success:function(reponseData, textStatus,request){
                     if(reponseData.code == 200){
