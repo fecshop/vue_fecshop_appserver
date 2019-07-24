@@ -47,6 +47,7 @@ export default {
     },
     data () {
         return { 
+            isLoadCompleted: false,
             propsCurrency : 0,
             propsLang: 0
         }
@@ -68,23 +69,26 @@ export default {
     },
     methods: { 
         changeCurrency(){
-            this.propsCurrency += 1;
-            if(this.propsCurrency >= 1){
+            console.log(this.isLoadCompleted);
+            if(this.isLoadCompleted == true){
                 window.localStorage.setItem("fecshop-currency",this.currentCurrency);
                 console.log('##########:' +this.currentCurrency);
                 location.reload() ;
             }
         },
         changeLang(){
-            this.propsLang += 1;
-            if(this.propsLang >= 1){
+            if(this.isLoadCompleted == true){
                 window.localStorage.setItem("fecshop-lang",this.currentLang);
                 this.$i18n.locale  = this.currentLang;
                 console.log(this.currentLang);
                 location.reload() ;
             }
         }
-    }
+    },
+    mounted: {  
+        this.isLoadCompleted  = true;   
+        console.log("mounted isLoadCompleted");
+    }   
 }
 
 </script>

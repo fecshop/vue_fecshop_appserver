@@ -66,6 +66,7 @@ export default {
         propsCurrency : 0,
         propsLang: 0,
         refer_url: '',
+        isLoadCompleted: false,
         getHomeContentUrl: root + '/cms/home/index'    //存数据接口      
     }
   },
@@ -94,6 +95,10 @@ export default {
     next( vm => {
         vm.refer_url = referUrl;
     });  
+  },
+  mounted: function () {
+    this.isLoadCompleted  = true;   
+    console.log("mounted isLoadCompleted");
   },
   methods: { 
     getHomeContent: function(){
@@ -153,16 +158,14 @@ export default {
     },
     
     changeCurrency(){
-        this.propsCurrency += 1;
-        if(this.propsCurrency > 1){
+        if(this.isLoadCompleted == true){
             window.localStorage.setItem("fecshop-currency",this.currency.currentCurrency);
             console.log('##########:' +this.currency.currentCurrency);
             location.reload() ;
         }
     },
     changeLang(){
-        this.propsLang += 1;
-        if(this.propsLang > 1){
+        if(this.isLoadCompleted == true){
             window.localStorage.setItem("fecshop-lang",this.language.currentLang);
             this.$i18n.locale  = this.language.currentLang;
             console.log(this.language.currentLang);
