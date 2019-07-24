@@ -253,6 +253,8 @@ export default {
                     if(reponseData.code == 200){
                         self.saveReponseHeader(request);
                         var redirectUrl = reponseData.data.redirectUrl;
+                        var incrementId = reponseData.data.increment_id;
+                        self.setCurrentOrderIncrementId(incrementId);
                         console.log(redirectUrl);
                         window.location.href = redirectUrl;
                     }else if(reponseData.code == 1500001){
