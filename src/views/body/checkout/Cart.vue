@@ -144,7 +144,7 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <div class="col-50">
+                                    <div v-if="enablePaypalExpress" class="col-50">
                                         <a @click="paypalExpressStart()"  class="express_paypal" href="javascript:void(0)">
                                             <img src="//img.fancyecommerce.com/images/pay.png"  />
                                         </a>
@@ -197,6 +197,7 @@ export default {
             paypalExpressStartUrl: root + '/payment/paypal/express/start' ,
             selectAllStatus: 0,
             errormsg:'',
+            enablePaypalExpress: false,
             cart_products:[],
             productQty:{},
             cart_info:{},
@@ -457,6 +458,7 @@ export default {
                     $.hideIndicator();
                     if(reponseData.code == 200){
                         self.currency = reponseData.data.currency;
+                        self.enablePaypalExpress = reponseData.data.enablePaypalExpress;
                         self.cart_products = reponseData.data.cart_info.products;
                         var products = self.cart_products;
                         // 现在已经改成了服务端发送购物车数据，因此，购物车页面不再发送购物车数据。
