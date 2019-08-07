@@ -211,7 +211,7 @@ export default {
                 self.errormsg = 'product id can not empty';
                 return;
             }
-            if(!captcha){
+            if(self.reviewCaptchaActive && !captcha){
                 self.errormsg = 'captcha can not empty';
                 return;
             }
