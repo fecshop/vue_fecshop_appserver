@@ -39,8 +39,9 @@
                                         <span class="nobr">{{item.created_at}}</span>
                                     </td>
                                     <td class="a-center last">
-                                        <span class="nobr"><a @click="viewOrder(item.order_id)"  href="javascript:void(0)">{{ $t("message.view_order") }}</a>
-                                        <span class="separator">|</span> <a @click="reorder(item.order_id)" class="link-reorder" href="javascript:void(0)" >{{ $t("message.reorder") }}</a>
+                                        <span class="nobr">
+                                            <a @click="viewOrder(item.order_id)"  href="javascript:void(0)">{{ $t("message.view_order") }}</a>
+                                            <span class="separator">|</span> <a @click="reorder(item.order_id)" class="link-reorder" href="javascript:void(0)" >{{ $t("message.reorder") }}</a>
                                         </span>
                                     </td>
                                 </tr>
