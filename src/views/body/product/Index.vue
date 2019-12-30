@@ -28,9 +28,10 @@
                                 <span class="average_rating">{{ $t("message.average_rating") }}:</span>
                                 <span :class="'review_star review_star_'+ Math.round(product.reviw_rate_star_average)" style="font-weight:bold;" itemprop="average"></span>  
                                 
-                                <a external rel="nofollow" href="<?= Yii::$service->url->getUrl('catalog/reviewproduct/lists',['spu'=>$spu,'_id'=>$_id]); ?>">
+                                <router-link :to="'/product/review/lists/' + product_id"  >
                                     (<span itemprop="count">{{product.review_count}} {{ $t("message.reviews") }}</span>)
-                                </a>
+                                </router-link>
+                                
                             </span>
                         </div>
                         <div class="clear"></div>

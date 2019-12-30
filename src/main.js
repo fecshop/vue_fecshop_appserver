@@ -91,14 +91,14 @@ const i18n = new VueI18n({
 
 Vue.prototype.saveReponseHeader = function (response){
     // fecshop-uuid
-    var fecshop_uuid = response.getResponseHeader('fecshop-uuid');
-    if(fecshop_uuid){
-        var local_fecshop_uuid = window.localStorage.getItem("fecshop-uuid");
-        if(local_fecshop_uuid != fecshop_uuid){
-            window.localStorage.setItem("fecshop-uuid",fecshop_uuid);
-            console.log('save header [fecshop-uuid] ######' + fecshop_uuid);
-        }
-    }
+    //var fecshop_uuid = response.getResponseHeader('fecshop-uuid');
+    //if(fecshop_uuid){
+    //    var local_fecshop_uuid = window.localStorage.getItem("fecshop-uuid");
+    //    if(local_fecshop_uuid != fecshop_uuid){
+    //        window.localStorage.setItem("fecshop-uuid",fecshop_uuid);
+    //        console.log('save header [fecshop-uuid] ######' + fecshop_uuid);
+    //    }
+    //}
     // access-token
     var access_token = response.getResponseHeader('access-token');
     if(access_token){
@@ -135,11 +135,11 @@ Vue.prototype.saveReponseHeader = function (response){
 
 Vue.prototype.getRequestHeader = function (){
     var headers = {};
-    var fecshop_uuid = window.localStorage.getItem("fecshop-uuid");
-    if(fecshop_uuid){
-        console.log('fecshop uuid ######' + fecshop_uuid);
-        headers['fecshop-uuid'] = fecshop_uuid;
-    }
+    //var fecshop_uuid = window.localStorage.getItem("fecshop-uuid");
+    //if(fecshop_uuid){
+    //    console.log('fecshop uuid ######' + fecshop_uuid);
+    //    headers['fecshop-uuid'] = fecshop_uuid;
+    //}
     
     var fecshop_lang = window.localStorage.getItem("fecshop-lang");
     if(fecshop_lang){
